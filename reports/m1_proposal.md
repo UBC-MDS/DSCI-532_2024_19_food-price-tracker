@@ -1,24 +1,27 @@
 # Milestone 1 Proposal: Food Price Tracker
-TODO: 
-- names, course, project title
+Course project for DSCI 532 - Data Visualization II as a part of the UBC Master of Data Science program. 
+
+Celeste Zhao, John Shiu, Simon Frew, Tony Shum
+
 
 ## 1. Motivation and purpose
-We are a team of data scientists working within a food-focused NGO based in Canada (e.g., Food Banks Canada, TBC). 
+We are a team of data scientists representing a food-focused NGO based in Canada (e.g., Food Banks Canada, TBC). 
 Our mission is to provide accessible solutions for understanding and addressing global food price trends. 
-Our newly developed tool is designed to cater to a range of non-technical stakeholders, including policymakers, economists in the public sector, food industry business professionals and NGOs, and the general public.
+Our newly developed tool, **FIXME: The Food Price Tracker** is designed to provide accessible yet comprehensive insights into these trends for a range of non-technical stakeholders, including public-sector policymakers and economists, NGO analysts, private-sector food suppliers, and the general public.
 
 ### Problem Statement
-There is no denial that reliable food price information is essential for impactful decision-making across various sectors, whether it is shaping food policies to combat hunger in poor regions, or optimizing business strategies to support both profit margins and people well-being. 
-However, we observed a lack of open, easy-to-use online platform that provide a comprehensive overview of global food price trends. 
-Some challenges we observed include scattered and unorganized regional data that often requires technical expertise to navigate, as well as existing platforms that are not intuitive for non-technical stakeholders to utilize effectively in their daily operations.
+There is no denying that reliable food pricing information is essential for impactful decision-making across various sectors; such as informing food policies to combat shortages in disadvantaged regions, or optimizing business strategy to capitalize on lucrative markets and identify opportunities for growth. 
+However, we observed a lack of open, easy-to-use online platforms that provide a comprehensive overview of global food price trends with resolution to regional levels. 
+Primary challenges we observed included 1) scattered and unorganized regional data, which required technical expertise to navigate, and 2) that existing platforms are unintuitive and therefore difficult for non-technical stakeholders to utilize effectively in their daily operations.
 
-In response to this challenge, we propose the development of an interactive, user-friendly data visualization platform. 
+In response to this challenge, we propose the development of an interactive, user-friendly data visualization platform for global trends in food prices with regional resolution. 
 Our platform aims to empower stakeholders to extract insights and make informed decisions regarding food prices worldwide. 
 Key features and use cases include:
 
-1. Regional food price level visualization, allowing policymakers to monitor and implement targeted preventive measures if needed.
-2. Exploration of trends in food price changes over time and geographic regions across different food categories, enabling businesses to enhance planning and resource allocation strategies.
-3. Accessible food price index information for the general public, facilitating financial management and awareness of cost-of-living fluctuations.
+1. Regional resolution of food prices, allowing policymakers to monitor and implement targeted preventive measures if needed.
+2. Historic food price trends, enabling businesses to enhance planning and resource allocation strategies. 
+3. Breakdowns by food category, providing specificity required for a given industry or to inform a focused intervention. 
+4. Accessible food price index information for the general public, facilitating financial management and awareness of cost-of-living fluctuations.
 
 By offering our platform, we aim to enhance collaboration across sectors to address food-related challenges on a global scale.
 
