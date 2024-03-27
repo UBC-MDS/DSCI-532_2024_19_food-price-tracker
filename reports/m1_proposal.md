@@ -29,7 +29,7 @@ By offering our platform, we aim to enhance collaboration across sectors to addr
 TODO
 
 
-## 3. Research questions and useage scenarios
+## 3. Research questions and usage scenarios
 Research questions and user stories are provided by sector below.
 
 ### Public Sector
@@ -43,10 +43,8 @@ In response to concerning trends in available data, she seeks to draft policy or
 - She notices that the price of rice is nearing a governmental threshold of concern and decides to investigate further.
 - Ms. Tiffany selects the rice category and adjusts the time period to view recent 2-year price trends. 
 She identifies a slight upward trend in rice prices over the past month that arouses her concern.
-- To understand if this trend is national or regional, she views the geospatial chart provided illustrating rice price distributions across regions. 
-She observes that prices in Kansai region are significantly higher than the national average.
-- Ms. Tiffany shares her findings and conclusions with stakeholders and proposes policy measures to lower rice prices in the affected region. 
-She also notifies relavent departments to consider emergency aid operations to address any immediate food demand concerns before her policy normalizes rice prices.
+- To understand if this trend is national or regional, she views the geospatial chart provided illustrating rice price distributions across regions. She observes that prices in Kansai region are significantly higher than the national average.
+- Ms. Tiffany shares her findings and conclusions with stakeholders and proposes policy measures to lower rice prices in the affected region. She also notifies relevent departments to consider emergency aid operations to address any immediate food demand concerns before her policy normalizes rice prices.
 - She safeguards public well-being in the affected region through the use of our platform.
 
 ### Private Sector
@@ -57,8 +55,7 @@ He wants to use food price data analysis to detect profitable opportunities and 
 #### User Story
 - Mr. Joel logs into the data platform and sets up his dashboard to display trend charts for his key commodities like wheat, potatoes, and rice.
 - He examines the price trends over selected time frames to spot any significant uptrend or downtrend, and determines the profitable commodities his business should focus on.
-- Mr. Joel adjusts the time frame of the charts to identify seasonal patterns of the prices of commodities, and notices a seasonal upward trend for the price of potatoes in the coming months. 
-He decides to import more potato and allocates more space in his warehouse for the stock.
+- Mr. Joel adjusts the time frame of the charts to identify seasonal patterns of the prices of commodities, and notices a seasonal upward trend for the price of potatoes in the coming months. He decides to import more potato and allocates more space in his warehouse for the stock.
 - Mr. Joel then explores the geospatial charts, which show the regional price distribution for his main products, identifying areas with higher price levels that indicate a demand surplus.
 - Based on the findings, he considers reallocating his stock to regions where he can sell at higher prices and plans his logistics to align with these insights.
 - He achieves a higher return on his food business and solves demand mismatch through the use of our platform.
@@ -73,8 +70,7 @@ It is coming to the new year, and Mr. Daniel needs to identify whether his budge
 - He examines retrieved prices and extends the timeframe to include the last five years, attempting to ascertain whether food prices have truly increased. 
 - He sees that food prices have indeed increased over the given timeframe, and appear to be increasing faster in recent months. 
 - While this is concerning to him, Mr. Daniel is confused that his relatives across the country have not experienced the same thing. 
-- He transitions to a geospatial view, which breaks his country into its constituent regions. 
-The five-year trend is now highlighted by region. 
+- He transitions to a geospatial view, which breaks his country into its constituent regions. The five-year trend is now visualized by region. 
 - From this, it is evident that his relatives are also correct - the price trends in their region have not increased significantly over the last five years. 
 - Mr. Daniel has a complete understanding of regional trends in food prices, knows how best to plan his budget for the upcoming year, and resolves to contact his local governmental official to raise this issue.
 
