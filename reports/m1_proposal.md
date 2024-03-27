@@ -10,7 +10,30 @@ TODO
 
 
 ## 3. Research questions and useage scenarios
+We would divide the research questions and scenarios based on various sectors below.
 
+Public Sector
+Ms. Tiffany is an executive with the Ministry of Health, Labour and Welfare in Japan. Her role involves policy-making related to food supply, demand, and price dynamics. Her primary goal is to ensure that food prices across regions and major categories remain at acceptable levels to safeguard public well-being. In response to any identified issues based on the data, she has to frame policy or recommend immediate measures for the government.
+
+    When Ms. Tiffany accesses our platform and lands on the dashboard, she immediately sees the overview of current food price index and the price levels of major food categories displayed.
+    She notices that the price of rice is close to the government-prescribed threshold and decides to investigate further.
+    Ms. Tiffany selects the rice category and adjusts the time period to view recent 2-year price trends. She identifies a slight upward trend in rice prices over the past month that arouses her concern.
+    To understand if this trend is global or local, she views the geospatial chart provided illustrating rice price distributions across regions. She observes that prices in Kansai region are significantly higher than the national average.
+    Ms. Tiffany shares her findings and views with stakeholders and proposes policy measures to regulate rice prices in the affected region. She also initiates discussions with the government regarding potential emergency aid operations to address any immediate food demand concerns.
+    She safeguards public well-being in the affected region through the use of our platform.
+
+Private Sector
+Mr. Joel operates a business specializing in the supply and trade of cereals and tubers. He needs to analyze market trends and price data for these commodities to identify mismatches in supply and demand, aiming to optimize profit margins. He wants to use food price data analysis to detect profitable opportunities and adjust his business operations to increase returns.
+
+    Mr. Joel logs into the data platform and sets up his dashboard to display trend charts for his key commodities like wheat, potatoes, and rice.
+    He examines the price trends over selected time frames to spot any significant uptrend or downtrend, and determines the profitable commodities his business should focus on.
+    Mr. Joel adjusts the time frame of the charts to identify seasonal patterns of the prices of commodities, and notices a seasonal upward trend for potato price. in the coming months. He decides to import more potato and allocates more space in his warehouse for the stock.
+    Mr. Joel then explores the geospatial charts, which show the regional price distribution for his main products, identifying areas with higher price levels that indicate a demand surplus.
+    Based on the findings, he considers reallocating his stock to regions where he can sell at higher prices and plans his logistics to align with these insights.
+    He achieves a higher return on his food business and solves demand mismatch through the use of our platform.
+
+General Public
+TBC if needed
 
 
 ## 4. App sketch and brief description
