@@ -43,21 +43,15 @@ If you are proposing a feature:
 Ready to contribute? Here's how to set up `food_price_tracker` for local development.
 
 1. Download a copy of `food_price_tracker` locally.
-2. Install `food_price_tracker` using `poetry`:
-
-    ```console
-    $ poetry install
-    ```
-
-3. Use `git` (or similar) to create a branch for local development and make your changes:
+2. Use `git` (or similar) to create a branch for local development and make your changes:
 
     ```console
     $ git checkout -b name-of-your-bugfix-or-feature
     ```
 
-4. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
+3. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
 
-5. Commit your changes and open a pull request.
+4. Commit your changes and open a pull request.
 
 ## Pull Request Guidelines
 
@@ -71,3 +65,7 @@ Before you submit a pull request, check that it meets these guidelines:
 
 Please note that the `food_price_tracker` project is released with a
 Code of Conduct. By contributing to this project you agree to abide by its terms.
+
+## Attribution
+
+This CONTRIBUTING.md is adapted from the `py-pks-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter/blob/main/%7B%7B%20cookiecutter.__package_slug%20%7D%7D/CONTRIBUTING.md).
