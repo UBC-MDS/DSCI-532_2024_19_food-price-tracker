@@ -1,12 +1,12 @@
-# food_price_tracker
+# food_price_tracker (FIXME: to be confirmed)
+
+## Purpose
 
 FIXME: to be filled
 
 ## Installation
 
-```bash
-$ pip install food_price_tracker
-```
+- TODO
 
 ## Usage
 
@@ -18,7 +18,7 @@ Interested in contributing? Check out the contributing guidelines. Please note t
 
 ## License
 
-`food_price_tracker` was created by Celeste Zhao, John Shiu, Simon Frew, Tony Shum. It is licensed under the terms of the MIT license.
+`food_price_tracker` was created by Celeste Zhao, John Shiu, Simon Frew, Tony Shum. It is licensed under the terms of the MIT license and the Attribution 4.0 International (CC BY 4.0 LEGAL CODE).
 
 ## Credits
 
