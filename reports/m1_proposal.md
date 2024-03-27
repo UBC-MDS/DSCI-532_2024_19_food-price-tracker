@@ -64,7 +64,18 @@ He decides to import more potato and allocates more space in his warehouse for t
 - He achieves a higher return on his food business and solves demand mismatch through the use of our platform.
 
 ### General Public
-TBC if needed
+Mr. Daniel is a concerned citizen who has noticed a steady increase in grocery prices in the last three years. 
+He is unsure whether this is just due to his purchasing patterns, as relatives across the country have not expressed a similar sentiment. 
+It is coming to the new year, and Mr. Daniel needs to identify whether his budget needs to be adjusted, and whether it is worth contacting his local government about the issue. 
 
+#### User Story 
+- Mr. Daniel logs into the platform and searches for his country.
+- He examines retrieved prices and extends the timeframe to include the last five years, attempting to ascertain whether food prices have truly increased. 
+- He sees that food prices have indeed increased over the given timeframe, and appear to be increasing faster in recent months. 
+- While this is concerning to him, Mr. Daniel is confused that his relatives across the country have not experienced the same thing. 
+- He transitions to a geospatial view, which breaks his country into its constituent regions. 
+The five-year trend is now highlighted by region. 
+- From this, it is evident that his relatives are also correct - the price trends in their region have not increased significantly over the last five years. 
+- Mr. Daniel has a complete understanding of regional trends in food prices, knows how best to plan his budget for the upcoming year, and resolves to contact his local governmental official to raise this issue.
 
 ## 4. App sketch and brief description
