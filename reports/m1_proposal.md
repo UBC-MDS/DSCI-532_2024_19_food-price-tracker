@@ -49,42 +49,37 @@ Research questions and user stories are provided by sector below.
 Ms. Tiffany is an executive with the Ministry of Health, Labour and Welfare in Japan. 
 Her role involves policy-making related to food supply, demand, and price dynamics. 
 Her primary goal is to ensure that food prices across regions and major categories remain at acceptable levels to safeguard public well-being. 
-In response to concerning trends in available data, she seeks to draft policy or recommend immediate interventions for the government to enact.
 
 #### User Story
-- When Ms. Tiffany accesses our platform and lands on the dashboard, she immediately sees the overview of current food price index and the price levels of major food categories displayed.
-- She notices that the price of rice is nearing a governmental threshold of concern and decides to investigate further.
-- Ms. Tiffany selects the rice category and adjusts the time period to view recent 2-year price trends. 
-She identifies a slight upward trend in rice prices over the past month that arouses her concern.
-- To understand if this trend is national or regional, she views the geospatial chart provided illustrating rice price distributions across regions. She observes that prices in Kansai region are significantly higher than the national average.
-- Ms. Tiffany shares her findings and conclusions with stakeholders and proposes policy measures to lower rice prices in the affected region. She also notifies relevent departments to consider emergency aid operations to address any immediate food demand concerns before her policy normalizes rice prices.
+- Ms. Tiffany navigates to the dashboard, which displays food price indices and food categories.
+- She notices the price of rice nearing a threshold of concern and investigates.
+- Ms. Tiffany focuses on rice and examines the 2-year trend. 
+- She views the geospatial chart and to examine regional differences and sees that the Kansai region is higher than the national average.
+- Ms. Tiffany proposes policy measures to combat this trend.
 - She safeguards public well-being in the affected region through the use of our platform.
 
 ### Private Sector
 Mr. Joel operates a business specializing in the supply and trade of cereals and tubers. 
-He needs to analyze market trends and price data for these commodities to identify mismatches in supply and demand, seeking to optimize profit margins. 
-He wants to use food price data analysis to detect profitable opportunities and adjust his business operations to increase returns.
+He needs to analyze market trends and price data for these commodities to identify opportunities for profit.
 
 #### User Story
-- Mr. Joel logs into the data platform and sets up his dashboard to display trend charts for his key commodities like wheat, potatoes, and rice.
-- He examines the price trends over selected time frames to spot any significant uptrend or downtrend, and determines the profitable commodities his business should focus on.
-- Mr. Joel adjusts the time frame of the charts to identify seasonal patterns of the prices of commodities, and notices a seasonal upward trend for the price of potatoes in the coming months. He decides to import more potato and allocates more space in his warehouse for the stock.
-- Mr. Joel then explores the geospatial charts, which show the regional price distribution for his main products, identifying areas with higher price levels that indicate a demand surplus.
-- Based on the findings, he considers reallocating his stock to regions where he can sell at higher prices and plans his logistics to align with these insights.
-- He achieves a higher return on his food business and solves demand mismatch through the use of our platform.
+- Mr. Joel logs into the dashboard and views key commodities: wheat, potatoes, and rice.
+- He examines recent price trends to identify profitable commodities. 
+- Mr. Joel increases the timeframe to visualize seasonal patterns, and sees the price of potatoes will increase in the coming months. He adjusts his strategy accordingly.
+- Exploring the geospatial charts, he sees that demand is focused in a specific region. 
+- Mr. Joel reallocates stock to capitalize on the high demand. 
+- He improves financial returns and meets market demand via our platform. 
 
 ### General Public
 Mr. Daniel is a concerned citizen who has noticed a steady increase in grocery prices in the last three years. 
 He is unsure whether this is just due to his purchasing patterns, as relatives across the country have not expressed a similar sentiment. 
-It is coming to the new year, and Mr. Daniel needs to identify whether his budget needs to be adjusted, and whether it is worth contacting his local government about the issue. 
+It is coming to the new year, and Mr. Daniel needs to identify whether his budget needs to be adjusted and whether it is worth contacting his local government about the issue. 
 
 #### User Story 
 - Mr. Daniel logs into the platform and searches for his country.
-- He examines retrieved prices and extends the timeframe to include the last five years, attempting to ascertain whether food prices have truly increased. 
-- He sees that food prices have indeed increased over the given timeframe, and appear to be increasing faster in recent months. 
-- While this is concerning to him, Mr. Daniel is confused that his relatives across the country have not experienced the same thing. 
-- He transitions to a geospatial view, which breaks his country into its constituent regions. The five-year trend is now visualized by region. 
-- From this, it is evident that his relatives are also correct - the price trends in their region have not increased significantly over the last five years. 
-- Mr. Daniel has a complete understanding of regional trends in food prices, knows how best to plan his budget for the upcoming year, and resolves to contact his local governmental official to raise this issue.
+- He examines retrieved prices and extends the timeframe to include the last five years.
+- He sees that food prices have indeed increased over the given timeframe.
+- He transitions to a geospatial view, and in his relative's region, prices have not increased. 
+- Mr. Daniel now can plan his budget for the upcoming year and resolves to contact his local governmental official to raise this issue.
 
 ## 4. App sketch and brief description
