@@ -1,4 +1,4 @@
-# Milestone 1 Proposal: Food Price Tracker
+# Milestone 1 Proposal: Food Price Tracker **(check 1000 word limit)**
 Course project for DSCI 532 - Data Visualization II as a part of the UBC Master of Data Science program. 
 
 Celeste Zhao, John Shiu, Simon Frew, Tony Shum
@@ -26,7 +26,20 @@ Key features and use cases include:
 By offering our platform, we aim to enhance collaboration across sectors to address food-related challenges on a global scale.
 
 ## 2. Description of the data
-TODO
+The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar. The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
+
+For our visualization, we will focus on the subset converning the Japanese market and covering the time from 2011 to 2020. This subset contains around 1,180 records of food prices. Each record within the dataset has 14 variables:
+- Date of the record: `date`.
+- Market information: name - `market`; city or province of the market - `admin1`, `admin2`; geographical coordinates - `latitude`, `longitude`.
+- Food item information: type and name - `category`, `commodity`; item unit - `unit` (e.g. 5kg).
+- Details on pricing: type and flag - `pricetype` (e.g., retail, wholesale), `priceflag` (typically actual); price in local currency and its equivalent in USD - `currency`, `price`, `usdprice` (converted at the current exchange rate).
+
+In addition to these existing variables, we will derive several new metrics to enhance our analysis:
+- Annual average price: converting monthly price data for each food item into annual metrics to facilitate year-over-year comparisons.
+- Food price growth rate: calculating the rate of price growth for each food item on a monthly or yearly basis, both sequentially and year-over-year.
+- **(Optional) Ratio of food price to GNI (Gross National Income) per capita: dividing the price of a specific food item by the country's per capita income, allowing for international comparisons (data on GNI required).**
+
+“There should be a clear link to how the dataset and the variables you describe will help you solve your target audience's problem.” (TBU)
 
 
 ## 3. Research questions and usage scenarios
