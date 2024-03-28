@@ -3,27 +3,25 @@ Course project for DSCI 532 - Data Visualization II as a part of the UBC Master 
 
 Celeste Zhao, John Shiu, Simon Frew, Tony Shum
 
-
 ## 1. Motivation and purpose
-We are a team of data scientists representing a food-focused NGO based in Canada (e.g., Food Banks Canada, TBC). 
+We are a team of data scientists from a food-focused NGO based in Canada. 
 Our mission is to provide accessible solutions for understanding and addressing global food price trends. 
-Our newly developed tool, **FIXME: The Food Price Tracker** is designed to provide accessible yet comprehensive insights into these trends for a range of non-technical stakeholders, including public-sector policymakers and economists, NGO analysts, private-sector food suppliers, and the general public.
+Our newly developed tool, Food Price Tracker, is tailored for non-technical policymakers and economists, NGO analysts, food suppliers, and the public with comprehensive insights into these trends.
 
 ### Problem Statement
-There is no denying that reliable food pricing information is essential for impactful decision-making across various sectors; such as informing food policies to combat shortages in disadvantaged regions, or optimizing business strategy to capitalize on lucrative markets and identify opportunities for growth. 
-However, we observed a lack of open, easy-to-use online platforms that provide a comprehensive overview of global food price trends with resolution to regional levels. 
-Primary challenges we observed included 1) scattered and unorganized regional data, which required technical expertise to navigate, and 2) that existing platforms are unintuitive and therefore difficult for non-technical stakeholders to utilize effectively in their daily operations.
+Access to reliable food pricing information is crucial for informed decision-making in public policymaking and business strategy.  
+However, we observed a lack of open, easy-to-use online platforms providing comprehensive global trends of food price with regional details.
+Key challenges identified include 1) scattered and unorganized regional data requiring technical expertise to navigate, and 2) existing platforms being unintuitive for non-technical stakeholders for effective daily use.
 
-In response to this challenge, we propose the development of an interactive, user-friendly data visualization platform for global trends in food prices with regional resolution. 
-Our platform aims to empower stakeholders to extract insights and make informed decisions regarding food prices worldwide. 
+To address this, we propose developing an interactive platform for global food price trends with regional resolution. 
+Our platform aims to empower stakeholders with insights for informed decision-making on food prices worldwide. 
 Key features and use cases include:
 
-1. Regional resolution of food prices, allowing policymakers to monitor and implement targeted preventive measures if needed.
-2. Historic food price trends, enabling businesses to enhance planning and resource allocation strategies. 
-3. Breakdowns by food category, providing specificity required for a given industry or to inform a focused intervention. 
-4. Accessible food price index information for the general public, facilitating financial management and awareness of cost-of-living fluctuations.
+1. Historic food price trends, allowing policymakers to monitor and implement targeted preventive measures if needed.
+2. Breakdowns by food category, providing specificity required for businesses to enhance resource planning. 
+3. Accessible food price index for the general public, facilitating financial management of cost-of-living fluctuations.
 
-By offering our platform, we aim to enhance collaboration across sectors to address food-related challenges on a global scale.
+Our platform is to enhance collaboration across sectors to address food-related challenges on a global scale.
 
 ## 2. Description of the data
 The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar. The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
