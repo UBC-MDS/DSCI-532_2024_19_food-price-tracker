@@ -3,7 +3,7 @@ Course project for DSCI 532 - Data Visualization II as a part of the UBC Master 
 
 Celeste Zhao, John Shiu, Simon Frew, Tony Shum
 
-## 1. Motivation and purpose
+## 1. Motivation and Purpose
 We are a team of data scientists from a food-focused NGO based in Canada. 
 Our mission is to provide accessible solutions for understanding and addressing global food price trends. 
 Our newly developed tool, Food Price Tracker, is tailored for non-technical policymakers and economists, NGO analysts, food suppliers, and the public with comprehensive insights into these trends.
@@ -23,24 +23,34 @@ Key features and use cases include:
 
 Our platform is to enhance collaboration across sectors to address food-related challenges on a global scale.
 
-## 2. Description of the data
+
+## 2. Description of the Data
 The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar. The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
 
-For our visualization, we will focus on the subset converning the Japanese market and covering the time from 2011 to 2020. This subset contains around 1,180 records of food prices. Each record within the dataset has 14 variables:
-- Date of the record: `date`.
-- Market information: name - `market`; city or province of the market - `admin1`, `admin2`; geographical coordinates - `latitude`, `longitude`.
-- Food item information: type and name - `category`, `commodity`; item unit - `unit` (e.g. 5kg).
-- Details on pricing: type and flag - `pricetype` (e.g., retail, wholesale), `priceflag` (typically actual); price in local currency and its equivalent in USD - `currency`, `price`, `usdprice` (converted at the current exchange rate).
+For our initial visualization, we will concentrate on the Japanese market, encompassing data from 2011 to 2020. Following a proof-of-concept review, we intend to expand our visualization for other populated countries. The initial dataset contains approximately 1,180 records of food prices, and each record has 14 variables:
+| Variable  | Category              | Type        | Description |
+|-----------|-----------------------|-------------|-------------|
+| date      | Record date           | Date        | The record's date, typically set to the 15th of each month. |
+| market    | Market information    | Categorical | The name of the market. |
+| admin1    | Market information    | Categorical | The province where the market is located. |
+| admin2    | Market information    | Categorical | The city where the market is located. |
+| latitude  | Market information    | Float       | The market's latitude coordinate. |
+| longitude | Market information    | Float       | The market's longitude coordinate. |
+| category  | Food item information | Categorical | The category to which the food item belongs. |
+| commodity | Food item information | Categorical | The specific name of the food item. |
+| unit      | Food item information | Categorical | The unit measurement of the food item (e.g., 5kg). |
+| pricetype | Food price details    | Categorical | The type of price, either retail or wholesale. |
+| priceflag | Food price details    | Categorical | The nature of the price, typically "actual". |
+| currency  | Food price details    | Categorical | The currency in which the price is denominated. |
+| price     | Food price details    | Float       | The price of the food item in local currency. |
+| usdprice  | Food price details    | Float       | The price of the food item in USD, converted at current exchange rates. |
 
-In addition to these existing variables, we will derive several new metrics to enhance our analysis:
-- Annual average price: converting monthly price data for each food item into annual metrics to facilitate year-over-year comparisons.
-- Food price growth rate: calculating the rate of price growth for each food item on a monthly or yearly basis, both sequentially and year-over-year.
-- **(Optional) Ratio of food price to GNI (Gross National Income) per capita: dividing the price of a specific food item by the country's per capita income, allowing for international comparisons (data on GNI required).**
+In addition to existing variables, we will derive some new metrics to enhance our analysis. These will include the calculation of price growth rates on a monthly and yearly basis, as well as the development of a food price index that averages the prices of a selected basket of food items.
 
-“There should be a clear link to how the dataset and the variables you describe will help you solve your target audience's problem.” (TBU)
+Utilizing the Global Food Prices dataset in our visualization tool will address the challenge of accessing food-related information, driving more effective decision-making in public policy, business strategies, and personal financial planning.
 
 
-## 3. Research questions and usage scenarios
+## 3. Research Questions and Usage Scenarios
 Research questions and user stories are provided by sector below.
 
 ### Public Sector
@@ -80,4 +90,4 @@ It is coming to the new year, and Mr. Daniel needs to identify whether his budge
 - He transitions to a geospatial view, and in his relative's region, prices have not increased. 
 - Mr. Daniel now can plan his budget for the upcoming year and resolves to contact his local governmental official to raise this issue.
 
-## 4. App sketch and brief description
+## 4. App Sketch and Brief Description
