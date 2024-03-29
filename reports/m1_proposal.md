@@ -88,3 +88,6 @@ It is coming to the new year, and Mr. Daniel needs to identify whether his budge
 - Mr. Daniel has a complete understanding of regional trends in food prices, knows how best to plan his budget for the upcoming year, and resolves to contact his local governmental official to raise this issue.
 
 ## 4. App sketch and brief description
+The app's default landing page is a Basic view page, which displays time-series data on food prices, including indices, individual food prices, and their latest averages with monthly and yearly percentage changes for various markets in a chosen country. A sidebar allows users to customize the data by country, date range, and multiple commodities or markets. A toggle switch transitions to the Geo view.
+
+In the Geo view, users see a country map with the latest prices of various markets of a specific commodity on a given date, facilitating regional price comparisons. The sidebar offers options to adjust data by country, commodity, and date.
