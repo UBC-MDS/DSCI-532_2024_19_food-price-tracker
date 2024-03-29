@@ -25,34 +25,36 @@ Our platform is to enhance collaboration across sectors to address food-related 
 
 
 ## 2. Description of the Data
-The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). 
-This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar.
-The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. 
-The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
+The proposed dataset for our project is the Global Food Prices dataset, openly available via [The Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/global-wfp-food-prices). 
+This dataset originates from the World Food Programme Price Database and includes pricing for items such as maize, rice, beans, fish, and sugar.
+This data spans 98 countries and approximately 3,000 markets, beginning as early as 1992 for certain countries. 
+Data is reported in monthly intervals and organized by country due to its extensive volume.
 
-For our initial visualization, we will concentrate on the Japanese market, encompassing data from 2011 to 2020. 
-Following a proof-of-concept review, we intend to expand our visualization for other populated countries. 
-The initial dataset contains approximately 1,180 records of food prices, and each record has 14 variables:
+Our initial visualization will concentrate on the Japanese market and encompass data from 2011 to 2020. 
+Following a proof-of-concept review, we will extend our framework to additional countries. 
+The Japanese dataset contains approximately 1,180 records, each with 14 variables:
+
 | Variable  | Category              | Type        | Description |
 |-----------|-----------------------|-------------|-------------|
-| date      | Record date           | Date        | The record's date, typically set to the 15th of each month. |
-| market    | Market information    | Categorical | The name of the market. |
-| admin1    | Market information    | Categorical | The province where the market is located. |
-| admin2    | Market information    | Categorical | The city where the market is located. |
-| latitude  | Market information    | Float       | The market's latitude coordinate. |
-| longitude | Market information    | Float       | The market's longitude coordinate. |
-| category  | Food item information | Categorical | The category to which the food item belongs. |
-| commodity | Food item information | Categorical | The specific name of the food item. |
+| date      | Record date           | Date        | Record date, typically the 15th of each month. |
+| market    | Market information    | Categorical | Market name. |
+| admin1    | Market information    | Categorical | Market province. |
+| admin2    | Market information    | Categorical | Market city. |
+| latitude  | Market information    | Float       | Market latitude. |
+| longitude | Market information    | Float       | Market longitude. |
+| category  | Food item information | Categorical | Food item category. |
+| commodity | Food item information | Categorical | Specific name of food item. |
 | unit      | Food item information | Categorical | The unit measurement of the food item (e.g., 5kg). |
-| pricetype | Food price details    | Categorical | The type of price, either retail or wholesale. |
-| priceflag | Food price details    | Categorical | The nature of the price, typically "actual". |
-| currency  | Food price details    | Categorical | The currency in which the price is denominated. |
-| price     | Food price details    | Float       | The price of the food item in local currency. |
-| usdprice  | Food price details    | Float       | The price of the food item in USD, converted at current exchange rates. |
+| pricetype | Food price details    | Categorical | Price type, either retail or wholesale. |
+| priceflag | Food price details    | Categorical | Price nature, typically "actual". |
+| currency  | Food price details    | Categorical | Price local currency. |
+| price     | Food price details    | Float       | Food item price in local currency. |
+| usdprice  | Food price details    | Float       | Food item price in in USD, converted at current exchange rates. |
 
-In addition to existing variables, we will derive some new metrics to enhance our analysis. These will include the calculation of price growth rates on a monthly and yearly basis, as well as the development of a food price index that averages the prices of a selected basket of food items.
+In addition to existing variables, we will derive new metrics to enhance our analysis. 
+These will include price growth rates on a monthly and yearly basis, as well as a food price index that summarizes the prices of a selected basket of food items.
 
-Utilizing the Global Food Prices dataset in our visualization tool will address the challenge of accessing food-related information, driving more effective decision-making in public policy, business strategies, and personal financial planning.
+Utilizing the Global Food Prices dataset in our visualization tool will address the challenge of accessing geospatial food-related information, driving more effective decision-making in public policy, business strategies, and personal financial planning.
 
 
 ## 3. Research Questions and Usage Scenarios
