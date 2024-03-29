@@ -1,4 +1,4 @@
-# Milestone 1 Proposal: Food Price Tracker **(check 1000 word limit)**
+# Milestone 1 Proposal: Food Price Tracker 
 Course project for DSCI 532 - Data Visualization II as a part of the UBC Master of Data Science program. 
 
 Celeste Zhao, John Shiu, Simon Frew, Tony Shum
