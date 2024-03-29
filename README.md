@@ -1,8 +1,10 @@
-# food_price_tracker (FIXME: to be confirmed)
+# Food Price Tracker
 
 ## Purpose
 
-FIXME: to be filled
+Access to reliable food pricing information is crucial for informed decision-making in policymaking and business strategy.
+However, existing platforms lack comprehensive global trends with regional detail, posing challenges for non-technical users.
+The project aims to provide an intuitive, interactive data visualization platform to empower stakeholders for food price insights and enhance cross-sector collaboration to address worldwide food-related challenges.
 
 ## Installation
 

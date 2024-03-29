@@ -1,90 +1,99 @@
-# Milestone 1 Proposal: Food Price Tracker **(check 1000 word limit)**
+# Milestone 1 Proposal: Food Price Tracker 
 Course project for DSCI 532 - Data Visualization II as a part of the UBC Master of Data Science program. 
 
 Celeste Zhao, John Shiu, Simon Frew, Tony Shum
 
-
-## 1. Motivation and purpose
-We are a team of data scientists representing a food-focused NGO based in Canada (e.g., Food Banks Canada, TBC). 
+## 1. Motivation and Purpose
+We are a team of data scientists from a food-focused NGO based in Canada. 
 Our mission is to provide accessible solutions for understanding and addressing global food price trends. 
-Our newly developed tool, **FIXME: The Food Price Tracker** is designed to provide accessible yet comprehensive insights into these trends for a range of non-technical stakeholders, including public-sector policymakers and economists, NGO analysts, private-sector food suppliers, and the general public.
+Our newly developed tool, Food Price Tracker, is tailored for non-technical policymakers and economists, NGO analysts, food suppliers, and the public with comprehensive insights into these trends.
 
 ### Problem Statement
-There is no denying that reliable food pricing information is essential for impactful decision-making across various sectors; such as informing food policies to combat shortages in disadvantaged regions, or optimizing business strategy to capitalize on lucrative markets and identify opportunities for growth. 
-However, we observed a lack of open, easy-to-use online platforms that provide a comprehensive overview of global food price trends with resolution to regional levels. 
-Primary challenges we observed included 1) scattered and unorganized regional data, which required technical expertise to navigate, and 2) that existing platforms are unintuitive and therefore difficult for non-technical stakeholders to utilize effectively in their daily operations.
+Access to reliable food pricing information is crucial for informed decision-making in public policymaking and business strategy.  
+However, we observed a lack of open, easy-to-use online platforms providing comprehensive global trends of food price with regional details.
+Key challenges identified include 1) scattered and unorganized regional data requiring technical expertise to navigate, and 2) existing platforms being unintuitive for non-technical stakeholders for effective daily use.
 
-In response to this challenge, we propose the development of an interactive, user-friendly data visualization platform for global trends in food prices with regional resolution. 
-Our platform aims to empower stakeholders to extract insights and make informed decisions regarding food prices worldwide. 
+To address this, we propose developing an interactive platform for global food price trends with regional resolution. 
+Our platform aims to empower stakeholders with insights for informed decision-making on food prices worldwide. 
 Key features and use cases include:
 
-1. Regional resolution of food prices, allowing policymakers to monitor and implement targeted preventive measures if needed.
-2. Historic food price trends, enabling businesses to enhance planning and resource allocation strategies. 
-3. Breakdowns by food category, providing specificity required for a given industry or to inform a focused intervention. 
-4. Accessible food price index information for the general public, facilitating financial management and awareness of cost-of-living fluctuations.
+1. Historic food price trends, allowing policymakers to monitor and implement targeted preventive measures if needed.
+2. Breakdowns by food category, providing specificity required for businesses to enhance resource planning. 
+3. Accessible food price index for the general public, facilitating financial management of cost-of-living fluctuations.
 
-By offering our platform, we aim to enhance collaboration across sectors to address food-related challenges on a global scale.
-
-## 2. Description of the data
-The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar. The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
-
-For our visualization, we will focus on the subset converning the Japanese market and covering the time from 2011 to 2020. This subset contains around 1,180 records of food prices. Each record within the dataset has 14 variables:
-- Date of the record: `date`.
-- Market information: name - `market`; city or province of the market - `admin1`, `admin2`; geographical coordinates - `latitude`, `longitude`.
-- Food item information: type and name - `category`, `commodity`; item unit - `unit` (e.g. 5kg).
-- Details on pricing: type and flag - `pricetype` (e.g., retail, wholesale), `priceflag` (typically actual); price in local currency and its equivalent in USD - `currency`, `price`, `usdprice` (converted at the current exchange rate).
-
-In addition to these existing variables, we will derive several new metrics to enhance our analysis:
-- Annual average price: converting monthly price data for each food item into annual metrics to facilitate year-over-year comparisons.
-- Food price growth rate: calculating the rate of price growth for each food item on a monthly or yearly basis, both sequentially and year-over-year.
-- **(Optional) Ratio of food price to GNI (Gross National Income) per capita: dividing the price of a specific food item by the country's per capita income, allowing for international comparisons (data on GNI required).**
-
-“There should be a clear link to how the dataset and the variables you describe will help you solve your target audience's problem.” (TBU)
+Our platform is to enhance collaboration across sectors to address food-related challenges on a global scale.
 
 
-## 3. Research questions and usage scenarios
+## 2. Description of the Data
+The proposed dataset for our project is the Global Food Prices dataset, openly available via [The Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/global-wfp-food-prices). 
+This dataset originates from the World Food Programme Price Database and includes pricing for items such as maize, rice, beans, fish, and sugar.
+This data spans 98 countries and approximately 3,000 markets, beginning as early as 1992 for certain countries. 
+Data is reported in monthly intervals and organized by country due to its extensive volume.
+
+Our initial visualization will concentrate on the Japanese market and encompass data from 2011 to 2020. 
+Following a proof-of-concept review, we will extend our framework to additional countries. 
+The Japanese dataset contains approximately 1,180 records, each with 14 variables:
+
+| Variable  | Category              | Type        | Description |
+|-----------|-----------------------|-------------|-------------|
+| date      | Record date           | Date        | Record date, typically the 15th of each month. |
+| market    | Market information    | Categorical | Market name. |
+| admin1    | Market information    | Categorical | Market province. |
+| admin2    | Market information    | Categorical | Market city. |
+| latitude  | Market information    | Float       | Market latitude. |
+| longitude | Market information    | Float       | Market longitude. |
+| category  | Food item information | Categorical | Food item category. |
+| commodity | Food item information | Categorical | Specific name of food item. |
+| unit      | Food item information | Categorical | The unit measurement of the food item (e.g., 5kg). |
+| pricetype | Food price details    | Categorical | Price type, either retail or wholesale. |
+| priceflag | Food price details    | Categorical | Price nature, typically "actual". |
+| currency  | Food price details    | Categorical | Price local currency. |
+| price     | Food price details    | Float       | Food item price in local currency. |
+| usdprice  | Food price details    | Float       | Food item price in in USD, converted at current exchange rates. |
+
+In addition to existing variables, we will derive new metrics to enhance our analysis. 
+These will include price growth rates on a monthly and yearly basis, as well as a food price index that summarizes the prices of a selected basket of food items.
+
+Utilizing the Global Food Prices dataset in our visualization tool will address the challenge of accessing geospatial food-related information, driving more effective decision-making in public policy, business strategies, and personal financial planning.
+
+
+## 3. Research Questions and Usage Scenarios
 Research questions and user stories are provided by sector below.
 
 ### Public Sector
 Ms. Tiffany is an executive with the Ministry of Health, Labour and Welfare in Japan. 
 Her role involves policy-making related to food supply, demand, and price dynamics. 
 Her primary goal is to ensure that food prices across regions and major categories remain at acceptable levels to safeguard public well-being. 
-In response to concerning trends in available data, she seeks to draft policy or recommend immediate interventions for the government to enact.
 
 #### User Story
-- When Ms. Tiffany accesses our platform and lands on the dashboard, she immediately sees the overview of current food price index and the price levels of major food categories displayed.
-- She notices that the price of rice is nearing a governmental threshold of concern and decides to investigate further.
-- Ms. Tiffany selects the rice category and adjusts the time period to view recent 2-year price trends. 
-She identifies a slight upward trend in rice prices over the past month that arouses her concern.
-- To understand if this trend is national or regional, she views the geospatial chart provided illustrating rice price distributions across regions. She observes that prices in Kansai region are significantly higher than the national average.
-- Ms. Tiffany shares her findings and conclusions with stakeholders and proposes policy measures to lower rice prices in the affected region. She also notifies relevent departments to consider emergency aid operations to address any immediate food demand concerns before her policy normalizes rice prices.
+- Ms. Tiffany navigates to the dashboard, which displays food price indices and food categories.
+- She notices the price of rice nearing a threshold of concern and investigates.
+- Ms. Tiffany focuses on rice and examines the 2-year trend. 
+- She views the geospatial chart and to examine regional differences and sees that the Kansai region is higher than the national average.
+- Ms. Tiffany proposes policy measures to combat this trend.
 - She safeguards public well-being in the affected region through the use of our platform.
 
 ### Private Sector
 Mr. Joel operates a business specializing in the supply and trade of cereals and tubers. 
-He needs to analyze market trends and price data for these commodities to identify mismatches in supply and demand, seeking to optimize profit margins. 
-He wants to use food price data analysis to detect profitable opportunities and adjust his business operations to increase returns.
+He needs to analyze market trends and price data for these commodities to identify opportunities for profit.
 
 #### User Story
-- Mr. Joel logs into the data platform and sets up his dashboard to display trend charts for his key commodities like wheat, potatoes, and rice.
-- He examines the price trends over selected time frames to spot any significant uptrend or downtrend, and determines the profitable commodities his business should focus on.
-- Mr. Joel adjusts the time frame of the charts to identify seasonal patterns of the prices of commodities, and notices a seasonal upward trend for the price of potatoes in the coming months. He decides to import more potato and allocates more space in his warehouse for the stock.
-- Mr. Joel then explores the geospatial charts, which show the regional price distribution for his main products, identifying areas with higher price levels that indicate a demand surplus.
-- Based on the findings, he considers reallocating his stock to regions where he can sell at higher prices and plans his logistics to align with these insights.
-- He achieves a higher return on his food business and solves demand mismatch through the use of our platform.
+- Mr. Joel logs into the dashboard and views key commodities: wheat, potatoes, and rice.
+- He examines recent price trends to identify profitable commodities. 
+- Mr. Joel increases the timeframe to visualize seasonal patterns, and sees the price of potatoes will increase in the coming months. He adjusts his strategy accordingly.
+- Exploring the geospatial charts, he sees that demand is focused in a specific region. 
+- Mr. Joel reallocates stock to capitalize on the high demand. 
+- He improves financial returns and meets market demand via our platform. 
 
-### General Public
-Mr. Daniel is a concerned citizen who has noticed a steady increase in grocery prices in the last three years. 
-He is unsure whether this is just due to his purchasing patterns, as relatives across the country have not expressed a similar sentiment. 
-It is coming to the new year, and Mr. Daniel needs to identify whether his budget needs to be adjusted, and whether it is worth contacting his local government about the issue. 
-
-#### User Story 
-- Mr. Daniel logs into the platform and searches for his country.
-- He examines retrieved prices and extends the timeframe to include the last five years, attempting to ascertain whether food prices have truly increased. 
-- He sees that food prices have indeed increased over the given timeframe, and appear to be increasing faster in recent months. 
-- While this is concerning to him, Mr. Daniel is confused that his relatives across the country have not experienced the same thing. 
-- He transitions to a geospatial view, which breaks his country into its constituent regions. The five-year trend is now visualized by region. 
-- From this, it is evident that his relatives are also correct - the price trends in their region have not increased significantly over the last five years. 
-- Mr. Daniel has a complete understanding of regional trends in food prices, knows how best to plan his budget for the upcoming year, and resolves to contact his local governmental official to raise this issue.
 
 ## 4. App sketch and brief description
+![](../img/sketch_basic.jpg)
+![](../img/sketch_geo.jpg)
+
+The app's default landing page is a Basic view page, which displays time-series data on food prices, including indices, individual food prices, and their latest averages with monthly and yearly percentage changes for various markets in a chosen country. 
+A sidebar allows users to customize the data by country, date range, and multiple commodities or markets. 
+A toggle switch transitions to the Geo view.
+
+In the Geo view, users see a country map with the latest prices of various markets of a specific commodity on a given date, facilitating regional price comparisons. 
+The sidebar offers options to adjust data by country, commodity, and date.
+
