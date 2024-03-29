@@ -25,9 +25,14 @@ Our platform is to enhance collaboration across sectors to address food-related 
 
 
 ## 2. Description of the Data
-The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar. The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
+The dataset to be used in our project is the Global Food Prices dataset available on the open platform The Humanitarian Data Exchange (HDX) (https://data.humdata.org/dataset/global-wfp-food-prices). 
+This dataset originates from the World Food Programme Price Database and encompasses recorded prices for food items such as maize, rice, beans, fish, and sugar.
+The price data spans 98 countries and approximately 3,000 markets, and its historical range extends back to 1992 for certain countries, although many countries have started reporting from 2003 onwards. 
+The dataset is updated weekly but primarily comprises monthly data entries, and the data is organized by country due to its extensive volume.
 
-For our initial visualization, we will concentrate on the Japanese market, encompassing data from 2011 to 2020. Following a proof-of-concept review, we intend to expand our visualization for other populated countries. The initial dataset contains approximately 1,180 records of food prices, and each record has 14 variables:
+For our initial visualization, we will concentrate on the Japanese market, encompassing data from 2011 to 2020. 
+Following a proof-of-concept review, we intend to expand our visualization for other populated countries. 
+The initial dataset contains approximately 1,180 records of food prices, and each record has 14 variables:
 | Variable  | Category              | Type        | Description |
 |-----------|-----------------------|-------------|-------------|
 | date      | Record date           | Date        | The record's date, typically set to the 15th of each month. |
@@ -94,7 +99,10 @@ It is coming to the new year, and Mr. Daniel needs to identify whether his budge
 ![](../img/sketch_basic.jpg)
 ![](../img/sketch_geo.jpg)
 
-The app's default landing page is a Basic view page, which displays time-series data on food prices, including indices, individual food prices, and their latest averages with monthly and yearly percentage changes for various markets in a chosen country. A sidebar allows users to customize the data by country, date range, and multiple commodities or markets. A toggle switch transitions to the Geo view.
+The app's default landing page is a Basic view page, which displays time-series data on food prices, including indices, individual food prices, and their latest averages with monthly and yearly percentage changes for various markets in a chosen country. 
+A sidebar allows users to customize the data by country, date range, and multiple commodities or markets. 
+A toggle switch transitions to the Geo view.
 
-In the Geo view, users see a country map with the latest prices of various markets of a specific commodity on a given date, facilitating regional price comparisons. The sidebar offers options to adjust data by country, commodity, and date.
+In the Geo view, users see a country map with the latest prices of various markets of a specific commodity on a given date, facilitating regional price comparisons. 
+The sidebar offers options to adjust data by country, commodity, and date.
 
