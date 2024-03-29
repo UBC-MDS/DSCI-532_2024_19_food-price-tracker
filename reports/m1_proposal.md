@@ -85,17 +85,6 @@ He needs to analyze market trends and price data for these commodities to identi
 - Mr. Joel reallocates stock to capitalize on the high demand. 
 - He improves financial returns and meets market demand via our platform. 
 
-### General Public
-Mr. Daniel is a concerned citizen who has noticed a steady increase in grocery prices in the last three years. 
-He is unsure whether this is just due to his purchasing patterns, as relatives across the country have not expressed a similar sentiment. 
-It is coming to the new year, and Mr. Daniel needs to identify whether his budget needs to be adjusted and whether it is worth contacting his local government about the issue. 
-
-#### User Story 
-- Mr. Daniel logs into the platform and searches for his country.
-- He examines retrieved prices and extends the timeframe to include the last five years.
-- He sees that food prices have indeed increased over the given timeframe.
-- He transitions to a geospatial view, and in his relative's region, prices have not increased. 
-- Mr. Daniel now can plan his budget for the upcoming year and resolves to contact his local governmental official to raise this issue.
 
 ## 4. App sketch and brief description
 ![](../img/sketch_basic.jpg)
