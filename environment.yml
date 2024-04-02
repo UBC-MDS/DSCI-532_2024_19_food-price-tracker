@@ -12,3 +12,6 @@ dependencies:
   - vl-convert-python=1.1.0
   - vegafusion=1.4.5
   - vegafusion-jupyter=1.4.5
+  - dash=2.16
+  - dash_bootstrap_components=1.5
+  - dash-daq=0.5
