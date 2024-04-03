@@ -8,7 +8,32 @@ The project aims to provide an intuitive, interactive data visualization platfor
 
 ## Installation
 
-- TODO
+1. Clone this repository.
+
+```bash
+ git clone git@github.com:UBC-MDS/DSCI-532_2024_19_food-price-tracker.git
+```
+```bash
+ cd DSCI-532_2024_19_food-price-tracker/
+```
+
+2. Install the virtual environment.
+
+```bash
+ conda env create -f environment.yml
+```
+
+3. Activate the installed environment.
+
+```bash
+ conda activate food_price_tracker
+```
+
+4. Start the dashboard.
+
+```bash
+ python src/app.py
+```
 
 ## Usage
 
