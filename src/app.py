@@ -4,6 +4,7 @@ import dash_daq as daq
 
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
+server = app.server
 
 # Side navigation bar
 SIDEBAR_STYLE = {
@@ -82,4 +83,4 @@ app.layout = html.Div([sidebar, content])
 
 # Run the app/dashboard
 if __name__ == '__main__':
-    app.run(debug=True) # the debug mode will add a button at the bottom right of the web
+    app.run() #debug=True) # the debug mode will add a button at the bottom right of the web
