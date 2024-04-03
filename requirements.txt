@@ -1,0 +1,17 @@
+altair==5.3.*
+dash==2.16.*
+dash-bootstrap-components==1.5.*
+dash-vega-components==0.9.*
+dash-daq==0.5.0
+gunicorn==21.2.*
+ipykernel==6.26.0
+ipython==8.17.2
+ipywidgets==8.1.2
+jupyterlab==4.0.9
+numpy==1.26.4
+pandas==2.2.*
+plotly==5.19.0
+vegafusion==1.4.5
+vegafusion-jupyter==1.4.5
+vegafusion-python-embed==1.6.6
+vl-convert-python==1.1.0
