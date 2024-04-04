@@ -10,22 +10,36 @@ from hdx.data.dataset import Dataset
 cc = coco.CountryConverter()
 
 
-## Country list loading
-country_list_wfp = pd.read_csv(
-    Dataset.read_from_hdx("global-wfp-food-prices").get_resource(0)["url"], 
-    parse_dates=["start_date", "end_date"], 
-    header=0, 
-    skiprows=[1]
-)
+def fetch_country_index_df(): 
+    """Fetch country index and preprocess into dataframe. 
 
-country_list_wfp = country_list_wfp.assign(
-    country = cc.pandas_convert(
-        series = country_list_wfp.countryiso3, 
-        to = "name_short"
-    ), 
-    hdx_identifier = country_list_wfp.url.str.rsplit("/", n=1).str[1]
-)
-country_list_wfp = country_list_wfp[country_list_wfp.columns[-2:].to_list() + country_list_wfp.columns[:-2].to_list()]
+    Returns: 
+    --------
+    country_index_df : pd.DataFrame
+        DataFrame that contains all countries in the WFP dataset, and their corresponding HDX entries.
+        Metadata such as URL, Start / End Dates, are included
+    """
+
+    cc = coco.CountryConverter()
+    Configuration.create(hdx_site="prod", user_agent="DSCI-532_2024_19_food-price-tracker", hdx_read_only=True)
+
+    country_index_df = pd.read_csv(
+        Dataset.read_from_hdx("global-wfp-food-prices").get_resource(0)["url"], 
+        parse_dates=["start_date", "end_date"], 
+        header=0, 
+        skiprows=[1]
+    )
+
+    country_index_df = country_index_df.assign(
+        country = cc.pandas_convert(
+            series = country_index_df.countryiso3, 
+            to = "name_short"
+        ), 
+        hdx_identifier = country_index_df.url.str.rsplit("/", n=1).str[1]
+    )
+
+    country_index_df = country_index_df[country_index_df.columns[-2:].to_list() + country_index_df.columns[:-2].to_list()]
+    return country_index_df
 
 
 
