@@ -36,10 +36,10 @@ def fetch_country_index():
             to = "name_short"
         ), 
         hdx_identifier = country_index_df.url.str.rsplit("/", n=1).str[1]
-    )
+    ).set_index("country")
 
-    country_index_df = country_index_df[country_index_df.columns[-2:].to_list() + country_index_df.columns[:-2].to_list()]
     return country_index_df
+
 
 def fetch_country_data(country = "Japan", country_index_df = fetch_country_index_df()): 
     """Fetch and preprocess data from HDX (https://data.humdata.org/)
@@ -58,10 +58,12 @@ def fetch_country_data(country = "Japan", country_index_df = fetch_country_index
         Dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed. 
     """
 
-    # initiate hdx api connection
     Configuration.create(hdx_site="prod", user_agent="DSCI-532_2024_19_food-price-tracker", hdx_read_only=True)
 
+    country_index_df.loc[country, "hdx_identifier"]
+
     return country_df
+
 
 if __name__ == "__main__": 
     country_index_df = fetch_country_index()
