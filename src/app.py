@@ -71,16 +71,17 @@ sidebar = html.Div(
 
 # Layout (better default layout when using with bootstrap)
 content = dbc.Container([
-	html.Br(),
-    dcc.Slider(min=0, max=5, value=2, step=1), # dcc has different objects
-    dcc.RangeSlider(min=0, max=5, value=[2, 4], tooltip={'always_visible': True, 'placement': 'bottom'}), 
-    dcc.Dropdown(
-    	options=['New York DCity', 'Montreal', 'San Francisco'],
-    	multi=True, # allow selecting New York City and Montreal at the same time
-    	placeholder='Select a city...'
-    ),
-    dcc.Input(id='input_widget'),  # to be connected in the callbacks
-    html.Div(id='output_area')      # to be connected in the callbacks
+    dbc.Col([
+        dbc.Row([
+            dbc.Col(html.Div("index-chart-area", id="index-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"})),
+            dbc.Col(html.Div("index-box-area", id="index-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}))
+        ], style={'margin-bottom': '1.25em'}),
+
+        dbc.Row([
+            dbc.Col(html.Div("commodities-chart-area", id="commodities-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"})),
+            dbc.Col(html.Div("commodities-box-area", id="commodities-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}))
+        ]),
+    ])
 ], style={
     "margin-left": "18rem",
     "margin-right": "2rem",
