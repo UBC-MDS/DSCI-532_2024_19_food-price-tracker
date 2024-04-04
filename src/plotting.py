@@ -314,7 +314,62 @@ def generate_line_chart_fpi(data, widget_date_range, widget_market_values):
 
     return price_index_line_chart
 
+def generate_line_chart_commodities(data, widget_date_range, widget_market_values, widget_commodity_values):
+    """
+    Generates a list of interactive line charts, each representing the price trends of different commodities over time within specified marketplaces.
 
+    The function filters the input data based on a given date range and a list of market values. 
+    It then iterates through a list of commodities, creating an individual line chart for each one that visualizes its price trend in USD.
+
+    Parameters:
+    - data (DataFrame): A Pandas DataFrame containing the commodities data including dates, markets, and prices.
+    - widget_date_range (tuple): A tuple of two strings ('YYYY-MM-DD', 'YYYY-MM-DD') representing the start and end dates for filtering the data.
+    - widget_market_values (list of str): A list of string values representing the markets to include in the chart.
+    - widget_commodity_values (list of str): A list of string values representing the commodities for which the line charts will be generated.
+
+    Returns:
+    - charts (list of alt.Chart): A list containing Altair Chart objects, each representing a line chart for a specific commodity.
+
+    Each chart visualizes the price trend for a specific commodity across all specified markets over the given time period. 
+    The y-axis shows the price in USD, and the x-axis shows time by year. 
+
+    Example:
+    >>> generate_line_chart_commodities(df, ('2011-01-01', '2022-01-01'), ['Osaka', 'Tokyo'], ['Rice', 'Milk'])
+    # Returns a list of Altair Chart objects for 'Rice' and 'Milk' with specified configurations.
+    """
+
+    # Filter the data for the selected time period and markets
+    commodities_data = data[
+        data.date.between(widget_date_range[0], widget_date_range[1])
+        & data.market.isin(widget_market_values)
+    ]
+    
+    charts = []
+
+    # Create charts for each of the commodity
+    for commodity in widget_commodity_values:
+        # Filter the data for the specific commodity
+        commodity_data = commodities_data[commodities_data.commodity.isin([commodity])]
+     
+        # Create the chart
+        chart = alt.Chart(commodity_data).mark_line().encode(
+            x=alt.X('date:T', axis=alt.Axis(format='%Y', title='Year')),
+            y=alt.Y('usdprice:Q', title='Price in USD', scale=alt.Scale(zero=False)),
+            color=alt.Color('market:N', legend=alt.Legend(title='Market')),
+            tooltip=[
+                alt.Tooltip('date:T', title='Time', format='%b, %Y'),
+                alt.Tooltip('usdprice:Q', title='Price in USD', format='.2f')
+            ]
+        ).properties(
+            title=alt.TitleParams(f'Price of {commodity} Over Time')
+        ).configure_axis(
+            grid=False
+        ).interactive()
+
+        # Add the chart to the list of charts
+        charts.append(chart)
+
+    return charts
 
 if __name__ == '__main__':
     pass
