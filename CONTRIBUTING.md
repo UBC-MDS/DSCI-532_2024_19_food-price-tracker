@@ -40,14 +40,14 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up `food_price_tracker` for local development.
+Ready to contribute? Here's how to set up `DSCI-532_2024_19_food-price-tracker` for local development.
 
-1. Download a copy of `food_price_tracker` locally.
+1. Download a copy of `DSCI-532_2024_19_food-price-tracker` locally.
 2. Use `git` (or similar) to create a branch for local development and make your changes:
 
-    ```console
-    $ git checkout -b name-of-your-bugfix-or-feature
-    ```
+```console
+ git checkout -b name-of-your-bugfix-or-feature
+```
 
 3. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
 
