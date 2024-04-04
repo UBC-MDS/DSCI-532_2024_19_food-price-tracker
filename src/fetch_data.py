@@ -10,11 +10,11 @@ from hdx.data.dataset import Dataset
 cc = coco.CountryConverter()
 
 
-def fetch_country_index_df(): 
+def fetch_country_index(): 
     """Fetch country index and preprocess into dataframe. 
 
-    Returns: 
-    --------
+    Returns
+    -------
     country_index_df : pd.DataFrame
         DataFrame that contains all countries in the WFP dataset, and their corresponding HDX entries.
         Metadata such as URL, Start / End Dates, are included
@@ -41,16 +41,32 @@ def fetch_country_index_df():
     country_index_df = country_index_df[country_index_df.columns[-2:].to_list() + country_index_df.columns[:-2].to_list()]
     return country_index_df
 
-
-
-def fetch_data(country_index_df, country): 
+def fetch_country_data(country = "Japan", country_index_df = fetch_country_index_df()): 
     """Fetch and preprocess data from HDX (https://data.humdata.org/)
     Dynamically load the corresponding country dataset and preprocess.
 
+    Parameters
+    ----------
+    country : str, optional
+        The country of which data should be recieved. Must be within the HDX and country_index_df. By default "Japan"
+    country_index_df : pd.DataFrame, optional
+        Index dataset from "global-wfp-food-prices" in the HDX, the output from fetch_country_index_df(). By default, the output from fetch_country_index_df().
 
+    Returns
+    -------
+    country_df : pd.DataFrame
+        Dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed. 
     """
 
     # initiate hdx api connection
     Configuration.create(hdx_site="prod", user_agent="DSCI-532_2024_19_food-price-tracker", hdx_read_only=True)
 
+    return country_df
+
+if __name__ == "__main__": 
+    country_index_df = fetch_country_index()
+    print(country_index_df.head())
+
+    country_df = fetch_country_data("Japan", country_index_df)
+    print(country_df)
 
