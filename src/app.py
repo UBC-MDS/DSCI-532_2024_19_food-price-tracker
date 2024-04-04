@@ -40,6 +40,12 @@ sidebar = html.Div(
         html.Br(),
         
         html.P("Date"),
+        dcc.DatePickerRange(
+            id="date-range",
+            start_date_placeholder_text = "Start", 
+            end_date_placeholder_text = "End", 
+            updatemode = "bothdates"
+        ),
         html.Br(),
 
         html.P("Commodities"),
@@ -108,8 +114,8 @@ app.layout = html.Div(
 ### Server-side testing
 
 @callback(
-    [Input("country-dropdown", "value"), Input("country-index", "data")],
-    Output("country-data", "data")
+    Output("country-data", "data"),
+    [Input("country-dropdown", "value"), Input("country-index", "data")]   
 )
 def update_country_data(country, country_index): 
     """Update country data from country widget selection
@@ -130,11 +136,27 @@ def update_country_data(country, country_index):
 
     return fetch_country_data(country, country_index).to_json()
 
+@callback(
+    [Output("date-range", "min_date_allowed"), 
+     Output("date-range", "max_date_allowed"), 
+     Output("date-range", "start_date"), 
+     Output("date-range", "end_date"), 
 
-def update_widget_values():
-    """_summary_
+
+     Output("commodities-dropdown", "options"), 
+     Output("markets-dropdown", "options")],
+    Input("country-data", "data")   
+)
+def update_widget_values(country):
+    """Update widget options when new country selected. 
+    Update 
     """
-    pass
+
+
+    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, 
+    
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True) # the debug mode will add a button at the bottom right of the web
