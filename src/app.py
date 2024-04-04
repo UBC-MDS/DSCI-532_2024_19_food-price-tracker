@@ -1,6 +1,7 @@
 from dash import Dash, html, dcc, Input, Output, callback
 import dash_bootstrap_components as dbc
 import dash_daq as daq
+import pandas as pd
 
 from fetch_data import fetch_country_data, fetch_country_index
 
@@ -24,14 +25,17 @@ sidebar = html.Div(
         html.H2("Food Price Tracker", className="display-10"),
         html.Hr(),
         daq.ToggleSwitch(
-            id='my-toggle-switch',
+            id='chart-type-toggle',
             value=False
         ),
         html.Br(),
         
         html.P("Country"),
         dcc.Dropdown(
-        	options=['Japan'],
+            id='country-dropdown',
+        	options=[],
+            multi=False, 
+    	    placeholder='Select a country...'
         ),
         html.Br(),
         
@@ -40,15 +44,19 @@ sidebar = html.Div(
 
         html.P("Commodities"),
         dcc.Dropdown(
-        	options=['Japan'],
-            multi=True,
+        	id='commodities-dropdown',
+        	options=[],
+            multi=True, 
+    	    placeholder='Select commodities...'
         ),
         html.Br(),
 
         html.P("Markets"),
         dcc.Dropdown(
-        	options=['Japan'],
+            id='commodities-dropdown',
+        	options=[],
             multi=True,
+            placeholder='Select markets...'
         ),
         html.Br(),
     ],
@@ -77,12 +85,12 @@ app.layout = html.Div(
     [sidebar, content,
      dcc.Store(
          id="country-index", 
-         data=fetch_country_index().to_json(date_format='iso', orient='split'), 
+         data=fetch_country_index(), 
          storage_type="session"
          ),
      dcc.Store(
          id="country-data", 
-         data=fetch_country_data().to_json(date_format='iso', orient='split'), 
+         data=fetch_country_data(), 
          storage_type="session"
          )]
 )
@@ -99,11 +107,34 @@ app.layout = html.Div(
 
 ### Server-side testing
 
-# def update_country_index(): 
+@callback(
+    [Input("country-dropdown", "value"), Input("country-index", "data")],
+    Output("country-data", "data")
+)
+def update_country_data(country, country_index): 
+    """Update country data from country widget selection
 
-# def update_country_data(): 
+    Parameters
+    ----------
+    country : str
+        string of selected country, e.g., "Japan"
+    country_index : pd.DataFrame.to_json()
+        JSONify'd version of a pd.DataFrame, the output of fetch_country_index()
+
+    Returns
+    -------
+    country_json : pd.DataFrame.to_json()
+        JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
+
+    """
+
+    return fetch_country_data(country, country_index).to_json()
 
 
+def update_widget_values():
+    """_summary_
+    """
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True) # the debug mode will add a button at the bottom right of the web
