@@ -2,6 +2,7 @@ from dash import Dash, html, dcc, Input, Output, callback
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 import pandas as pd
+from io import StringIO
 
 from fetch_data import fetch_country_data, fetch_country_index
 
@@ -141,19 +142,28 @@ def update_country_data(country, country_index):
      Output("date-range", "max_date_allowed"), 
      Output("date-range", "start_date"), 
      Output("date-range", "end_date"), 
-
-
      Output("commodities-dropdown", "options"), 
-     Output("markets-dropdown", "options")],
-    Input("country-data", "data")   
+     Output("markets-dropdown", "options"),
+     Output("country-dropdown", "options")],
+    [Input("country-index", "data"), Input("country-data", "data")]
 )
-def update_widget_values(country):
+def update_widget_values(country_index_json, country_json):
     """Update widget options when new country selected. 
     Update 
     """
+    country_index = pd.read_json(country_index_json , orient='split')
 
+    country_data = pd.read_json(country_json , orient='split')
 
-    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, 
+    min_date_allowed = country_data.date.min()
+    max_date_allowed = country_data.date.max()
+    start_date = country_data.date.max()
+    end_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
+    commodities_options = country_data.commodity.unique().to_list()
+    markets_options = country_data.market.unique().to_list()
+    country_options = country_index.index.to_list()
+
+    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, country_options
     
     
 
