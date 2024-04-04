@@ -44,7 +44,7 @@ def fetch_country_index():
     return country_index_df.to_json(date_format='iso', orient='split')
 
 
-def fetch_country_data(country="Japan", country_index_json=fetch_country_index()):
+def fetch_country_data(country, country_index_json=fetch_country_index()):
     """Fetch and preprocess data from HDX (https://data.humdata.org/)
     Dynamically load the corresponding country dataset and preprocess.
 

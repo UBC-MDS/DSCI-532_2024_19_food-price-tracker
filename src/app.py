@@ -34,7 +34,7 @@ sidebar = html.Div(
         html.P("Country"),
         dcc.Dropdown(
             id='country-dropdown',
-        	options=[],
+            value="Japan",
             multi=False, 
     	    placeholder='Select a country...'
         ),
@@ -52,7 +52,6 @@ sidebar = html.Div(
         html.P("Commodities"),
         dcc.Dropdown(
         	id='commodities-dropdown',
-        	options=[],
             multi=True, 
     	    placeholder='Select commodities...'
         ),
@@ -60,12 +59,12 @@ sidebar = html.Div(
 
         html.P("Markets"),
         dcc.Dropdown(
-            id='commodities-dropdown',
-        	options=[],
+            id='markets-dropdown',
             multi=True,
             placeholder='Select markets...'
         ),
         html.Br(),
+        html.Button('Manual Trigger', id='manual-trigger-button', n_clicks=0)
     ],
     style=SIDEBAR_STYLE,
 )
@@ -96,8 +95,7 @@ app.layout = html.Div(
          storage_type="session"
          ),
      dcc.Store(
-         id="country-data", 
-         data=fetch_country_data(), 
+         id="country-data",  
          storage_type="session"
          )]
 )
@@ -114,6 +112,35 @@ app.layout = html.Div(
 
 ### Server-side testing
 
+@callback(
+    [Output("date-range", "min_date_allowed"), 
+     Output("date-range", "max_date_allowed"), 
+     Output("date-range", "start_date"), 
+     Output("date-range", "end_date"), 
+     Output("commodities-dropdown", "options"), 
+     Output("markets-dropdown", "options"),
+     Output("country-dropdown", "options")],
+    [Input("country-index", "data"), Input("country-data", "data"), Input("manual-trigger-button", "n_clicks")]
+)
+def update_widget_values(country_index_json, country_json, n_clicks):
+    """Update widget options when new country selected. 
+    Update 
+    """
+    country_index = pd.read_json(StringIO(country_index_json) , orient='split')
+
+    country_data = pd.read_json(StringIO(country_json), orient='split')
+
+    min_date_allowed = country_data.date.min()
+    max_date_allowed = country_data.date.max()
+    start_date = country_data.date.max()
+    end_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
+    commodities_options = country_data.commodity.unique().tolist()
+    markets_options = country_data.market.unique().tolist()
+    country_options = country_index.index.to_list()
+
+    print(n_clicks)
+    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, country_options
+    
 @callback(
     Output("country-data", "data"),
     [Input("country-dropdown", "value"), Input("country-index", "data")]   
@@ -135,37 +162,7 @@ def update_country_data(country, country_index):
 
     """
 
-    return fetch_country_data(country, country_index).to_json()
-
-@callback(
-    [Output("date-range", "min_date_allowed"), 
-     Output("date-range", "max_date_allowed"), 
-     Output("date-range", "start_date"), 
-     Output("date-range", "end_date"), 
-     Output("commodities-dropdown", "options"), 
-     Output("markets-dropdown", "options"),
-     Output("country-dropdown", "options")],
-    [Input("country-index", "data"), Input("country-data", "data")]
-)
-def update_widget_values(country_index_json, country_json):
-    """Update widget options when new country selected. 
-    Update 
-    """
-    country_index = pd.read_json(StringIO(country_index_json) , orient='split')
-
-    country_data = pd.read_json(StringIO(country_json), orient='split')
-
-    min_date_allowed = country_data.date.min()
-    max_date_allowed = country_data.date.max()
-    start_date = country_data.date.max()
-    end_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
-    commodities_options = country_data.commodity.unique().to_list()
-    markets_options = country_data.market.unique().to_list()
-    country_options = country_index.index.to_list()
-
-    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, country_options
-    
-    
+    return fetch_country_data(country, country_index)
 
 
 if __name__ == '__main__':
