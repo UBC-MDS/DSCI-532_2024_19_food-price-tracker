@@ -2,6 +2,8 @@ from dash import Dash, html, dcc, Input, Output, callback
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 
+from fetch_data import fetch_country_data, fetch_country_index
+
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
 server = app.server
@@ -71,7 +73,19 @@ content = dbc.Container([
     "padding": "2rem 1rem",
 })
 
-app.layout = html.Div([sidebar, content])
+app.layout = html.Div(
+    [sidebar, content,
+     dcc.Store(
+         id="country-index", 
+         data=fetch_country_index().to_json(date_format='iso', orient='split'), 
+         storage_type="session"
+         ),
+     dcc.Store(
+         id="country-data", 
+         data=fetch_country_data().to_json(date_format='iso', orient='split'), 
+         storage_type="session"
+         )]
+)
 
 # # Server side callbacks/reactivity
 # @callback(
@@ -82,5 +96,14 @@ app.layout = html.Div([sidebar, content])
 # 	return input_value
 
 # Run the app/dashboard
+
+### Server-side testing
+
+# def update_country_index(): 
+
+# def update_country_data(): 
+
+
+
 if __name__ == '__main__':
-    app.run() #debug=True) # the debug mode will add a button at the bottom right of the web
+    app.run(debug=True) # the debug mode will add a button at the bottom right of the web
