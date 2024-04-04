@@ -151,9 +151,9 @@ def update_widget_values(country_index_json, country_json):
     """Update widget options when new country selected. 
     Update 
     """
-    country_index = pd.read_json(country_index_json , orient='split')
+    country_index = pd.read_json(StringIO(country_index_json) , orient='split')
 
-    country_data = pd.read_json(country_json , orient='split')
+    country_data = pd.read_json(StringIO(country_json), orient='split')
 
     min_date_allowed = country_data.date.min()
     max_date_allowed = country_data.date.max()

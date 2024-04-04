@@ -3,7 +3,7 @@ import country_converter as coco
 
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
-
+from io import StringIO
 
 # create HDX configuration
 Configuration.create(
@@ -75,7 +75,7 @@ def fetch_country_data(country="Japan", country_index_json=fetch_country_index()
         "usdprice",
     ]
 
-    country_index_df = pd.read_json(country_index_json, orient='split')
+    country_index_df = pd.read_json(StringIO(country_index_json), orient='split')
 
     country_df = pd.read_csv(
         Dataset.read_from_hdx(
