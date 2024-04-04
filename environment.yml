@@ -1,4 +1,4 @@
-name: 'food_price_tracker'
+name: 'food_price_tracker_'
 channels:
   - conda-forge
   - defaults
@@ -10,5 +10,5 @@ dependencies:
   - pandas=2.1.3
   - altair=5.1.2
   - vl-convert-python=1.1.0
-  - vegafusion=1.4.5
+  - vegafusion=1.6.6
   - vegafusion-jupyter=1.4.5
