@@ -117,8 +117,13 @@ app.layout = html.Div(
      Output("date-range", "max_date_allowed"), 
      Output("date-range", "start_date"), 
      Output("date-range", "end_date"), 
+
      Output("commodities-dropdown", "options"), 
+     Output("commodities-dropdown", "value"), 
+
      Output("markets-dropdown", "options"),
+     Output("markets-dropdown", "value"), 
+
      Output("country-dropdown", "options")],
     [Input("country-index", "data"), Input("country-data", "data"), Input("manual-trigger-button", "n_clicks")]
 )
@@ -132,14 +137,28 @@ def update_widget_values(country_index_json, country_json, n_clicks):
 
     min_date_allowed = country_data.date.min()
     max_date_allowed = country_data.date.max()
-    start_date = country_data.date.max()
-    end_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
+    start_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
+    end_date = country_data.date.max()
+
     commodities_options = country_data.commodity.unique().tolist()
+    commodities_selection = commodities_options[:2]
+
     markets_options = country_data.market.unique().tolist()
+    markets_selection = markets_options[:2]
+
     country_options = country_index.index.to_list()
 
-    print(n_clicks)
-    return min_date_allowed, max_date_allowed, start_date, end_date, commodities_options, markets_options, country_options
+    output = (
+        min_date_allowed, max_date_allowed, 
+        start_date, end_date, 
+        commodities_options, 
+        commodities_selection, 
+        markets_options, 
+        markets_selection,
+        country_options
+    )
+
+    return output
     
 @callback(
     Output("country-data", "data"),
