@@ -7,6 +7,7 @@ from io import StringIO
 
 from fetch_data import fetch_country_data, fetch_country_index
 from plotting import *
+from calc_index import *
 
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
@@ -74,6 +75,7 @@ sidebar = html.Div(
 # Layout (better default layout when using with bootstrap)
 content = dbc.Container([
     dbc.Row(id="index-area", children=[]),
+    html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"), # FIXME: how to center the plots?
 ], style={
     "margin-left": "18rem",
@@ -196,6 +198,43 @@ def update_country_data(country, country_index):
     return fetch_country_data(country, country_index)
 
 @callback(
+    Output("index-area", "children"),
+    [
+        Input("country-data", "data"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("commodities-dropdown", "value"),
+        Input("markets-dropdown", "value"),
+    ]
+)
+def update_index_area(country_json, start_date, end_date, commodities, markets):
+    country_data = pd.read_json(StringIO(country_json), orient='split')
+    country_data = generate_food_price_index_data(country_data, markets, commodities)
+    
+    line = generate_line_chart_commodities(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        ["Food Price Index"]
+    )[0]
+    line = line.properties(
+        title=alt.TitleParams(
+            "Food Price Index",
+            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"]
+        )
+    )
+    
+    figure = generate_figure_chart(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        ["Food Price Index"]
+    )[0]
+    
+    return dvc.Vega(spec=(figure | line).to_dict(format="vega"))
+
+
+@callback(
     Output("commodities-area", "children"),
     [
         Input("country-data", "data"),
@@ -225,13 +264,7 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
         dvc.Vega(spec=(figure | line).to_dict(format="vega"))
         for line, figure in zip(line_charts, figure_charts)
     ]
-    # chart_plots = [
-    #     dbc.Row([
-    #         dbc.Col(dvc.Vega(spec=line.to_dict(format="vega"), style={'width': '100%'}), md=8),
-    #         dbc.Col(dvc.Vega(spec=figure.to_dict(format="vega"), style={'width': '100%'}), md=4)
-    #     ])
-    #     for line, figure in zip(line_charts, figure_charts)
-    # ]
+    
     return chart_plots
     
 if __name__ == '__main__':
