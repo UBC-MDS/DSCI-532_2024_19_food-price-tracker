@@ -82,20 +82,6 @@ content = dbc.Container([
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 })
-#     dbc.Col([
-#         dbc.Row([
-#             dbc.Col(html.Div("index-chart-area", id="index-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=8),
-#             dbc.Col(html.Div("index-box-area", id="index-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=4)
-#         ], style={'margin-bottom': '1.25em'}),
-
-#         dbc.Row([
-#             dbc.Col(children=None, md=8),
-#             #dbc.Col(html.Div("commodities-chart-area", id="commodities-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=8),
-            
-#             dbc.Col(html.Div("commodities-box-area", id="commodities-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=4)
-#         ]),
-#     ])
-
 
 app.layout = html.Div([
     sidebar, 
@@ -208,10 +194,13 @@ def update_country_data(country, country_index):
     ]
 )
 def update_index_area(country_json, start_date, end_date, commodities, markets):
+    """
+    FIXME: update docstring
+    """
     country_data = pd.read_json(StringIO(country_json), orient='split')
     country_data = generate_food_price_index_data(country_data, markets, commodities)
     
-    line = generate_line_chart_commodities(
+    line = generate_line_chart(
         country_data, 
         (start_date, end_date), 
         markets,
@@ -245,9 +234,12 @@ def update_index_area(country_json, start_date, end_date, commodities, markets):
     ]
 )
 def update_commodities_area(country_json, start_date, end_date, commodities, markets):
+    """
+    FIXME: update docstring
+    """
     country_data = pd.read_json(StringIO(country_json), orient='split')
     
-    line_charts = generate_line_chart_commodities(
+    line_charts = generate_line_chart(
         country_data, 
         (start_date, end_date), 
         markets,

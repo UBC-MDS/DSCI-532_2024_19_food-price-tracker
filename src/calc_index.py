@@ -3,7 +3,7 @@ import pandas as pd
 
 def generate_food_price_index_data(data, widget_market_values, widget_commodity_values):
     """
-    FIXME
+    FIXME: add docstring
     """
     # Default Info
     columns_to_keep = [
