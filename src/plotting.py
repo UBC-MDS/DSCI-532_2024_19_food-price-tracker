@@ -221,12 +221,12 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         commodity_data = commodities_data[commodities_data.commodity.isin([commodity])]
      
         # Create the chart
-        chart = alt.Chart(commodity_data).mark_line().encode(
-            x=alt.X('date:T', axis=alt.Axis(format='%Y', title='Year')),
+        chart = alt.Chart(commodity_data, width='container').mark_line().encode(
+            x=alt.X('date:T', axis=alt.Axis(format='%Y-%m', title='Time')),
             y=alt.Y('usdprice:Q', title='Price in USD', scale=alt.Scale(zero=False)),
             color=alt.Color('market:N', legend=alt.Legend(title='Market')),
             tooltip=[
-                alt.Tooltip('date:T', title='Time', format='%b, %Y'),
+                alt.Tooltip('date:T', title='Time', format='%Y-%m'),
                 alt.Tooltip('usdprice:Q', title='Price in USD', format='.2f')
             ]
         ).properties(
