@@ -136,7 +136,7 @@ def update_widget_values(country_index_json, country_json, n_clicks):
 
     min_date_allowed = country_data.date.min()
     max_date_allowed = country_data.date.max()
-    start_date = country_data.date.max() + pd.tseries.offsets.DateOffset(months=-6)
+    start_date = country_data.date.max() + pd.tseries.offsets.DateOffset(years=-2)
     end_date = country_data.date.max()
 
     commodities_options = country_data.commodity.unique().tolist()
