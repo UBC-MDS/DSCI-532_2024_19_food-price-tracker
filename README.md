@@ -32,7 +32,7 @@ The project aims to provide an intuitive, interactive data visualization platfor
 4. Start the dashboard.
 
 ```bash
- python src/app.py
+ python -m src.app
 ```
 
 ## Usage
