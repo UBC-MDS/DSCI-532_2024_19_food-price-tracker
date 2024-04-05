@@ -137,19 +137,19 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         "usdprice",
     ]
 
-    # Obtain Food Price Index data
-    price_index_data = generate_food_price_index_data(data, widget_date_range, widget_market_values)
-    widget_commodity_values = [
-        "Food Price Index"
-    ] + widget_commodity_values
+    # # Obtain Food Price Index data
+    # price_index_data = generate_food_price_index_data(data, widget_date_range, widget_market_values)
+    # widget_commodity_values = []
+    #     "Food Price Index"
+    # ] + widget_commodity_values
 
     # Generate latest average price and period-over-period change
     price_data = data[columns_to_keep]
-    price_data = pd.concat(
-        [price_data, price_index_data],
-        axis=0,
-        ignore_index=True,
-    )
+    # price_data = pd.concat(
+    #     [price_data, price_index_data],
+    #     axis=0,
+    #     ignore_index=True,
+    # )
     price_data = price_data[
         price_data.date.between(
             widget_date_range[0], widget_date_range[1]
@@ -267,7 +267,8 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
             + yoy_value
             + yoy_title
         )
-        charts.append(chart.interactive())
+        #charts.append(chart.interactive())
+        charts.append(chart)
 
     return charts
 
@@ -321,17 +322,25 @@ def generate_line_chart_commodities(data, widget_date_range, widget_market_value
     The function filters the input data based on a given date range and a list of market values. 
     It then iterates through a list of commodities, creating an individual line chart for each one that visualizes its price trend in USD.
 
-    Parameters:
-    - data (DataFrame): A Pandas DataFrame containing the commodities data including dates, markets, and prices.
-    - widget_date_range (tuple): A tuple of two strings ('YYYY-MM-DD', 'YYYY-MM-DD') representing the start and end dates for filtering the data.
-    - widget_market_values (list of str): A list of string values representing the markets to include in the chart.
-    - widget_commodity_values (list of str): A list of string values representing the commodities for which the line charts will be generated.
+    Parameters
+    ----------
+    data : pd.DataFrame
+        A Pandas DataFrame containing the commodities data including dates, markets, and prices.
+        
+    widget_date_range : tuple
+        A tuple of two strings ('YYYY-MM-DD', 'YYYY-MM-DD') representing the start and end dates for filtering the data.
+        
+    widget_market_values : list of str)
+        A list of string values representing the markets to include in the chart.
+    
+    widget_commodity_values : list of str)
+        A list of string values representing the commodities for which the line charts will be generated.
 
     Returns:
-    - charts (list of alt.Chart): A list containing Altair Chart objects, each representing a line chart for a specific commodity.
-
-    Each chart visualizes the price trend for a specific commodity across all specified markets over the given time period. 
-    The y-axis shows the price in USD, and the x-axis shows time by year. 
+    list of alt.Chart
+        A list containing Altair Chart objects, each representing a line chart for a specific commodity.
+        Each chart visualizes the price trend for a specific commodity across all specified markets over the given time period. 
+        The y-axis shows the price in USD, and the x-axis shows time by year. 
 
     Example:
     >>> generate_line_chart_commodities(df, ('2011-01-01', '2022-01-01'), ['Osaka', 'Tokyo'], ['Rice', 'Milk'])
@@ -361,10 +370,10 @@ def generate_line_chart_commodities(data, widget_date_range, widget_market_value
                 alt.Tooltip('usdprice:Q', title='Price in USD', format='.2f')
             ]
         ).properties(
-            title=alt.TitleParams(f'Price of {commodity} Over Time')
-        ).configure_axis(
-            grid=False
-        ).interactive()
+            title=alt.TitleParams(f'{commodity} Price')
+        ) #.configure_axis(
+        #    grid=False
+        #) #.interactive()
 
         # Add the chart to the list of charts
         charts.append(chart)

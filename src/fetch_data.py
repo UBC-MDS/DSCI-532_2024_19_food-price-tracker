@@ -14,7 +14,8 @@ Configuration.create(
 
 
 def fetch_country_index():
-    """Fetch country index and preprocess into dataframe.
+    """
+    Fetch country index and preprocess into dataframe.
 
     Returns
     -------
@@ -45,7 +46,8 @@ def fetch_country_index():
 
 
 def fetch_country_data(country, country_index_json=fetch_country_index()):
-    """Fetch and preprocess data from HDX (https://data.humdata.org/)
+    """
+    Fetch and preprocess data from HDX (https://data.humdata.org/)
     Dynamically load the corresponding country dataset and preprocess.
 
     Parameters

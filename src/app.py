@@ -1,10 +1,12 @@
 from dash import Dash, html, dcc, Input, Output, callback
 import dash_bootstrap_components as dbc
+import dash_vega_components as dvc
 import dash_daq as daq
 import pandas as pd
 from io import StringIO
 
 from fetch_data import fetch_country_data, fetch_country_index
+from plotting import *
 
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
@@ -30,30 +32,30 @@ sidebar = html.Div(
             value=False
         ),
         html.Br(),
-        
+
         html.P("Country"),
         dcc.Dropdown(
             id='country-dropdown',
             value="Japan",
-            multi=False, 
-    	    placeholder='Select a country...'
+            multi=False,
+            placeholder='Select a country...'
         ),
         html.Br(),
-        
+
         html.P("Date"),
         dcc.DatePickerRange(
             id="date-range",
-            start_date_placeholder_text = "Start", 
-            end_date_placeholder_text = "End", 
+            start_date_placeholder_text = "Start",
+            end_date_placeholder_text = "End",
             updatemode = "bothdates"
         ),
         html.Br(),
 
         html.P("Commodities"),
         dcc.Dropdown(
-        	id='commodities-dropdown',
-            multi=True, 
-    	    placeholder='Select commodities...'
+            id='commodities-dropdown',
+            multi=True,
+            placeholder='Select commodities...'
         ),
         html.Br(),
 
@@ -71,35 +73,41 @@ sidebar = html.Div(
 
 # Layout (better default layout when using with bootstrap)
 content = dbc.Container([
-    dbc.Col([
-        dbc.Row([
-            dbc.Col(html.Div("index-chart-area", id="index-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"})),
-            dbc.Col(html.Div("index-box-area", id="index-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}))
-        ], style={'margin-bottom': '1.25em'}),
-
-        dbc.Row([
-            dbc.Col(html.Div("commodities-chart-area", id="commodities-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"})),
-            dbc.Col(html.Div("commodities-box-area", id="commodities-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}))
-        ]),
-    ])
+    dbc.Row(id="index-area", children=[]),
+    dbc.Row(id="commodities-area", children=[], align="center"), # FIXME: how to center the plots?
 ], style={
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 })
+#     dbc.Col([
+#         dbc.Row([
+#             dbc.Col(html.Div("index-chart-area", id="index-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=8),
+#             dbc.Col(html.Div("index-box-area", id="index-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=4)
+#         ], style={'margin-bottom': '1.25em'}),
 
-app.layout = html.Div(
-    [sidebar, content,
-     dcc.Store(
-         id="country-index", 
-         data=fetch_country_index(), 
-         storage_type="session"
-         ),
-     dcc.Store(
-         id="country-data",  
-         storage_type="session"
-         )]
-)
+#         dbc.Row([
+#             dbc.Col(children=None, md=8),
+#             #dbc.Col(html.Div("commodities-chart-area", id="commodities-chart-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=8),
+            
+#             dbc.Col(html.Div("commodities-box-area", id="commodities-box-area", style={'backgroundColor':'lightgrey', "padding":"1.25em"}), md=4)
+#         ]),
+#     ])
+
+
+app.layout = html.Div([
+    sidebar, 
+    content,
+    dcc.Store(
+        id="country-index",
+        data=fetch_country_index(),
+        storage_type="session"
+    ),
+    dcc.Store(
+        id="country-data",
+        storage_type="session"
+    )
+])
 
 # # Server side callbacks/reactivity
 # @callback(
@@ -114,23 +122,25 @@ app.layout = html.Div(
 ### Server-side testing
 
 @callback(
-    [Output("date-range", "min_date_allowed"), 
-     Output("date-range", "max_date_allowed"), 
-     Output("date-range", "start_date"), 
-     Output("date-range", "end_date"), 
+    [Output("date-range", "min_date_allowed"),
+     Output("date-range", "max_date_allowed"),
+     Output("date-range", "start_date"),
+     Output("date-range", "end_date"),
 
-     Output("commodities-dropdown", "options"), 
-     Output("commodities-dropdown", "value"), 
+     Output("commodities-dropdown", "options"),
+     Output("commodities-dropdown", "value"),
 
      Output("markets-dropdown", "options"),
-     Output("markets-dropdown", "value"), 
+     Output("markets-dropdown", "value"),
 
      Output("country-dropdown", "options")],
     [Input("country-index", "data"), Input("country-data", "data"), Input("manual-trigger-button", "n_clicks")]
 )
 def update_widget_values(country_index_json, country_json, n_clicks):
-    """Update widget options when new country selected. 
-    Update 
+    """
+    Update widget options when new country selected.
+
+    FIXME: to be updated
     """
     country_index = pd.read_json(StringIO(country_index_json) , orient='split')
 
@@ -150,23 +160,24 @@ def update_widget_values(country_index_json, country_json, n_clicks):
     country_options = country_index.index.to_list()
 
     output = (
-        min_date_allowed, max_date_allowed, 
-        start_date, end_date, 
-        commodities_options, 
-        commodities_selection, 
-        markets_options, 
+        min_date_allowed, max_date_allowed,
+        start_date, end_date,
+        commodities_options,
+        commodities_selection,
+        markets_options,
         markets_selection,
         country_options
     )
 
     return output
-    
+
 @callback(
     Output("country-data", "data"),
-    [Input("country-dropdown", "value"), Input("country-index", "data")]   
+    [Input("country-dropdown", "value"), Input("country-index", "data")]
 )
-def update_country_data(country, country_index): 
-    """Update country data from country widget selection
+def update_country_data(country, country_index):
+    """
+    Update country data from country widget selection
 
     Parameters
     ----------
@@ -184,6 +195,44 @@ def update_country_data(country, country_index):
 
     return fetch_country_data(country, country_index)
 
+@callback(
+    Output("commodities-area", "children"),
+    [
+        Input("country-data", "data"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("commodities-dropdown", "value"),
+        Input("markets-dropdown", "value"),
+    ]
+)
+def update_commodities_area(country_json, start_date, end_date, commodities, markets):
+    country_data = pd.read_json(StringIO(country_json), orient='split')
+    
+    line_charts = generate_line_chart_commodities(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        commodities
+    )
+    figure_charts = generate_figure_chart(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        commodities
+    )
 
+    chart_plots = [
+        dvc.Vega(spec=(figure | line).to_dict(format="vega"))
+        for line, figure in zip(line_charts, figure_charts)
+    ]
+    # chart_plots = [
+    #     dbc.Row([
+    #         dbc.Col(dvc.Vega(spec=line.to_dict(format="vega"), style={'width': '100%'}), md=8),
+    #         dbc.Col(dvc.Vega(spec=figure.to_dict(format="vega"), style={'width': '100%'}), md=4)
+    #     ])
+    #     for line, figure in zip(line_charts, figure_charts)
+    # ]
+    return chart_plots
+    
 if __name__ == '__main__':
     app.run(debug=True) # the debug mode will add a button at the bottom right of the web
