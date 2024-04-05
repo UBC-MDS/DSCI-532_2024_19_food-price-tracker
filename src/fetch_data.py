@@ -52,6 +52,7 @@ def fetch_country_data(country, country_index_json=fetch_country_index()):
     ----------
     country : str, optional
         The country of which data should be recieved. Must be within the HDX and country_index_df. By default "Japan"
+
     country_index_json : pd.DataFrame, optional
         Index dataset from "global-wfp-food-prices" in the HDX, the output from fetch_country_index_df(). By default, the output from fetch_country_index_df().
 
