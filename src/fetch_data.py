@@ -3,7 +3,7 @@ import country_converter as coco
 
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
-
+from io import StringIO
 
 # create HDX configuration
 Configuration.create(
@@ -18,8 +18,8 @@ def fetch_country_index():
 
     Returns
     -------
-    country_index_df : pd.DataFrame
-        DataFrame that contains all countries in the WFP dataset, and their corresponding HDX entries.
+    country_index_df : pd.DataFrame.to_json()
+        JSON version of dataframe that contains all countries in the WFP dataset, and their corresponding HDX entries.
         Metadata such as URL, Start / End Dates, are included
 
     Examples
@@ -41,10 +41,10 @@ def fetch_country_index():
         hdx_identifier=country_index_df.url.str.rsplit("/", n=1).str[1],
     ).set_index("country")
 
-    return country_index_df
+    return country_index_df.to_json(date_format='iso', orient='split')
 
 
-def fetch_country_data(country="Japan", country_index_df=fetch_country_index()):
+def fetch_country_data(country, country_index_json=fetch_country_index()):
     """Fetch and preprocess data from HDX (https://data.humdata.org/)
     Dynamically load the corresponding country dataset and preprocess.
 
@@ -52,17 +52,18 @@ def fetch_country_data(country="Japan", country_index_df=fetch_country_index()):
     ----------
     country : str, optional
         The country of which data should be recieved. Must be within the HDX and country_index_df. By default "Japan"
-    country_index_df : pd.DataFrame, optional
+
+    country_index_json : pd.DataFrame, optional
         Index dataset from "global-wfp-food-prices" in the HDX, the output from fetch_country_index_df(). By default, the output from fetch_country_index_df().
 
     Returns
     -------
-    country_df : pd.DataFrame
-        Dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
+    country_json : pd.DataFrame.to_json()
+        JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
 
     Examples
     --------
-    >>> country_df = fetch_country_data("Japan")
+    >>> country_json = fetch_country_data("Japan")
     """
 
     columns_to_keep = [
@@ -75,21 +76,19 @@ def fetch_country_data(country="Japan", country_index_df=fetch_country_index()):
         "usdprice",
     ]
 
+    country_index_df = pd.read_json(StringIO(country_index_json), orient='split')
+
     country_df = pd.read_csv(
         Dataset.read_from_hdx(
-            country_index_df.loc["Japan", "hdx_identifier"]
+            country_index_df.loc[country, "hdx_identifier"]
         ).get_resource(0)["url"],
         parse_dates=["date"],
         header=0,
         skiprows=[1],
     )[columns_to_keep]
 
-    return country_df
+    return country_df.to_json(date_format='iso', orient='split')
 
 
 if __name__ == "__main__":
-    country_index_df = fetch_country_index()
-    print(country_index_df.head())
-
-    country_df = fetch_country_data("Japan", country_index_df)
-    print(country_df)
+    pass
