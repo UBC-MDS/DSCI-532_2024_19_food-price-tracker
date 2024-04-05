@@ -48,7 +48,7 @@ sidebar = html.Div(
             id="date-range",
             start_date_placeholder_text = "Start",
             end_date_placeholder_text = "End",
-            updatemode = "bothdates"
+            updatemode = "singledate"
         ),
         html.Br(),
 
@@ -220,7 +220,7 @@ def update_index_area(country_json, start_date, end_date, commodities, markets):
         ["Food Price Index"]
     )[0]
     
-    return dvc.Vega(spec=(figure | line).to_dict(format="vega"))
+    return dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
 
 
 @callback(
@@ -253,7 +253,7 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
     )
 
     chart_plots = [
-        dvc.Vega(spec=(figure | line).to_dict(format="vega"))
+        dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
         for line, figure in zip(line_charts, figure_charts)
     ]
     
