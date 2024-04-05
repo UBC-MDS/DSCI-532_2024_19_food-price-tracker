@@ -5,9 +5,9 @@ import dash_daq as daq
 import pandas as pd
 from io import StringIO
 
-from fetch_data import fetch_country_data, fetch_country_index
-from plotting import *
-from calc_index import *
+from src.fetch_data import fetch_country_data, fetch_country_index
+from src.plotting import *
+from src.calc_index import *
 
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
