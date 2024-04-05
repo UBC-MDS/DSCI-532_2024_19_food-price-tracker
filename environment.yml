@@ -16,3 +16,7 @@ dependencies:
   - dash-bootstrap-components=1.5
   - dash-daq=0.5
   - dash-vega-components=0.9
+  - country_converter=1.2
+  - pip=24.0
+  - pip: 
+    - hdx-python-api==6.2.6
