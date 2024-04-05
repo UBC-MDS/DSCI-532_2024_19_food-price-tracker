@@ -77,6 +77,12 @@ content = dbc.Container([
     dbc.Row(id="index-area", children=[]),
     html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"), # FIXME: how to center the plots?
+    html.Footer(
+        dcc.Markdown('''
+        Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum. 
+        '''),
+        className="bg-dark text-inverse text-center py-4",
+    ),
 ], style={
     "margin-left": "18rem",
     "margin-right": "2rem",
