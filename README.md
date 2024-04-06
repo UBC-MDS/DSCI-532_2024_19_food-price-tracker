@@ -86,4 +86,4 @@ Interested in contributing? Check out the [contributing guidelines](CONTRIBUTING
 Dataset from the Global Food Prices dataset, openly available on [The Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/global-wfp-food-prices).
 
 `food_price_tracker` was created with [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) and the `py-pkgs-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter). 
-Logo created by DALL.E.
+Logo was created by DALL.E.
