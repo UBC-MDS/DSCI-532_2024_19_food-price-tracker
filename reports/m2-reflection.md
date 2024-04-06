@@ -26,15 +26,20 @@ In our Milestone 1 Proposal, we planed to implement a toggle to switch from the 
 
 ## 3. Features Not Working Well and Limitations of Current Dashboard
 
-We have identified the following features as not working well by far:
-1. Refreshing is not triggered when only the start date is adjusted in the `Date` selection.
-2. The `Date` selection tool is not very convenient to use when selecting a wide time range.
-3. Empty default graphs are caused by the absence of some commodities in certain markets.
-4. Charts update relatively slowly, and different charts do not update simultaneously.
+We have identified the following bugs and limitations of the Milestone 2 Release. 
+1. The `Date` range selection tool is not well-suited to large date ranges.
+2. Empty graphs occur when commodities do not exist in selected markets.
+3. Index and individual charts update slower than expected. 
+4. Index and individual charts update out of sync, worsening user experience.
+5. Current summary card layouts can overflow if names are particularly long.
+6. Missing data in some commodities lead to inconsistent index performance. 
 
 ## 4. Potential Future Improvements and Additions
 
-We plan to make the following attempts in the next week:
-1. We will improve the selection and update issues of `Date` by including a hierarchy of dates in the date widget to encompass both yyyy and yyyy-mm formats.
-2. For the issue of empty graphs caused by the non-existence of commodities in some markets, we will try to resolve by adding a hierarchy to the widgets.
-3. We will explore ways to accelerate chart updates and resolve the issue of asynchronous updates.
+The following solutions are proposed to the above limitations and will be implemented in subsequent milestones. 
+1. Update the `Date` range selection tool to use `YYYY-MM` and/or `YYYY` formats instead of `YYYY-MM-DD`.
+2. Add data preprocessing steps that update a user's options depending on commodity or market selection.
+3. Refactor plotting code and examine callbacks to ensure that unnecesary API requests are minimized. Trim dataframes to essential data to reduce computational overhead. 
+4. Link callback functions for index and individual charts so they are displayed at the same time. 
+5. Investigate bootstrapped or altair-based alternative implementations of summary cards. 
+6. Remove commodities that have significant amounts of missing temporal data.  
