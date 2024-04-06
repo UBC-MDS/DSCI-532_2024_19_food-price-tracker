@@ -12,6 +12,8 @@ Visualize and compare regional price trends from countries across the world.
 
 Thank you for visiting the Food Price Tracker project repository!
 The project aims to provide an intuitive, interactive data visualization platform for drawing food price insights and enhancing cross-sector collaboration to address worldwide food-related challenges.
+Our project makes use of the Global Food Prices dataset, openly available via [The Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/global-wfp-food-prices). 
+This dataset originates from the World Food Programme Price Database and includes pricing for items such as maize, rice, beans, fish, and sugar.
 We invite you to utilize our Food Price Tracker and welcome any contributions towards its enhancement.
 
 ## Motivation and Purpose
@@ -81,4 +83,6 @@ Interested in contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 ## Credits
 
-`food_price_tracker` was created with [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) and the `py-pkgs-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter). Logo created by DALL.E.
+Dataset from the Global Food Prices dataset, openly available on [The Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/global-wfp-food-prices)
+`food_price_tracker` was created with [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) and the `py-pkgs-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter). 
+Logo created by DALL.E.
