@@ -78,3 +78,7 @@ Interested in contributing? Check out the [contributing guidelines](CONTRIBUTING
 ## License
 
 `food_price_tracker` was created by Celeste Zhao, John Shiu, Simon Frew, Tony Shum. It is licensed under the terms of the MIT license and the Attribution 4.0 International (CC BY 4.0 LEGAL CODE).
+
+## Credits
+
+`food_price_tracker` was created with [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) and the `py-pkgs-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter). Logo created by DALL.E.
