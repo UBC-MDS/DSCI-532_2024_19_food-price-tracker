@@ -34,7 +34,7 @@ The dashboard is composed of a sidebar for user input and a data display section
 
 ### Usage Demonstration
 
-***put the gif link***
+![demo gif](img/demo.gif)
 
 ### Need Support?
 
