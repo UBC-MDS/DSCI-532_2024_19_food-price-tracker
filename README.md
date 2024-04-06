@@ -1,4 +1,4 @@
-# Food Price Tracker <img src="img/logo.jpg" align="right" width=125 height=125 alt="" />
+# Food Price Tracker <img src="img/logo.png" align="right" width=125 height=125 alt="" />
 
 
 [![GitHub issues](https://img.shields.io/github/issues/UBC-MDS/DSCI-532_2024_19_food-price-tracker.svg)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/issues)
@@ -42,12 +42,12 @@ If you want to report a problem or give an suggestion, we would love for you to 
 
 ## Usage - For Developers
 
-### Installation For Local Developing
+### Installation For Local Development
 
 1. Clone this repository to your computer.
 
 ```bash
- git clone https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker
+ git clone git@github.com:UBC-MDS/DSCI-532_2024_19_food-price-tracker.git
 ```
 ```bash
  cd DSCI-532_2024_19_food-price-tracker/
