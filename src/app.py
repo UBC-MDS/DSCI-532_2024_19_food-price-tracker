@@ -77,7 +77,7 @@ sidebar = html.Div(
 content = dbc.Container([
     dbc.Row(id="index-area", children=[]),
     html.Hr(),
-    dbc.Row(id="commodities-area", children=[], align="center"), # FIXME: how to center the plots?
+    dbc.Row(id="commodities-area", children=[], align="center"),
     html.Hr(),
     html.Footer(
         dcc.Markdown('''
@@ -137,9 +137,25 @@ app.layout = html.Div([
 )
 def update_widget_values(country_index_json, country_json, n_clicks):
     """
-    Update widget options when new country selected.
+    Update widget options when a new country is selected.
 
-    FIXME: to be updated
+    Parameters
+    ----------
+    country_index_json : str
+        JSON string representing the index of the country data, used for populating country options.
+        
+    country_json : str
+        JSON string representing the country data, used for extracting commodity, market, and date information.
+        
+    n_clicks : int
+        The number of times the update button has been clicked (not used in the function, but required for callback).
+
+    Returns
+    -------
+    tuple
+        A tuple containing the minimum and maximum dates allowed, start and end dates, 
+        lists of commodity options and default commodity selection, 
+        lists of market options and default market selection, and country options list.
     """
     country_index = pd.read_json(StringIO(country_index_json) , orient='split')
 
@@ -187,7 +203,7 @@ def update_country_data(country, country_index):
 
     Returns
     -------
-    country_json : pd.DataFrame.to_json()
+    json
         JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
 
     """
@@ -206,7 +222,30 @@ def update_country_data(country, country_index):
 )
 def update_index_area(country_json, start_date, end_date, commodities, markets):
     """
-    FIXME: update docstring
+    Generate and update the food price index figure and line charts for the selected parameters.
+
+    Parameters
+    ----------
+    country_json : str
+        JSON string representing the country data from which the food price index is generated.
+        
+    start_date : str or datetime
+        The starting date for filtering the data used in the charts.
+        
+    end_date : str or datetime
+        The ending date for filtering the data used in the charts.
+        
+    commodities : list
+        A list of commodities to be included in the food price index calculation.
+        
+    markets : list
+        A list of market names from which the data will be filtered to generate the charts.
+
+    Returns
+    -------
+    dash_vega_components.Vega
+        An object that combines the line and figure charts displaying the food price index
+        
     """
     country_data = pd.read_json(StringIO(country_json), orient='split')
     country_data = generate_food_price_index_data(country_data, markets, commodities)
@@ -246,7 +285,30 @@ def update_index_area(country_json, start_date, end_date, commodities, markets):
 )
 def update_commodities_area(country_json, start_date, end_date, commodities, markets):
     """
-    FIXME: update docstring
+    Generate and update the figure and line charts for the selected commodities and markets over a given date range.
+
+    Parameters
+    ----------
+    country_json : str
+        JSON string representing the country data, used to generate charts for specified commodities and markets.
+        
+    start_date : str or datetime
+        The starting date for filtering the data used in the charts.
+        
+    end_date : str or datetime
+        The ending date for filtering the data used in the charts.
+        
+    commodities : list
+        A list of commodities for which the charts will be generated.
+        
+    markets : list
+        A list of market names from which the data will be filtered to generate the charts.
+
+    Returns
+    -------
+    list
+        A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
+        
     """
     country_data = pd.read_json(StringIO(country_json), orient='split')
     
