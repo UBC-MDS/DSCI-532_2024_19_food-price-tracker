@@ -1,10 +1,11 @@
-# Milestone 2 Reflection (500 words limit)
+# Milestone 2 Reflection (500 word limit)
 
 ## 1. Features Implemented in Milestone 2 Dashboard
 
 Our dashboard now supports displaying food prices for selected conditions, including time, country, markets, and commodities. The dashboard is composed of a sidebar for user input and a data display section.
 
-1. Sidebar: Users can select the country, time range, specific commodities, and markets they wish to view.
+### 1. Sidebar
+Users can select the country, time range, specific commodities, and markets they wish to view.
 - `Country` dropdown: Allows users to choose the country they are interested in.
 - `Date` selection: Enables selection of the time range for data viewing.
 - `Commodities` dropdown: Users can select the range of commodities to be examined.
@@ -12,11 +13,12 @@ Our dashboard now supports displaying food prices for selected conditions, inclu
 - View toggle (future update): Switches to a map perspective "Geo view".
 - `Manual Trigger`: Runs the dashboard based on selected conditions.
 
-2. Data Display Section: Displays food price information based on selected conditions.
-- Food price index tracking chart: Shows the average value, Month-over-Month change rate, and Year-over-Year change rate of the Food Price Index across all selected commodities within the chosen time and market range.
-- Food price index line chart: Displays the Food Price Index values over time across different markets based on selected conditions.
-- Individual commodity tracking charts: Below a separator, this shows the average price, Month-over-Month change rate, and Year-over-Year change rate of USD prices for each commodity within the selected time and market range.
-- Individual commodity line charts: Displays the USD prices over time for each commodity across different markets based on selected conditions.
+### 2. Data Display
+Displays food price information based on selected conditions.
+- **Food price index summary card**: Shows the average value, Month-over-Month change rate, and Year-over-Year change rate of the Food Price Index across all selected commodities within the chosen time and market range.
+- **Food price index line chart**: Displays the Food Price Index values over time across different markets based on selected conditions.
+- **Individual commodity summary card**: Below a separator, this shows the average price, Month-over-Month change rate, and Year-over-Year change rate of USD prices for each commodity within the selected time and market range.
+- **Individual commodity line charts**: Displays the USD prices over time for each commodity across different markets based on selected conditions.
 
 ## 2. Features in Proposal Yet To Be Done
 
