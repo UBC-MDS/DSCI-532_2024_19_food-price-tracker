@@ -47,7 +47,7 @@ If you want to report a problem or give an suggestion, we would love for you to 
 1. Clone this repository to your computer.
 
 ```bash
- git clone git@github.com:UBC-MDS/DSCI-532_2024_19_food-price-tracker.git
+ git clone https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker
 ```
 ```bash
  cd DSCI-532_2024_19_food-price-tracker/
@@ -68,7 +68,7 @@ If you want to report a problem or give an suggestion, we would love for you to 
 4. Start the dashboard.
 
 ```bash
- python src/app.py
+ python -m src.app
 ```
 
 ### Contributing
