@@ -20,3 +20,4 @@ dependencies:
   - pip: 
     - hdx-python-api==6.2.6
     - dash-vega-components==0.9
+    - quantulum3[classifier]==0.9
