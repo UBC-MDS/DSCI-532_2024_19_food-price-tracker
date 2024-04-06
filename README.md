@@ -1,11 +1,12 @@
-# Food Price Tracker
+# Food Price Tracker <img src="img/logo.jpg" align="right" width=125 height=125 alt="" />
+
 
 [![GitHub issues](https://img.shields.io/github/issues/UBC-MDS/DSCI-532_2024_19_food-price-tracker.svg)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/UBC-MDS/DSCI-532_2024_19_food-price-tracker.svg)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commits/main)
 [![GitHub release](https://img.shields.io/github/release/UBC-MDS/DSCI-532_2024_19_food-price-tracker.svg)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/releases)
 
-![logo](https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/img/logo.png)
-*Created by DALL.E*
+
+Visualize and compare regional price trends from countries across the world.
 
 ## Welcome
 
