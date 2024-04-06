@@ -52,6 +52,7 @@ sidebar = html.Div(
         ),
         html.Br(),
 
+        html.Br(),
         html.P("Commodities"),
         dcc.Dropdown(
             id='commodities-dropdown',
@@ -77,6 +78,16 @@ content = dbc.Container([
     dbc.Row(id="index-area", children=[]),
     html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"), # FIXME: how to center the plots?
+    html.Hr(),
+    html.Footer(
+        dcc.Markdown('''
+        Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
+        The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
+        [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
+        Dashboard latest update on ![release](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
+        ''',
+        style={'fontSize': 14})
+    ),
 ], style={
     "margin-left": "18rem",
     "margin-right": "2rem",
