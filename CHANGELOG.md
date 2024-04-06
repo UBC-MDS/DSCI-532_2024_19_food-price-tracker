@@ -2,6 +2,239 @@
 
 
 
+## v0.2.0 (2024-04-06)
+
+### Documentation
+
+* docs: modified the docstring of the functions (#67)
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`df7f05d`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/df7f05dc2a5ffd74f43aa147ff3adb2d1e322358))
+
+* docs: create demo.gif (#70) ([`3796281`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/37962812652ff2bd5a829ad9fc0e293105302e67))
+
+### Feature
+
+* feat: trigger 0.2.0 release for milestone 2 submission (#72)
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`886271d`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/886271dfa1f1ea7f39419ad9f21ba260691dc6dc))
+
+* feat: trigger 0.2.0 release for milestone 2 submission (#71)
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`d3cf708`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/d3cf708c26f680a4dbf4521b60f429ead7fe88ec))
+
+* feat: Combine components (#57)
+
+* feat: update plots in the commodities area
+
+* fix: add empty init file for render.com deployment
+
+* fix: correct app.py to collaborate with __init__
+
+* feat: combine index to the dashboard
+
+* docs: updated README on how we should start the app
+
+* fix: refactored codes
+
+* fix: fixed the bugs on date range selection and ratio of plots
+
+* fix: the x-axis labels
+
+* fix: modified the default start date
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`a160eb9`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/a160eb9b97ff69ffb700d746981206dab0d39691))
+
+* feat: app initialization, data loading, widget initialization (#50)
+
+* build: update env packages for pip / HDX / data processing
+
+* feat: fetch_data.py for country dataset and data processing
+
+* feat:  draft fetch_country_index_df()
+
+* feat: implement fetch_country_data()
+
+* refactor: set country_index_df index to country name
+
+* feat:  complete fetch_data functions and lint
+
+* build: update requirements.txt
+
+* build: correct yml for pip dependencies
+
+* feat: draft callback functions for data integration
+
+* feat: draft update_country_data and implement dcc.Store
+
+* refactor: update data outputs to json
+
+* feat: draft update_widget_values
+
+* refactor: test country data / widget functions
+
+* fix: futureproof read_json with StringIO
+
+* refactor: further testing for widget initialization
+
+* fix: add default values to selections
+
+* feat: frontend chart areas
+
+---------
+
+Co-authored-by: JohnShiuMK &lt;asbjchk@yahoo.com.hk&gt; ([`f16da0a`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/f16da0aff713d86600b418a6c02aaf2df58172d9))
+
+* feat: implement data fetch and preprocessing (#49)
+
+* build: update env packages for pip / HDX / data processing
+
+* feat: fetch_data.py for country dataset and data processing
+
+* feat:  draft fetch_country_index_df()
+
+* feat: implement fetch_country_data()
+
+* refactor: set country_index_df index to country name
+
+* feat:  complete fetch_data functions and lint
+
+* build: update requirements.txt
+
+---------
+
+Co-authored-by: JohnShiuMK &lt;asbjchk@yahoo.com.hk&gt; ([`d04fbb8`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/d04fbb8ba7b1eec858ad74c753247680578363fa))
+
+* feat: Add food price index generator and figure chart generator funct… (#46)
+
+* feat: Add food price index generator and figure chart generator functions
+
+* fix: fix name in environment.yml
+
+* feat: Build line chart feature (#48)
+
+* feat: Add line chart for Food Price Index
+
+Add function generate_line_chart_fpi()
+
+* feat: Add line chart for selected commodities
+
+Add function generate_line_chart_commodities()
+
+---------
+
+Co-authored-by: celestezhao &lt;143828198+celestezhao@users.noreply.github.com&gt;
+Co-authored-by: Simon &lt;37085057+srfrew@users.noreply.github.com&gt; ([`c387724`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/c387724610338cc3a757c46be2c103d7a2c35d36))
+
+### Fix
+
+* fix: add empty init file for render.com deployment (#56)
+
+* fix: add empty init file for render.com deployment
+
+* fix: correct app.py to collaborate with __init__
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`e64919a`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/e64919ab4b13e7ac83a1cce0485ec09635c598bf))
+
+* fix: env update (#54)
+
+* fix: Update env .yml file
+
+vegafusion=1.4.5 --&gt; vegafusion=1.6.6
+vegafusion-jupyter=1.4.5 --&gt; vegafusion-jupyter=1.6.6
+This is to fix the error &#34;The versions of the vegafusion and vegafusion-python-embed packages must match and must be version 1.5.0 or greater&#34;
+
+vl-convert-python=1.1.0 --&gt; vl-convert-python=1.3.0
+Required by Altair plotting
+
+* fix: Update requirements.txt
+
+---------
+
+Co-authored-by: Celeste Zhao &lt;emilyxxzhao@outlook.com&gt; ([`52690c9`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/52690c9c9efd67b182d65a6d4e061c879c553edc))
+
+* fix: Update env .yml file (#47)
+
+vegafusion=1.4.5 --&gt; vegafusion=1.6.6
+vegafusion-jupyter=1.4.5 --&gt; vegafusion-jupyter=1.6.6
+This is to fix the error &#34;The versions of the vegafusion and vegafusion-python-embed packages must match and must be version 1.5.0 or greater&#34;
+
+vl-convert-python=1.1.0 --&gt; vl-convert-python=1.3.0
+Required by Altair plotting ([`2410123`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/24101235a48134c94526b81be4fc654331faa72d))
+
+* fix: update the files to prepare for deployment (#44)
+
+* fix: update the files to prepare for deployment
+
+* fix: removed unnecessary packages in requirements.txt
+
+* fix: fixed typo in requirements.txt
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`9fe99b4`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/9fe99b48dfe7d3b5a57e58f17e56a17730739b85))
+
+### Unknown
+
+* Draft reflection and update README (#68)
+
+* docs: Draft m2-reflection.md
+
+* docs: Update README.md
+
+* docs: fix README.md
+
+* fix: updated environment requirements to avoid warnings on start
+
+* docs: updated link
+
+* docs: corrected link in the README
+
+* docs: create demo.gif
+
+* docs: update logo
+
+* docs: update attributions
+
+* docs: include reference to demo.gif
+
+* docs: minor fixes
+
+* docs: m2 reflection edits
+
+* docs: m2 reflection s3-s4 update
+
+* docs: bring to below 500 words
+
+* docs: attribution for data source
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt;
+Co-authored-by: Simon Frew &lt;simon.r.frew@gmail.com&gt; ([`e32d013`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/e32d013cf5c62c40df72a9570d5435338f105b1c))
+
+* Update footer (#66)
+
+* fix: test html footer addition
+
+* feat: Add footer to app.py ([`d26f678`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/d26f678b21add8cd7266ff976c6dafd68173eccb))
+
+* Initialize dashboard (#34)
+
+* app: init dashboard and update necessary packages
+
+* docs: update installation guide
+
+* fix: correct typo in environment.yml
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`3b22f1f`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/3b22f1fcd36f5315770f9362fb14f726f0aa5ba7))
+
+
 ## v0.1.0 (2024-03-30)
 
 ### Ci
