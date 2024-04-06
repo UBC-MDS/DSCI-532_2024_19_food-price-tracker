@@ -27,7 +27,7 @@ Celeste Zhao, John Shiu, Simon Frew, Tony Shum
 
 ### Website Link
 
-Food Price Tracker can be accessed through the following link: (https://dsci-532-2024-19-food-price-tracker.onrender.com/)
+Food Price Tracker can be accessed through the following link: https://dsci-532-2024-19-food-price-tracker.onrender.com/
 
 The dashboard is composed of a sidebar for user input and a data display section. In the sidebar, you can select the country, time range, specific commodities, and markets you wish to view. In the data display section, you can see the actual and average value, Month-over-Month and Year-over-Year change rates of the overall Food Price Index as well as of each commodity.
 
