@@ -7,13 +7,11 @@ Based on the feedback from Joel and the Milestone 2 reflection, we've implemente
 1. Addressed the issue where certain combinations of dropdown selections resulted in no data being displayed:
 - Implemented data preprocessing steps that dynamically update the options available to a user based on their selected commodity or market
 - Ensured that empty graphs are avoided when commodities are not present in the selected markets.
-2. Fix the issue that Food Price Index and individual charts update asynchronously.
-3. Resolved inconsistencies in index performance due to missing data in some commodities.
-4. Excluded commodities with significant gap in their temporal data (less than 50% of the period), focusing on those with more complete data.
-5. Enhanced the visual and functional aspects of the dashboard:
+2. Fixed the issue that Food Price Index and individual charts update asynchronously.
+3. Enhanced the visual and functional aspects of the dashboard:
 - Made the main Food Price Index charts more prominent compared to the individual commodity charts to emphasize their importance.
 - Polished the dashboard's title for better clarity and impact.
-6. Updated the `Date` range selection feature to better handle large date ranges, now supporting "YYYY-MM" and/or "YYYY" formats instead of the previous "YYYY-MM-DD" format.
+4. Updated the `Date` range selection feature to better handle large date ranges, now supporting "YYYY-MM" and/or "YYYY" formats instead of the previous "YYYY-MM-DD" format.
 
 ## 2. Features in Proposal Yet To Be Done
 
@@ -27,7 +25,8 @@ In our Milestone 1 Proposal, we planned a "Geo View", where users would see a ma
 - Potential improvements: Refactor plotting code and callbacks to ensure that API requests are minimized; streamline data handling to reduce computational overhead.
 2. The summary card layouts can overflow if names are particularly long.
 - Potential improvements: Investigate bootstrapped or altair-based alternative implementations of summary cards.
-
+3. There are inconsistencies in index performance due to missing data in some commodities.
+- Potential improvements: Excluded commodities with significant gap in their temporal data (less than 50% of the period), focusing on those with more complete data.
 
 
 
