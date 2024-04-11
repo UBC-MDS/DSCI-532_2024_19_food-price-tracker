@@ -10,7 +10,11 @@ from src.plotting import *
 from src.calc_index import *
 
 # Initialize the app (using bootstrap theme)
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
+app = Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    title="Food Price Tracker"
+)
 server = app.server
 
 # Side navigation bar
@@ -325,11 +329,23 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
         commodities
     )
 
-    chart_plots = [
-        dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
-        for line, figure in zip(line_charts, figure_charts)
-    ]
-    
+    chart_plots_left = []
+    chart_plots_right = []
+    for i, (line, figure) in enumerate(zip(line_charts, figure_charts)):
+        if i % 2:
+            chart_plots_right.append(
+                dbc.Row(dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '45%'}))
+            )
+        else:
+            chart_plots_left.append(
+                dbc.Row(dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '45%'}))
+            )
+
+    if len(chart_plots_left) > len(chart_plots_right):
+        chart_plots_right.append(dbc.Row([]))
+
+    chart_plots = [dbc.Col(chart_plots_left, style={'verticalAlign': 'top'}), dbc.Col(chart_plots_right, style={'verticalAlign': 'top'})]
+
     return chart_plots
     
 if __name__ == '__main__':
