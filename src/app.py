@@ -8,6 +8,7 @@ from io import StringIO
 from src.fetch_data import fetch_country_data, fetch_country_index
 from src.plotting import *
 from src.calc_index import *
+from src.data_preprocess import get_clean_data
 
 # Initialize the app (using bootstrap theme)
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # need to manually refresh it
@@ -163,13 +164,13 @@ def update_widget_values(country_index_json, country_json, n_clicks):
 
     min_date_allowed = country_data.date.min()
     max_date_allowed = country_data.date.max()
-    start_date = country_data.date.max() + pd.tseries.offsets.DateOffset(years=-2)
+    start_date = max(country_data.date.max() + pd.tseries.offsets.DateOffset(years=-2), country_data.date.min())
     end_date = country_data.date.max()
 
-    commodities_options = country_data.commodity.unique().tolist()
+    commodities_options = country_data.commodity.value_counts().index.tolist()
     commodities_selection = commodities_options[:2]
 
-    markets_options = country_data.market.unique().tolist()
+    markets_options = country_data.market.value_counts().index.tolist()
     markets_selection = markets_options[:2]
 
     country_options = country_index.index.to_list()
@@ -207,8 +208,10 @@ def update_country_data(country, country_index):
         JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
 
     """
+    data = fetch_country_data(country, country_index)
+    data = get_clean_data(data)
 
-    return fetch_country_data(country, country_index)
+    return data
 
 @callback(
     Output("index-area", "children"),
