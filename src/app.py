@@ -17,27 +17,43 @@ app = Dash(
 )
 server = app.server
 
+# Top navigation bar
+LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
+topbar = dbc.Row(
+    [
+        dbc.Col(html.Img(src=LOGO, height="100%"), md=2),
+        dbc.Col(
+            html.H1(
+                'Food Price Tracker',
+                style={
+                    'color': 'white',
+                    'text-align': 'left',
+                    'font-size': '36px',
+                }
+            )
+        ),
+        dbc.Col([], md=3,) # FIXME: to add button
+    ], 
+    style={
+        'backgroundColor': 'steelblue',
+        'padding-top': '0.5vh',  # Center vertically, while keeping objects constant when expanding
+        'padding-bottom': '0.5vh',  # Center vertically, while keeping objects constant when expanding
+        'min-height': '1vh',  # min-height to allow expansion
+    }
+)
+
 # Side navigation bar
 SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    'background-color': '#e6e6e6',
+    'padding': 15,  # Padding top,left,right,botoom
+    'padding-bottom': 0,  # Remove bottom padding for footer
+    'height': '90vh',  # vh = "viewport height" = 90% of the window height
+    'display': 'flex',  # Allow children to be aligned to bottom
+    'flex-direction': 'column',  # Allow for children to be aligned to bottom
 }
 
-sidebar = html.Div(
+sidebar = dbc.Col(
     [
-        html.H2("Food Price Tracker", className="display-10"),
-        html.Hr(),
-        daq.ToggleSwitch(
-            id='chart-type-toggle',
-            value=False
-        ),
-        html.Br(),
-
         html.P("Country"),
         dcc.Dropdown(
             id='country-dropdown',
@@ -74,11 +90,12 @@ sidebar = html.Div(
         html.Br(),
         html.Button('Manual Trigger', id='manual-trigger-button', n_clicks=0)
     ],
-    style=SIDEBAR_STYLE,
+    md=2,
+    style=SIDEBAR_STYLE
 )
 
-# Layout (better default layout when using with bootstrap)
-content = dbc.Container([
+
+content = dbc.Col([ 
     dbc.Row(id="index-area", children=[]),
     html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"),
@@ -98,19 +115,31 @@ content = dbc.Container([
     "padding": "2rem 1rem",
 })
 
-app.layout = html.Div([
-    sidebar, 
-    content,
-    dcc.Store(
-        id="country-index",
-        data=fetch_country_index(),
-        storage_type="session"
-    ),
-    dcc.Store(
-        id="country-data",
-        storage_type="session"
-    )
-])
+# Layout (better default layout when using with bootstrap)
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col([topbar]),
+        dbc.Col([], md=3,)
+    ], style={
+        'backgroundColor': 'steelblue',
+        'padding-top': '2vh',  # Center vertically, while keeping objects constant when expanding
+        'padding-bottom': '2vh',  # Center vertically, while keeping objects constant when expanding
+        'min-height': '10vh',  # min-height to allow expansion
+    }),
+    dbc.Row([
+        sidebar,
+        content,
+        dcc.Store(
+            id="country-index",
+            data=fetch_country_index(),
+            storage_type="session"
+        ),
+        dcc.Store(
+            id="country-data",
+            storage_type="session"
+        )
+    ]),
+], fluid=True)
 
 # # Server side callbacks/reactivity
 # @callback(
