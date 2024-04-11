@@ -364,13 +364,15 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
     for i, (line, figure) in enumerate(zip(line_charts, figure_charts)):
         tmp.append(
             dbc.Col(
-                dvc.Vega(spec=(figure | line).to_dict(format="vega")),
+                dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '50%'}),
                 md=6
             )
         )
         if i % 2:
             chart_plots.append(dbc.Row(tmp))
             tmp = []
+
+    chart_plots.append(dbc.Row(tmp))
 
     return dbc.Col(chart_plots)
     
