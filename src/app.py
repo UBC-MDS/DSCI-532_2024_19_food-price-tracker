@@ -109,11 +109,12 @@ content = dbc.Col([
         ''',
         style={'fontSize': 14})
     ),
-], style={
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-})
+])
+# , style={
+#     "margin-left": "18rem",
+#     "margin-right": "2rem",
+#     "padding": "2rem 1rem",
+# })
 
 # Layout (better default layout when using with bootstrap)
 app.layout = dbc.Container([
@@ -358,24 +359,20 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
         commodities
     )
 
-    chart_plots_left = []
-    chart_plots_right = []
+    chart_plots = []
+    tmp = []
     for i, (line, figure) in enumerate(zip(line_charts, figure_charts)):
+        tmp.append(
+            dbc.Col(
+                dvc.Vega(spec=(figure | line).to_dict(format="vega")),
+                md=6
+            )
+        )
         if i % 2:
-            chart_plots_right.append(
-                dbc.Row(dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '45%'}))
-            )
-        else:
-            chart_plots_left.append(
-                dbc.Row(dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '45%'}))
-            )
+            chart_plots.append(dbc.Row(tmp))
+            tmp = []
 
-    if len(chart_plots_left) > len(chart_plots_right):
-        chart_plots_right.append(dbc.Row([]))
-
-    chart_plots = [dbc.Col(chart_plots_left, style={'verticalAlign': 'top'}), dbc.Col(chart_plots_right, style={'verticalAlign': 'top'})]
-
-    return chart_plots
+    return dbc.Col(chart_plots)
     
 if __name__ == '__main__':
     app.run(debug=True) # the debug mode will add a button at the bottom right of the web
