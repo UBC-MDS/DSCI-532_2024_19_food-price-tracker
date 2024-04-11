@@ -215,22 +215,38 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
     
     charts = []
 
+    # Change the default color scheme of Altair
+    custom_color_scheme = ['#4c78a8', '#e45756', '#f58518', '#72b7b2', '#54a24b',
+                           '#eeca3b', '#b279a2', '#ff9da6', '#9d755d', '#bab0ac']
+    custom_color_scale = alt.Scale(range=custom_color_scheme)
+
     # Create charts for each of the commodity
     for commodity in widget_commodity_values:
         # Filter the data for the specific commodity
         commodity_data = commodities_data[commodities_data.commodity.isin([commodity])]
      
         # Create the chart
-        chart = alt.Chart(commodity_data, width='container').mark_line().encode(
+        chart = alt.Chart(commodity_data, width='container').mark_line(
+            size=3,
+            interpolate='monotone', 
+            point=alt.OverlayMarkDef(shape='circle', size=50, filled=True)
+        ).encode(
             x=alt.X('date:T', axis=alt.Axis(format='%Y-%m', title='Time')),
             y=alt.Y('usdprice:Q', title='Price in USD', scale=alt.Scale(zero=False)),
-            color=alt.Color('market:N', legend=alt.Legend(title='Market')),
+            color=alt.Color('market:N', legend=alt.Legend(title='Market'), scale=custom_color_scale),
             tooltip=[
                 alt.Tooltip('date:T', title='Time', format='%Y-%m'),
                 alt.Tooltip('usdprice:Q', title='Price in USD', format='.2f')
             ]
         ).properties(
             title=alt.TitleParams(f'{commodity} Price')
+        ).configure_view(
+            strokeWidth=0,
+            fill='#f5f5f5'
+        ).configure_axisX(
+            grid=False
+        ).configure_axisY(
+            gridColor='white'
         )
 
         # Add the chart to the list of charts
