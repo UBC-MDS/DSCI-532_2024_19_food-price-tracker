@@ -115,7 +115,7 @@ app.layout = html.Div(
     ],
     [Input("country-index", "data"), Input("country-data", "data")],
 )
-def update_widget_values(country_index_json, country_json, n_clicks):
+def update_widget_values(country_index_json, country_json):
     """
     Update widget options when a new country is selected.
 
