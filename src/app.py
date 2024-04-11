@@ -108,17 +108,6 @@ app.layout = html.Div([
     )
 ])
 
-# # Server side callbacks/reactivity
-# @callback(
-# 	Output(‘output_area’, ‘children’), # and then put it into children argument of the output_area
-# 	Input(input_widget’, ‘value’) # take the value from the value argument of the input_widget
-# )
-# def update_output(input_value):
-# 	return input_value
-
-# Run the app/dashboard
-
-### Server-side testing
 
 @callback(
     [Output("date-range", "min_date_allowed"),
@@ -211,7 +200,10 @@ def update_country_data(country, country_index):
     return fetch_country_data(country, country_index)
 
 @callback(
-    Output("index-area", "children"),
+    [
+        Output("index-area", "children"),
+        Output("commodities-area", "children")
+    ],
     [
         Input("country-data", "data"),
         Input("date-range", "start_date"),
@@ -220,7 +212,7 @@ def update_country_data(country, country_index):
         Input("markets-dropdown", "value"),
     ]
 )
-def update_index_area(country_json, start_date, end_date, commodities, markets):
+def update_index_commodities_area(country_json, start_date, end_date, commodities, markets):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
 
@@ -245,80 +237,20 @@ def update_index_area(country_json, start_date, end_date, commodities, markets):
     -------
     dash_vega_components.Vega
         An object that combines the line and figure charts displaying the food price index
-        
-    """
-    country_data = pd.read_json(StringIO(country_json), orient='split')
-    country_data = generate_food_price_index_data(country_data, markets, commodities)
-    
-    line = generate_line_chart(
-        country_data, 
-        (start_date, end_date), 
-        markets,
-        ["Food Price Index"]
-    )[0]
-    line = line.properties(
-        title=alt.TitleParams(
-            "Food Price Index",
-            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"]
-        )
-    )
-    
-    figure = generate_figure_chart(
-        country_data, 
-        (start_date, end_date), 
-        markets,
-        ["Food Price Index"]
-    )[0]
-    
-    return dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
-
-
-@callback(
-    Output("commodities-area", "children"),
-    [
-        Input("country-data", "data"),
-        Input("date-range", "start_date"),
-        Input("date-range", "end_date"),
-        Input("commodities-dropdown", "value"),
-        Input("markets-dropdown", "value"),
-    ]
-)
-def update_commodities_area(country_json, start_date, end_date, commodities, markets):
-    """
-    Generate and update the figure and line charts for the selected commodities and markets over a given date range.
-
-    Parameters
-    ----------
-    country_json : str
-        JSON string representing the country data, used to generate charts for specified commodities and markets.
-        
-    start_date : str or datetime
-        The starting date for filtering the data used in the charts.
-        
-    end_date : str or datetime
-        The ending date for filtering the data used in the charts.
-        
-    commodities : list
-        A list of commodities for which the charts will be generated.
-        
-    markets : list
-        A list of market names from which the data will be filtered to generate the charts.
-
-    Returns
-    -------
     list
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
-        
+    
     """
     country_data = pd.read_json(StringIO(country_json), orient='split')
-    
-    line_charts = generate_line_chart(
+
+    ## Create commodities chart
+    commodities_line = generate_line_chart(
         country_data, 
         (start_date, end_date), 
         markets,
         commodities
     )
-    figure_charts = generate_figure_chart(
+    commodities_figure = generate_figure_chart(
         country_data, 
         (start_date, end_date), 
         markets,
@@ -327,10 +259,38 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
 
     chart_plots = [
         dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
-        for line, figure in zip(line_charts, figure_charts)
+        for line, figure in zip(commodities_line, commodities_figure)
     ]
+
+    ## Create Index Charts
+    country_data = generate_food_price_index_data(country_data, markets, commodities)
     
-    return chart_plots
+    index_line = generate_line_chart(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        ["Food Price Index"]
+    )[0]
+    index_line = index_line.properties(
+        title=alt.TitleParams(
+            "Food Price Index",
+            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"]
+        )
+    )
+    
+    index_figure = generate_figure_chart(
+        country_data, 
+        (start_date, end_date), 
+        markets,
+        ["Food Price Index"]
+    )[0]
+
+    index_area = dvc.Vega(spec=(index_figure | index_line).to_dict(format="vega"), style={'width': '60%'})
+    
+    
+    return index_area, chart_plots
+
+
     
 if __name__ == '__main__':
     app.run(debug=True) # the debug mode will add a button at the bottom right of the web
