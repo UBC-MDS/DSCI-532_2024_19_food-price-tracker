@@ -216,7 +216,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
     charts = []
 
     # Change the default color scheme of Altair
-    custom_color_scheme = ['#4c78a8', '#e45756', '#f58518', '#72b7b2', '#54a24b',
+    custom_color_scheme = ['#f58518', '#e45756', '#4c78a8', '#72b7b2', '#54a24b',
                            '#eeca3b', '#b279a2', '#ff9da6', '#9d755d', '#bab0ac']
     custom_color_scale = alt.Scale(range=custom_color_scheme)
 
