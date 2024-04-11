@@ -336,4 +336,4 @@ def update_commodities_area(country_json, start_date, end_date, commodities, mar
     return chart_plots
     
 if __name__ == '__main__':
-    app.run(debug=True) # the debug mode will add a button at the bottom right of the web
+    app.run() 
