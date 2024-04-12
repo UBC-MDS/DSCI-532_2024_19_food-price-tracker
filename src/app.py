@@ -37,6 +37,7 @@ topbar = dbc.Row(
     ], 
     style={
         'backgroundColor': 'steelblue',
+        'padding-left': 7,  # Padding left
         'padding-top': '0.5vh',  # Center vertically, while keeping objects constant when expanding
         'padding-bottom': '0.5vh',  # Center vertically, while keeping objects constant when expanding
         'min-height': '1vh',  # min-height to allow expansion
@@ -48,7 +49,7 @@ SIDEBAR_STYLE = {
     'background-color': '#e6e6e6',
     'padding': 15,  # Padding top,left,right,botoom
     'padding-bottom': 0,  # Remove bottom padding for footer
-    'height': '90vh',  # vh = "viewport height" = 90% of the window height
+    'height': '100vh',  # vh = "viewport height" = 90% of the window height
     "width": "320px",
     'display': 'flex',  # Allow children to be aligned to bottom
     'flex-direction': 'column',  # Allow for children to be aligned to bottom
@@ -97,9 +98,9 @@ sidebar = dbc.Col(
 
 content = dbc.Col([ 
     dbc.Row(id="index-area", children=[]),
-    html.Hr(),
+#    html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"),
-    html.Hr(),
+#    html.Hr(),
     html.Footer(
         dcc.Markdown('''
         Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
@@ -294,17 +295,35 @@ def update_index_commodities_area(
         tmp.append(
             dbc.Col([
                 dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "200%"}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "150px"}),
             ],
                 md=6
             )
         )
         if i % 2 == 1:
             chart_plots.append(dbc.Row(tmp))
+            chart_plots.append(dbc.Row(dbc.Col(html.Div(style={'height': '15px'}))))
             tmp = []
 
     if tmp:
         chart_plots.append(dbc.Row(tmp))
+
+    # Use Card for Index Charts Layout
+    commodities_area = dbc.Card(
+        dbc.CardBody(
+            [
+                html.H5("Commodities Analysis", style={'fontWeight': 'bold'}),
+                html.P("This section displays the price of individual commodities.", className="card-text"),
+                *chart_plots
+            ]
+        ),
+        style={
+            'width': 'calc(100vw - 350px)', 
+            'height': 'auto',
+            'border-radius': '0px',
+            'margin': '10px'
+        }
+    )
 
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
@@ -320,23 +339,29 @@ def update_index_commodities_area(
     index_figure = index_figure.properties(
         title=alt.TitleParams(
             text="Food Price Index",
-            fontSize=16,
+            fontSize=15,
             subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
         )
     )
 
+    # Use Card for Index Charts Layout
     index_area = dbc.Card(
 #        dbc.CardHeader('Food Price Index Dashboard', style={'fontWeight': 'bold'}),
         dbc.CardBody([
             html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
-            html.P("This dashboard displays the food price index based on selected parameters.", className="card-text"),
+            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "200%"})
+            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "250px"})
         ]),
-        style={'width': '1000px', 'height': 'auto'}
+        style={
+            'width': 'calc(100vw - 350px)', 
+            'height': 'auto',
+            'border-radius': '0px',
+            'margin': '10px'
+        }
     )
 
-    return index_area, chart_plots
+    return index_area, commodities_area
   
 if __name__ == '__main__':
     app.run() 

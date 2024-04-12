@@ -99,7 +99,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
             alt.Chart(
                 data_filtered,
                 title=alt.Title(
-                    text=title_text, align="center", fontSize=16
+                    text=title_text, align="center", fontSize=15
                 ),
                 width='container'
             )
