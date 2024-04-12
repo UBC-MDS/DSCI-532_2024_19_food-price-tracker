@@ -226,7 +226,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         commodity_data = commodities_data[commodities_data.commodity.isin([commodity])]
      
         # Create the chart
-        chart = alt.Chart(commodity_data, width='container').mark_line(
+        chart = alt.Chart(commodity_data, width='container', height='container').mark_line(
             size=3,
             interpolate='monotone', 
             point=alt.OverlayMarkDef(shape='circle', size=50, filled=True)

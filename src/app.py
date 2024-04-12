@@ -56,7 +56,6 @@ SIDEBAR_STYLE = {
 
 sidebar = dbc.Col(
     [
-        html.Br(),
         html.P("Country"),
         dcc.Dropdown(
             id="country-dropdown",
@@ -294,7 +293,7 @@ def update_index_commodities_area(
     for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
         tmp.append(
             dbc.Col(
-                dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '50%'}),
+                dvc.Vega(spec=(figure | line).to_dict(format="vega"), opt={'actions': False}, style={'width': '50%', "height": "200%"}),
                 md=6
             )
         )
@@ -328,9 +327,9 @@ def update_index_commodities_area(
         dbc.CardBody([
             html.H5("Food Price Index Dashboard", style={'fontWeight': 'bold'}),
             html.P("This dashboard displays the food price index based on selected parameters.", className="card-text"),
-            dvc.Vega(spec=(index_figure | index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "60%"})
+            dvc.Vega(spec=(index_figure | index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "60%", "height": "200%"})
         ]),
-        style={'width': '1000px', 'height': '400px'}
+        style={'width': '1000px', 'height': 'auto'}
     )
 
     return index_area, chart_plots
