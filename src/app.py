@@ -22,7 +22,7 @@ server = app.server
 LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
 topbar = dbc.Row(
     [
-        dbc.Col(html.Img(src=LOGO, height="100%"), md=2),
+        dbc.Col(html.Img(src=LOGO, height="75%"), md=2),
         dbc.Col(
             html.H1(
                 'Food Price Tracker',
@@ -293,8 +293,8 @@ def update_index_commodities_area(
     for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
         tmp.append(
             dbc.Col([
-                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '51%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '50%', "height": "200%"}),
+                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "200%"}),
             ],
                 md=6
             )
@@ -313,21 +313,22 @@ def update_index_commodities_area(
         country_data, (start_date, end_date), markets, ["Food Price Index"]
     )[0]
 
-    index_line = index_line.properties(
-        title=alt.TitleParams(
-            "Food Price Index",
-            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
-        )
-    )
-
     index_figure = generate_figure_chart(
         country_data, (start_date, end_date), markets, ["Food Price Index"]
     )[0]
 
+    index_figure = index_figure.properties(
+        title=alt.TitleParams(
+            text="Food Price Index",
+            fontSize=16,
+            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
+        )
+    )
+
     index_area = dbc.Card(
 #        dbc.CardHeader('Food Price Index Dashboard', style={'fontWeight': 'bold'}),
         dbc.CardBody([
-            html.H5("Food Price Index Dashboard", style={'fontWeight': 'bold'}),
+            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
             html.P("This dashboard displays the food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
             dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "200%"})
