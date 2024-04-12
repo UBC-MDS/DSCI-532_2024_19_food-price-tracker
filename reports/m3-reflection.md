@@ -2,16 +2,15 @@
 
 ## 1. Improvements in Milestone 3
 
-Based on the feedback from Joel and the Milestone 2 reflection, we've implemented several enhancements to the dashboard in Milestone 3:
+Based on the feedback from Joel and the Milestone 2 reflection, we've implemented several key enhancements to the dashboard in Milestone 3:
 
-1. Addressed the issue where certain combinations of dropdown selections resulted in no data being displayed:
+1. Addressed the problem that certain combinations of dropdown selections resulted in no data being displayed:
 - Implemented data preprocessing steps that dynamically update the options available to a user based on their selected commodity or market
 - Ensured that empty graphs are avoided when commodities are not present in the selected markets.
 2. Fixed the issue that Food Price Index and individual charts update asynchronously.
 3. Enhanced the visual and functional aspects of the dashboard:
-- Made the main Food Price Index charts more prominent compared to the individual commodity charts to emphasize their importance.
-- Polished the dashboard's title for better clarity and impact.
-4. Updated the `Date` range selection feature to better handle large date ranges, now supporting "YYYY-MM" and/or "YYYY" formats instead of the previous "YYYY-MM-DD" format.
+- Made the main Food Price Index charts more prominent compared to the individual commodity charts to emphasize their importance, and arranged the charts for individual commodities in a layout with two columns per row.
+- Polished the dashboard's title and sidebar for better clarity and impact.
 
 ## 2. Features in Proposal Yet To Be Done
 
@@ -23,11 +22,10 @@ In our Milestone 1 Proposal, we planned a "Geo View", where users would see a ma
 
 1. Index and individual charts update slower than expected.
 - Potential improvements: Refactor plotting code and callbacks to ensure that API requests are minimized; streamline data handling to reduce computational overhead.
-2. The summary card layouts can overflow if names are particularly long.
-- Potential improvements: Investigate bootstrapped or altair-based alternative implementations of summary cards.
-3. There are inconsistencies in index performance due to missing data in some commodities.
+2. There are inconsistencies in index performance due to missing data in some commodities.
 - Potential improvements: Excluded commodities with significant gap in their temporal data (less than 50% of the period), focusing on those with more complete data.
-
+3. Current `Date` range selection feature is not convenient for choosing large date ranges.
+- Potential improvements: Update the selection tool to use "YYYY-MM" and/or "YYYY" formats instead of the "YYYY-MM-DD" format.
 
 
 
