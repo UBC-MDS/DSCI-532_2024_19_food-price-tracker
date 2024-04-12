@@ -282,20 +282,49 @@ def update_index_commodities_area(
 
     chart_plots = []
     tmp = []
-    for i, (line, figure) in enumerate(zip(line_charts, figure_charts)):
+    for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
         tmp.append(
             dbc.Col(
                 dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '50%'}),
                 md=6
             )
         )
-        if i % 2:
+        if i % 2 == 1:
             chart_plots.append(dbc.Row(tmp))
             tmp = []
 
-    chart_plots.append(dbc.Row(tmp))
+    if tmp:
+        chart_plots.append(dbc.Row(tmp))
 
-    return dbc.Col(chart_plots)
-    
+    ## Create Index Charts
+    country_data = generate_food_price_index_data(country_data, markets, commodities)
+
+    index_line = generate_line_chart(
+        country_data, (start_date, end_date), markets, ["Food Price Index"]
+    )[0]
+
+    index_line = index_line.properties(
+        title=alt.TitleParams(
+            "Food Price Index",
+            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
+        )
+    )
+
+    index_figure = generate_figure_chart(
+        country_data, (start_date, end_date), markets, ["Food Price Index"]
+    )[0]
+
+    index_area = dbc.Card(
+#        dbc.CardHeader('Food Price Index Dashboard', style={'fontWeight': 'bold'}),
+        dbc.CardBody([
+            html.H5("Food Price Index Dashboard", style={'fontWeight': 'bold'}),
+            html.P("This dashboard displays the food price index based on selected parameters.", className="card-text"),
+            dvc.Vega(spec=(index_figure | index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "60%"})
+        ]),
+        style={'width': '1000px', 'height': '400px'}
+    )
+
+    return index_area, chart_plots
+  
 if __name__ == '__main__':
     app.run() 
