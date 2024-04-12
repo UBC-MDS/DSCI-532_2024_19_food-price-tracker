@@ -12,27 +12,49 @@ from src.data_preprocess import get_clean_data
 
 # Initialize the app (using bootstrap theme)
 app = Dash(
-    __name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
-)  # need to manually refresh it
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    title="Food Price Tracker"
+)
 server = app.server
+
+# Top navigation bar
+LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
+topbar = dbc.Row(
+    [
+        dbc.Col(html.Img(src=LOGO, height="100%"), md=2),
+        dbc.Col(
+            html.H1(
+                'Food Price Tracker',
+                style={
+                    'color': 'white',
+                    'text-align': 'left',
+                    'font-size': '36px',
+                }
+            )
+        ),
+        dbc.Col([], md=3,) # FIXME: to add button
+    ], 
+    style={
+        'backgroundColor': 'steelblue',
+        'padding-top': '0.5vh',  # Center vertically, while keeping objects constant when expanding
+        'padding-bottom': '0.5vh',  # Center vertically, while keeping objects constant when expanding
+        'min-height': '1vh',  # min-height to allow expansion
+    }
+)
 
 # Side navigation bar
 SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    'background-color': '#e6e6e6',
+    'padding': 15,  # Padding top,left,right,botoom
+    'padding-bottom': 0,  # Remove bottom padding for footer
+    'height': '90vh',  # vh = "viewport height" = 90% of the window height
+    'display': 'flex',  # Allow children to be aligned to bottom
+    'flex-direction': 'column',  # Allow for children to be aligned to bottom
 }
 
-sidebar = html.Div(
+sidebar = dbc.Col(
     [
-        html.H2("Food Price Tracker", className="display-10"),
-        html.Hr(),
-        daq.ToggleSwitch(id="chart-type-toggle", value=False),
-        html.Br(),
         html.P("Country"),
         dcc.Dropdown(
             id="country-dropdown",
@@ -61,46 +83,56 @@ sidebar = html.Div(
         ),
         html.Br(),
     ],
-    style=SIDEBAR_STYLE,
+    md=2,
+    style=SIDEBAR_STYLE
 )
 
-# Layout (better default layout when using with bootstrap)
-content = dbc.Container(
-    [
-        dbc.Row(id="index-area", children=[]),
-        html.Hr(),
-        dbc.Row(id="commodities-area", children=[], align="center"),
-        html.Hr(),
-        html.Footer(
-            dcc.Markdown(
-                """
+content = dbc.Col([ 
+    dbc.Row(id="index-area", children=[]),
+    html.Hr(),
+    dbc.Row(id="commodities-area", children=[], align="center"),
+    html.Hr(),
+    html.Footer(
+        dcc.Markdown('''
         Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
         The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
         [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
         Dashboard latest update on ![release](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
-        """,
-                style={"fontSize": 14},
-            )
-        ),
-    ],
-    style={
-        "margin-left": "18rem",
-        "margin-right": "2rem",
-        "padding": "2rem 1rem",
-    },
-)
+        ''',
+        style={'fontSize': 14})
+    ),
+])
+# , style={
+#     "margin-left": "18rem",
+#     "margin-right": "2rem",
+#     "padding": "2rem 1rem",
+# })
 
-app.layout = html.Div(
-    [
+# Layout (better default layout when using with bootstrap)
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col([topbar]),
+        dbc.Col([], md=3,)
+    ], style={
+        'backgroundColor': 'steelblue',
+        'padding-top': '2vh',  # Center vertically, while keeping objects constant when expanding
+        'padding-bottom': '2vh',  # Center vertically, while keeping objects constant when expanding
+        'min-height': '10vh',  # min-height to allow expansion
+    }),
+    dbc.Row([
         sidebar,
         content,
         dcc.Store(
-            id="country-index", data=fetch_country_index(), storage_type="session"
+            id="country-index",
+            data=fetch_country_index(),
+            storage_type="session"
         ),
-        dcc.Store(id="country-data", storage_type="session"),
-    ]
-)
-
+        dcc.Store(
+            id="country-data",
+            storage_type="session"
+        )
+    ]),
+], fluid=True)
 
 @callback(
     [
@@ -248,40 +280,22 @@ def update_index_commodities_area(
         country_data, (start_date, end_date), markets, commodities
     )
 
-    chart_plots = [
-        dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={"width": "60%"})
-        for line, figure in zip(commodities_line, commodities_figure)
-    ]
-
-    ## Create Index Charts
-    country_data = generate_food_price_index_data(country_data, markets, commodities)
-
-    index_line = generate_line_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
-    index_line = index_line.properties(
-        title=alt.TitleParams(
-            "Food Price Index",
-            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
+    chart_plots = []
+    tmp = []
+    for i, (line, figure) in enumerate(zip(line_charts, figure_charts)):
+        tmp.append(
+            dbc.Col(
+                dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '50%'}),
+                md=6
+            )
         )
-    )
+        if i % 2:
+            chart_plots.append(dbc.Row(tmp))
+            tmp = []
 
-    index_figure = generate_figure_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
+    chart_plots.append(dbc.Row(tmp))
 
-    index_area = dvc.Vega(
-        spec=(index_figure | index_line).to_dict(format="vega"), style={"width": "60%"}
-    )
-
-    return index_area, chart_plots
-
-    chart_plots = [
-        dvc.Vega(spec=(figure | line).to_dict(format="vega"), style={'width': '60%'})
-        for line, figure in zip(line_charts, figure_charts)
-    ]
-    
-    return chart_plots
+    return dbc.Col(chart_plots)
     
 if __name__ == '__main__':
     app.run() 
