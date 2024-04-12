@@ -100,16 +100,16 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
             )
             .mark_rect()
             .encode()
-            .properties(width=180, height=180)
+            .properties(width=180, height=30)
         )
         item_value = chart.mark_text(
-            baseline="middle", dy=-5
+            align='left', baseline='middle', dx=100
         ).encode(
             text=alt.Text("usdprice:Q", format="$.2f"),
             size=alt.value(40),
         )
         item_title = (
-            chart.mark_text(dy=-40, fontStyle="Italic")
+            chart.mark_text(align='left', baseline='middle', dx=180, fontStyle="Italic")
             .encode(
                 text="label:N",
                 color=alt.value("black"),
@@ -240,13 +240,13 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
             ]
         ).properties(
             title=alt.TitleParams(f'{commodity} Price')
-#        ).configure_view(
-#            strokeWidth=0,
-#            fill='#f5f5f5'
-#        ).configure_axisX(
-#            grid=False
-#        ).configure_axisY(
-#            gridColor='white'
+        ).configure_view(
+            strokeWidth=0,
+            fill='#f5f5f5'
+        ).configure_axisX(
+            grid=False
+        ).configure_axisY(
+            gridColor='white'
         )
 
         # Add the chart to the list of charts
