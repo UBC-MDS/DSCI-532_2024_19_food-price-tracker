@@ -22,21 +22,24 @@ server = app.server
 LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
 topbar = dbc.Row(
     [
-        dbc.Col(html.Img(src=LOGO, height="75%"), md=2),
+        dbc.Col(html.Img(src=LOGO, height="100px"), md="auto"),
         dbc.Col(
             html.H1(
                 'Food Price Tracker',
                 style={
                     'color': 'white',
                     'text-align': 'left',
-                    'font-size': '36px',
+                    'font-size': '36px'
                 }
-            )
+            ),
+            md=8, align="center"
         ),
-        dbc.Col([], md=3,) # FIXME: to add button
+        dbc.Col(
+            []
+        , md=2, align="center"
+        ) # FIXME: to add button
     ], 
     style={
-        'backgroundColor': 'steelblue',
         'padding-left': 7,  # Padding left
         'padding-top': '0.5vh',  # Center vertically, while keeping objects constant when expanding
         'padding-bottom': '0.5vh',  # Center vertically, while keeping objects constant when expanding
@@ -48,8 +51,9 @@ topbar = dbc.Row(
 SIDEBAR_STYLE = {
     'background-color': '#e6e6e6',
     'padding': 15,  # Padding top,left,right,botoom
+    'padding-top': 25,
     'padding-bottom': 0,  # Remove bottom padding for footer
-    'height': '100vh',  # vh = "viewport height" = 90% of the window height
+    'height': '200vh',  # vh = "viewport height" = 90% of the window height
     "width": "320px",
     'display': 'flex',  # Allow children to be aligned to bottom
     'flex-direction': 'column',  # Allow for children to be aligned to bottom
@@ -91,6 +95,13 @@ sidebar = dbc.Col(
             style={'width': '100%'}
         ),
         html.Br(),
+        html.Br(),
+        daq.BooleanSwitch(
+            id='geo-toggle',
+            on=False,
+            label={'label': 'Geo Mode (TBU)', 'style': {'color': '#CC5500', 'font-weight': 'bold'}},
+            color='#72b7b2'
+        )
     ],
     md=2,
     style=SIDEBAR_STYLE
@@ -98,9 +109,10 @@ sidebar = dbc.Col(
 
 content = dbc.Col([ 
     dbc.Row(id="index-area", children=[]),
-#    html.Hr(),
+    html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"),
-#    html.Hr(),
+    html.Hr(),
+    html.Br(),
     html.Footer(
         dcc.Markdown('''
         Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
@@ -123,7 +135,7 @@ app.layout = dbc.Container([
         dbc.Col([topbar]),
         dbc.Col([], md=3,)
     ], style={
-        'backgroundColor': 'steelblue',
+        'backgroundColor': '#CC5500',
         'padding-top': '2vh',  # Center vertically, while keeping objects constant when expanding
         'padding-bottom': '2vh',  # Center vertically, while keeping objects constant when expanding
         'min-height': '10vh',  # min-height to allow expansion
@@ -295,7 +307,7 @@ def update_index_commodities_area(
         tmp.append(
             dbc.Col([
                 dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "150px"}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "180px"}),
             ],
                 md=6
             )
@@ -320,6 +332,7 @@ def update_index_commodities_area(
         style={
             'width': 'calc(100vw - 350px)', 
             'height': 'auto',
+            'border': 'none',
             'border-radius': '0px',
             'margin': '10px'
         }
@@ -351,11 +364,12 @@ def update_index_commodities_area(
             html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
             html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "250px"})
+            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
         ]),
         style={
             'width': 'calc(100vw - 350px)', 
             'height': 'auto',
+            'border': 'none',
             'border-radius': '0px',
             'margin': '10px'
         }
