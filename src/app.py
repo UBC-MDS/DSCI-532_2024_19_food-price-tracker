@@ -49,37 +49,46 @@ SIDEBAR_STYLE = {
     'padding': 15,  # Padding top,left,right,botoom
     'padding-bottom': 0,  # Remove bottom padding for footer
     'height': '90vh',  # vh = "viewport height" = 90% of the window height
+    "width": "320px",
     'display': 'flex',  # Allow children to be aligned to bottom
     'flex-direction': 'column',  # Allow for children to be aligned to bottom
 }
 
 sidebar = dbc.Col(
     [
+        html.Br(),
         html.P("Country"),
         dcc.Dropdown(
             id="country-dropdown",
             value="Japan",
             multi=False,
             placeholder="Select a country...",
+            style={'width': '100%'}
         ),
         html.Br(),
-        html.P("Date"),
+        html.P("Date Range"),
         dcc.DatePickerRange(
             id="date-range",
             start_date_placeholder_text="Start",
             end_date_placeholder_text="End",
             updatemode="singledate",
+            style={'width': '100%'}
         ),
-        html.Br(),
         html.Br(),
         html.P("Commodities"),
         dcc.Dropdown(
-            id="commodities-dropdown", multi=True, placeholder="Select commodities..."
+            id="commodities-dropdown", 
+            multi=True, 
+            placeholder="Select commodities...",
+            style={'width': '100%'}
         ),
         html.Br(),
         html.P("Markets"),
         dcc.Dropdown(
-            id="markets-dropdown", multi=True, placeholder="Select markets..."
+            id="markets-dropdown", 
+            multi=True, 
+            placeholder="Select markets...",
+            style={'width': '100%'}
         ),
         html.Br(),
     ],
