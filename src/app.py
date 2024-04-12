@@ -22,14 +22,14 @@ server = app.server
 LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
 topbar = dbc.Row(
     [
-        dbc.Col(html.Img(src=LOGO, height="100px"), md="auto"),
+        dbc.Col(html.Img(src=LOGO, height="80px"), md="auto"),
         dbc.Col(
             html.H1(
-                'Food Price Tracker',
+                'Global Food Price Tracker',
                 style={
                     'color': 'white',
                     'text-align': 'left',
-                    'font-size': '36px'
+                    'font-size': '48px'
                 }
             ),
             md=8, align="center"
@@ -135,7 +135,7 @@ app.layout = dbc.Container([
         dbc.Col([topbar]),
         dbc.Col([], md=3,)
     ], style={
-        'backgroundColor': '#CC5500',
+        'backgroundColor': 'rgba(204, 85, 0, 0.8)',  # Color #CC5500 with 80% opacity
         'padding-top': '2vh',  # Center vertically, while keeping objects constant when expanding
         'padding-bottom': '2vh',  # Center vertically, while keeping objects constant when expanding
         'min-height': '10vh',  # min-height to allow expansion
