@@ -48,27 +48,28 @@ topbar = dbc.Row(
 SIDEBAR_STYLE = {
     'background-color': 'rgba(230, 230, 230, 0.5)',  # Color #e6e6e6 with 50% opacity
     'padding': 15,  # Padding top,left,right,botoom
-    'padding-top': 15,
+    'padding-top': 30,
     'padding-bottom': 0,  # Remove bottom padding for footer
     'height': '200vh',  # vh = "viewport height" = 90% of the window height
     "width": "20%",
+    "max-width": "20%",
     'display': 'flex',  # Allow children to be aligned to bottom
     'flex-direction': 'column',  # Allow for children to be aligned to bottom
 }
 
-sidebar = html.Div(
+sidebar = dbc.Col(
     dbc.Stack([
         dbc.Row([
-            dbc.Col(html.P("Enable Geo-View:"), width=9),        
+            dbc.Col(html.Label("Enable Geo-View:"), width=9),        
             dbc.Col(daq.BooleanSwitch(
                         id='geo-toggle',
                         on=False,
                         color='#72b7b2'
                     ), width=3)
         ]),
-        html.Br(),
-        dbc.Row([
-            dbc.Col(html.P("Country")),
+        html.Hr(),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Country")),
         ]),
         dbc.Row([
             dbc.Col(dcc.Dropdown(
@@ -78,10 +79,9 @@ sidebar = html.Div(
                 placeholder="Select a country...",
                 style={'width': '100%'}
             )),
-        ]),
-        html.Br(),
-        dbc.Row([
-            dbc.Col(html.P("Date Range")),
+        ])]),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Date Range")),
         ]),
         dbc.Row([
             dbc.Col(dcc.DatePickerRange(
@@ -91,10 +91,9 @@ sidebar = html.Div(
                 updatemode="singledate",
                 style={'width': '100%'}
             )),
-        ]),
-        html.Br(),
-        dbc.Row([
-            dbc.Col(html.P("Commodities")),
+        ])]),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Commodities")),
         ]),
         dbc.Row([
             dbc.Col(dcc.Dropdown(
@@ -103,10 +102,9 @@ sidebar = html.Div(
                 placeholder="Select commodities...",
                 style={'width': '100%'}
             )),
-        ]),
-        html.Br(),
-        dbc.Row([
-            dbc.Col(html.P("Markets")),
+        ])]),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Markets")),
         ]),
         dbc.Row([
             dbc.Col(dcc.Dropdown(
@@ -115,10 +113,9 @@ sidebar = html.Div(
                 placeholder="Select markets...",
                 style={'width': '100%'}
             )),
-        ]),
-        html.Br()      
-    ], gap=1),
-    style=SIDEBAR_STYLE
+        ])])
+    ], gap=3),
+    style=SIDEBAR_STYLE,
 )
 
 content = dbc.Col(
