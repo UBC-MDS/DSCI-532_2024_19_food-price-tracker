@@ -91,74 +91,82 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
     # Generate Figure charts
     charts = []
     for item in widget_commodity_values:
+        # Calculate the title
+        data_filtered = price_summary[price_summary.commodity == item]
+        title_text = data_filtered.iloc[0]['commodity'] + ' /' + data_filtered.iloc[0]['unit']
+        
         chart = (
             alt.Chart(
-                price_summary[price_summary.commodity == item],
+                data_filtered,
                 title=alt.Title(
-                    "Latest Average", align="right"
+                    text=title_text, align="center", fontSize=15
                 ),
+                width='container'
             )
             .mark_rect()
             .encode()
-            .properties(width=180, height=180)
+            .properties(height=30)
         )
+
+        item_title = chart.mark_text(
+            align='right', baseline='middle', dx=-100
+        ).encode(
+            text=alt.value("Latest Average: "),
+            color=alt.value("black"),
+            opacity=alt.value(0.8),
+            size=alt.value(14),
+        )
+        
         item_value = chart.mark_text(
-            baseline="middle", dy=-5
+            align='right', baseline='middle', dx=-30
         ).encode(
             text=alt.Text("usdprice:Q", format="$.2f"),
-            size=alt.value(40),
+            size=alt.value(18),
         )
-        item_title = (
-            chart.mark_text(dy=-40, fontStyle="Italic")
-            .encode(
-                text="label:N",
-                color=alt.value("black"),
-                opacity=alt.value(0.7),
-                size=alt.value(16),
-            )
-            .transform_calculate(
-                label="datum.commodity + ' /' + datum.unit"
-            )
-        )
-        mom_value = chart.mark_text(dy=20, align="left").encode(
+        
+        mom_value = chart.mark_text(
+            dx=70, align="left", baseline='middle'
+        ).encode(
             text=alt.Text("mom:Q", format="+.2%"),
             color=alt.condition(
                 "datum.mom<0",
                 alt.ColorValue("red"),
                 alt.ColorValue("green"),
             ),
-            size=alt.value(16),
+            size=alt.value(14),
         )
         mom_title = chart.mark_text(
-            dy=20, align="right"
+            dx=30, align="left", baseline='middle'
         ).encode(
-            text=alt.value("MoM  :"),
+            text=alt.value("MoM:  "),
             color=alt.condition(
                 "datum.mom<0",
                 alt.ColorValue("red"),
                 alt.ColorValue("green"),
             ),
-            size=alt.value(16),
+            size=alt.value(14),
         )
-        yoy_value = chart.mark_text(dy=40, align="left").encode(
+        yoy_value = chart.mark_text(
+            dx=175, align="left", baseline='middle'
+        ).encode(
             text=alt.Text("yoy:Q", format="+.2%"),
             color=alt.condition(
                 "datum.yoy<0",
                 alt.ColorValue("red"),
                 alt.ColorValue("green"),
             ),
-            size=alt.value(16),
+            size=alt.value(14),
         )
         yoy_title = chart.mark_text(
-            dy=40, align="right"
+            dx=140, align="left", baseline='middle'
         ).encode(
-            text=alt.value("YoY  :"),
+            text=alt.value("YoY:  "),
             color=alt.condition(
                 "datum.yoy<0",
                 alt.ColorValue("red"),
                 alt.ColorValue("green"),
             ),
-            size=alt.value(16),
+            size=alt.value(14),
         )
         chart = chart.encode(
             color=alt.value("lightgray"), opacity=alt.value(0.2)
@@ -215,22 +223,38 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
     
     charts = []
 
+    # Change the default color scheme of Altair
+    custom_color_scheme = ['#f58518', '#72b7b2', '#e45756', '#4c78a8', '#54a24b',
+                           '#eeca3b', '#b279a2', '#ff9da6', '#9d755d', '#bab0ac']
+    custom_color_scale = alt.Scale(range=custom_color_scheme)
+
     # Create charts for each of the commodity
     for commodity in widget_commodity_values:
         # Filter the data for the specific commodity
         commodity_data = commodities_data[commodities_data.commodity.isin([commodity])]
      
         # Create the chart
-        chart = alt.Chart(commodity_data, width='container').mark_line().encode(
+        chart = alt.Chart(commodity_data, width='container', height='container').mark_line(
+            size=3,
+            interpolate='monotone', 
+            point=alt.OverlayMarkDef(shape='circle', size=50, filled=True)
+        ).encode(
             x=alt.X('date:T', axis=alt.Axis(format='%Y-%m', title='Time')),
             y=alt.Y('usdprice:Q', title='Price in USD', scale=alt.Scale(zero=False)),
-            color=alt.Color('market:N', legend=alt.Legend(title='Market')),
+            color=alt.Color('market:N', legend=alt.Legend(title='Market'), scale=custom_color_scale),
             tooltip=[
                 alt.Tooltip('date:T', title='Time', format='%Y-%m'),
                 alt.Tooltip('usdprice:Q', title='Price in USD', format='.2f')
             ]
-        ).properties(
-            title=alt.TitleParams(f'{commodity} Price')
+#        ).properties(
+#            title=alt.TitleParams(f'{commodity} Price')
+        ).configure_view(
+            strokeWidth=0,
+#            fill='#f5f5f5'
+        ).configure_axisX(
+            grid=False
+        ).configure_axisY(
+            grid=False
         )
 
         # Add the chart to the list of charts
