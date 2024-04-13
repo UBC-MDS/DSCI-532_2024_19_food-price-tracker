@@ -40,18 +40,18 @@ topbar = dbc.Row(
         ) # FIXME: to add button
     ], 
     style={
-        'padding-left': 7,  # Padding left
-        'padding-top': '0.5vh',  # Center vertically, while keeping objects constant when expanding
-        'padding-bottom': '0.5vh',  # Center vertically, while keeping objects constant when expanding
+        'padding-left': '7px',  # Padding left
+        'padding-top': '3px',  # Center vertically, while keeping objects constant when expanding
+        'padding-bottom': '3px',  # Center vertically, while keeping objects constant when expanding
         'min-height': '1vh',  # min-height to allow expansion
     }
 )
 
 # Side navigation bar
 SIDEBAR_STYLE = {
-    'background-color': '#e6e6e6',
+    'background-color': 'rgba(230, 230, 230, 0.5)',  # Color #e6e6e6 with 50% opacity
     'padding': 15,  # Padding top,left,right,botoom
-    'padding-top': 25,
+    'padding-top': 28,
     'padding-bottom': 0,  # Remove bottom padding for footer
     'height': '200vh',  # vh = "viewport height" = 90% of the window height
     "width": "320px",
@@ -109,10 +109,10 @@ sidebar = dbc.Col(
 
 content = dbc.Col([ 
     dbc.Row(id="index-area", children=[]),
-    html.Hr(),
+#    html.Hr(),
     dbc.Row(id="commodities-area", children=[], align="center"),
     html.Hr(),
-    html.Br(),
+#    html.Br(),
     html.Footer(
         dcc.Markdown('''
         Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
@@ -135,7 +135,7 @@ app.layout = dbc.Container([
         dbc.Col([topbar]),
         dbc.Col([], md=3,)
     ], style={
-        'backgroundColor': 'rgba(204, 85, 0, 0.8)',  # Color #CC5500 with 80% opacity
+        'backgroundColor': 'rgba(204, 85, 0, 0.6)',  # Color #CC5500 with 60% opacity
         'padding-top': '2vh',  # Center vertically, while keeping objects constant when expanding
         'padding-bottom': '2vh',  # Center vertically, while keeping objects constant when expanding
         'min-height': '10vh',  # min-height to allow expansion
@@ -322,18 +322,25 @@ def update_index_commodities_area(
 
     # Use Card for Index Charts Layout
     commodities_area = dbc.Card(
+        children=[
+        dbc.CardHeader('Commodities', style={
+            'fontWeight': 'bold',
+            'background-color': 'rgba(221, 231, 193, 1)',
+            'border-radius': '5px',
+            'border-bottom': '0'
+        }),
         dbc.CardBody(
             [
-                html.H5("Commodities Analysis", style={'fontWeight': 'bold'}),
-                html.P("This section displays the price of individual commodities.", className="card-text"),
+#                html.H5("Commodities", style={'fontWeight': 'bold'}),
+#                html.P("This section displays the price of individual commodities.", className="card-text"),
                 *chart_plots
             ]
-        ),
+        )],
         style={
             'width': 'calc(100vw - 350px)', 
             'height': 'auto',
             'border': 'none',
-            'border-radius': '0px',
+            'border-radius': '5px',
             'margin': '10px'
         }
     )
@@ -359,19 +366,27 @@ def update_index_commodities_area(
 
     # Use Card for Index Charts Layout
     index_area = dbc.Card(
-#        dbc.CardHeader('Food Price Index Dashboard', style={'fontWeight': 'bold'}),
+        children=[
+        dbc.CardHeader('Overview', style={
+            'fontWeight': 'bold',
+            'background-color': 'rgba(221, 231, 193, 1)',
+            'border-radius': '5px',
+            'border-bottom': '0'
+        }),
         dbc.CardBody([
-            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
-            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
+#            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
+#            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
             dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
-        ]),
+        ])
+        ],
         style={
             'width': 'calc(100vw - 350px)', 
             'height': 'auto',
             'border': 'none',
-            'border-radius': '0px',
-            'margin': '10px'
+            'border-radius': '5px',
+            'margin': '10px',
+            'padding-top': '10px'
         }
     )
 
