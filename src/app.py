@@ -3,10 +3,9 @@ import dash_bootstrap_components as dbc
 import dash_daq as daq
 
 import src.callbacks
-
-from src.fetch_data import fetch_country_index
+from src.data import *
 from src.plotting import *
-from src.calc_index import *
+
 
 # Initialize the app (using bootstrap theme)
 app = Dash(

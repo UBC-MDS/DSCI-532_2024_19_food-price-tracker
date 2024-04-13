@@ -8,11 +8,9 @@ import dash_vega_components as dvc
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 
-
-from src.fetch_data import fetch_country_data
+from src.data import *
 from src.plotting import *
-from src.calc_index import *
-from src.data_preprocess import get_clean_data
+
 
 from io import StringIO
 
