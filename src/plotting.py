@@ -220,12 +220,13 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         data.date.between(widget_date_range[0], widget_date_range[1])
         & data.market.isin(widget_market_values)
     ]
+    commodities_data['date'] = commodities_data['date'].apply(lambda d: d.replace(day=1))
     
     charts = []
 
     # Change the default color scheme of Altair
-    custom_color_scheme = ['#f58518', '#72b7b2', '#e45756', '#4c78a8', '#54a24b',
-                           '#eeca3b', '#b279a2', '#ff9da6', '#9d755d', '#bab0ac']
+    custom_color_scheme = ['#f58518', '#72b7b2', '#eeca3b', '#e45756', '#9d755d', 
+                           '#54a24b', '#b279a2', '#4c78a8', '#ff9da6', '#bab0ac']
     custom_color_scale = alt.Scale(range=custom_color_scheme)
 
     # Create charts for each of the commodity
