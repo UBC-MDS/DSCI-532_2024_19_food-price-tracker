@@ -1,5 +1,6 @@
 import pandas as pd
 from io import StringIO
+import itertools
 
 def filter_major_data(data, date_abundance_threshold=0.5, market_abundance_threshold=0.7):
     """
@@ -87,6 +88,66 @@ def filter_major_data(data, date_abundance_threshold=0.5, market_abundance_thres
 
     return clean_data_df
 
+def fill_missing_data(data, method="forward"):
+    """
+    Fills missing values in the USD price column based on specified method.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Input food price raw data.
+    method : str, optional
+        Method to fill missing values. Default is "forward" (forward fill).
+
+    Returns
+    -------
+    pandas.DataFrame
+        A DataFrame with missing values filled based on the specified method.
+
+    """
+
+    # Default Info
+    columns_to_keep = [
+        "date",
+        "market",
+        "latitude",
+        "longitude",
+        "commodity",
+        "unit",
+        "usdprice",
+    ]
+
+    # Generate dataframe with full combinations of factors
+    full_data_df = pd.DataFrame(
+        itertools.product(
+            # pd.date_range(data["date"].min(), data["date"].max(), freq='MS') + pd.DateOffset(days=14),
+            data["date"].unique(),
+            data["market"].unique(),
+            data["commodity"].unique(),
+        ),
+        columns=["date", "market", "commodity"],
+    )
+
+    # Fill the missing value per (date, commodity, market)
+    full_data_df = full_data_df.merge(
+        data, how="left", on=["date", "market", "commodity"]
+    )
+    if method == "forward":
+        full_data_df = full_data_df.merge(
+            full_data_df.groupby(
+                ["market", "commodity"]
+            ).ffill(),
+            how="inner",
+            left_index=True,
+            right_index=True,
+            suffixes=("_drop", None),
+        )
+    full_data_df = full_data_df[columns_to_keep].dropna(
+        subset=["usdprice"], axis=0
+    )
+
+    return full_data_df
+
 def get_clean_data(data_json):
     """
     Returns JSON data containing cleaned data.
@@ -104,6 +165,7 @@ def get_clean_data(data_json):
 
     data_df = pd.read_json(StringIO(data_json), orient='split')
     data_df = filter_major_data(data_df)
+    data_df = fill_missing_data(data_df)
 
     return data_df.to_json(date_format='iso', orient='split')
 
