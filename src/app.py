@@ -104,27 +104,12 @@ sidebar = dbc.Col(
     style=SIDEBAR_STYLE
 )
 
-content = dbc.Col([ 
-    dbc.Row(id="index-area", children=[]),
-#    html.Hr(),
-    dbc.Row(id="commodities-area", children=[], align="center"),
-    html.Hr(),
-#    html.Br(),
-    html.Footer(
-        dcc.Markdown('''
-        Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
-        The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
-        [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
-        Dashboard latest update on ![release](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
-        ''',
-        style={'fontSize': 14})
-    ),
-])
-# , style={
-#     "margin-left": "18rem",
-#     "margin-right": "2rem",
-#     "padding": "2rem 1rem",
-# })
+content = dbc.Col(
+    id = "content-area",
+    children=[
+                dbc.Row(id="index-area", children=[]),
+                dbc.Row(id="commodities-area", children=[], align="center")
+            ])
 
 # Layout (better default layout when using with bootstrap)
 app.layout = dbc.Container([
@@ -139,7 +124,19 @@ app.layout = dbc.Container([
     }),
     dbc.Row([
         sidebar,
-        content,
+        dbc.Col([
+            content, 
+            html.Hr(),
+            html.Footer(
+                dcc.Markdown('''
+                Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
+                The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
+                [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
+                Dashboard latest update on ![release](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
+                ''',
+                style={'fontSize': 14})
+            )
+        ]),
         dcc.Store(
             id="country-index",
             data=fetch_country_index(),

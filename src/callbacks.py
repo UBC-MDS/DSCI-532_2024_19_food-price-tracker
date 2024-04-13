@@ -16,6 +16,37 @@ from io import StringIO
 
 
 @callback(
+    Output("content-area", "children"), 
+    [
+        Input("geo-toggle", "value"), 
+    ]
+)
+def toggle_chart_view(toggle = False): 
+    """Toggle between geo and chart views 
+
+    Parameters
+    ----------
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    Returns
+    -------
+    dbc.Row
+        dbc elements corresponding to geo or typical charts. 
+    """
+    if toggle: 
+        return [
+            dbc.Row(id="geo-area")
+        ]
+    else: 
+        return [
+                dbc.Row(id="index-area", children=[]),
+                dbc.Row(id="commodities-area", children=[], align="center")
+            ]
+
+
+
+@callback(
     [
         Output("date-range", "min_date_allowed"),
         Output("date-range", "max_date_allowed"),
@@ -111,17 +142,18 @@ def update_country_data(country, country_index):
 
 
 @callback(
-    [Output("index-area", "children"), Output("commodities-area", "children")],
+    [Output("geo-area", "children")],
     [
         Input("country-data", "data"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
-    ],
+        Input("geo-toggle", "value")
+    ],    
 )
-def update_index_commodities_area(
-    country_json, start_date, end_date, commodities, markets
+def update_geo_area(
+    country_json, start_date, end_date, commodities, markets, toggle
 ):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
@@ -142,6 +174,54 @@ def update_index_commodities_area(
 
     markets : list
         A list of market names from which the data will be filtered to generate the charts.
+    
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    Returns
+    -------
+    dash_vega_components.Vega
+        An object that combines the line and figure charts displaying the food price index
+    list
+        A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
+  
+
+@callback(
+    [Output("index-area", "children"), Output("commodities-area", "children")],
+    [
+        Input("country-data", "data"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("commodities-dropdown", "value"),
+        Input("markets-dropdown", "value"),
+        Input("geo-toggle", "value")
+    ],
+)
+def update_index_commodities_area(
+    country_json, start_date, end_date, commodities, markets, toggle
+):
+    """
+    Generate and update the food price index figure and line charts for the selected parameters.
+
+    Parameters
+    ----------
+    country_json : str
+        JSON string representing the country data from which the food price index is generated.
+
+    start_date : str or datetime
+        The starting date for filtering the data used in the charts.
+
+    end_date : str or datetime
+        The ending date for filtering the data used in the charts.
+
+    commodities : list
+        A list of commodities to be included in the food price index calculation.
+
+    markets : list
+        A list of market names from which the data will be filtered to generate the charts.
+    
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
 
     Returns
     -------
@@ -151,6 +231,9 @@ def update_index_commodities_area(
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
 
     """
+    if toggle: 
+        return []
+    
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
     ## Create commodities chart
