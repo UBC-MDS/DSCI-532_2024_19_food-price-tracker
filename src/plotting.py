@@ -220,6 +220,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         data.date.between(widget_date_range[0], widget_date_range[1])
         & data.market.isin(widget_market_values)
     ]
+    commodities_data['date'] = commodities_data['date'].apply(lambda d: d.replace(day=1))
     
     charts = []
 
