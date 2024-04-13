@@ -34,22 +34,56 @@ def filter_major_data(data, date_abundance_threshold=0.5, market_abundance_thres
 
     clean_data_df = data
 
-    # Rule 0 - Deduplication on (date, commodity, market)
-    clean_data_df = clean_data_df[columns_to_keep].groupby(columns_to_keep[:-1]).first(['usdprice']).reset_index()
+    # Rule 0 - Deduplication on unit and (date, commodity, market)
+    map_df = (
+        clean_data_df.groupby(["commodity", "unit"])
+        .agg({"unit": "count"})
+        .groupby(["commodity"])
+        .idxmax()
+    )
+    map_df["unit"] = map_df["unit"].apply(lambda x: x[1])
+    map_df = map_df.reset_index()
+    clean_data_df = clean_data_df.merge(
+        map_df, how="inner", on=["commodity", "unit"]
+    )
+    clean_data_df = (
+        clean_data_df[columns_to_keep]
+        .groupby(columns_to_keep[:-1])
+        .first(["usdprice"])
+        .reset_index()
+    )
 
     # Rule 1 - data existence for each (commodity, market) pair relative to the full duration length >= x%
-    num_date = clean_data_df.date.nunique()
-    map_df = clean_data_df.groupby(['market', 'commodity']).agg({'usdprice':'count'}) >= date_abundance_threshold * num_date
-    map_df = map_df.rename(columns={'usdprice': 'is_kept'})
-    clean_data_df = clean_data_df.merge(map_df, how='left', on=['market', 'commodity'])
-    clean_data_df = clean_data_df[clean_data_df['is_kept'] == True].drop(columns=['is_kept'])
+    num_date = clean_data_df["date"].nunique()
+    map_df = (
+        clean_data_df.groupby(["market", "commodity"]).agg(
+            {"usdprice": "count"}
+        )
+        >= date_abundance_threshold * num_date
+    )
+    map_df = map_df.rename(columns={"usdprice": "is_kept"})
+    clean_data_df = clean_data_df.merge(
+        map_df, how="left", on=["market", "commodity"]
+    )
+    clean_data_df = clean_data_df[
+        clean_data_df["is_kept"] == True
+    ].drop(columns=["is_kept"])
 
     # Rule 2 - data of a commodity exists, relative to the total number of markets >= x%
-    num_market = clean_data_df['market'].nunique()
-    map_df = clean_data_df.groupby(['commodity']).agg({'market':'nunique'}) >= market_abundance_threshold * num_market
-    map_df = map_df.rename(columns={'market': 'is_kept'})
-    clean_data_df = clean_data_df.merge(map_df, how='left', on=['commodity'])
-    clean_data_df = clean_data_df[clean_data_df['is_kept'] == True].drop(columns=['is_kept'])
+    num_market = clean_data_df["market"].nunique()
+    map_df = (
+        clean_data_df.groupby(["commodity"]).agg(
+            {"market": "nunique"}
+        )
+        >= market_abundance_threshold * num_market
+    )
+    map_df = map_df.rename(columns={"market": "is_kept"})
+    clean_data_df = clean_data_df.merge(
+        map_df, how="left", on=["commodity"]
+    )
+    clean_data_df = clean_data_df[
+        clean_data_df["is_kept"] == True
+    ].drop(columns=["is_kept"])
 
     return clean_data_df
 
