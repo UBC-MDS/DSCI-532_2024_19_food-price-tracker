@@ -30,6 +30,6 @@ On the other hand, we had envisioned a "Geo View," where users could view a map 
   - Potential improvements: Update the selection tool to use "YYYY-MM" and/or "YYYY" formats instead of the "YYYY-MM-DD" format.
 
 
-## 4. Inspiration from Peers 
+## 4. Inspiration from Peers (Challenging)
 
-# FIXME: to be filled
+Inspired by other groups, we've enhanced the aesthetics of our dashboard. The dashboards of Groups 22, 20, and 16 are neat and user-friendly, and from them, we learned to make the header more prominent, organize components more neatly using cards, and make the overall color scheme more thematic.
