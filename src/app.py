@@ -48,59 +48,76 @@ topbar = dbc.Row(
 SIDEBAR_STYLE = {
     'background-color': 'rgba(230, 230, 230, 0.5)',  # Color #e6e6e6 with 50% opacity
     'padding': 15,  # Padding top,left,right,botoom
-    'padding-top': 28,
+    'padding-top': 15,
     'padding-bottom': 0,  # Remove bottom padding for footer
     'height': '200vh',  # vh = "viewport height" = 90% of the window height
-    "width": "320px",
+    "width": "20%",
     'display': 'flex',  # Allow children to be aligned to bottom
     'flex-direction': 'column',  # Allow for children to be aligned to bottom
 }
 
-sidebar = dbc.Col(
-    [
-        html.P("Country"),
-        dcc.Dropdown(
-            id="country-dropdown",
-            value="Japan",
-            multi=False,
-            placeholder="Select a country...",
-            style={'width': '100%'}
-        ),
+sidebar = html.Div(
+    dbc.Stack([
+        dbc.Row([
+            dbc.Col(html.P("Enable Geo-View:"), width=9),        
+            dbc.Col(daq.BooleanSwitch(
+                        id='geo-toggle',
+                        on=False,
+                        color='#72b7b2'
+                    ), width=3)
+        ]),
         html.Br(),
-        html.P("Date Range"),
-        dcc.DatePickerRange(
-            id="date-range",
-            start_date_placeholder_text="Start",
-            end_date_placeholder_text="End",
-            updatemode="singledate",
-            style={'width': '100%'}
-        ),
+        dbc.Row([
+            dbc.Col(html.P("Country")),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Dropdown(
+                id="country-dropdown",
+                value="Japan",
+                multi=False,
+                placeholder="Select a country...",
+                style={'width': '100%'}
+            )),
+        ]),
         html.Br(),
-        html.P("Commodities"),
-        dcc.Dropdown(
-            id="commodities-dropdown", 
-            multi=True, 
-            placeholder="Select commodities...",
-            style={'width': '100%'}
-        ),
+        dbc.Row([
+            dbc.Col(html.P("Date Range")),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.DatePickerRange(
+                id="date-range",
+                start_date_placeholder_text="Start",
+                end_date_placeholder_text="End",
+                updatemode="singledate",
+                style={'width': '100%'}
+            )),
+        ]),
         html.Br(),
-        html.P("Markets"),
-        dcc.Dropdown(
-            id="markets-dropdown", 
-            multi=True, 
-            placeholder="Select markets...",
-            style={'width': '100%'}
-        ),
+        dbc.Row([
+            dbc.Col(html.P("Commodities")),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Dropdown(
+                id="commodities-dropdown",
+                multi=True,
+                placeholder="Select commodities...",
+                style={'width': '100%'}
+            )),
+        ]),
         html.Br(),
-        html.Br(),
-        daq.BooleanSwitch(
-            id='geo-toggle',
-            on=False,
-            label={'label': 'Geo Mode (TBU)', 'style': {'color': '#CC5500', 'font-weight': 'bold'}},
-            color='#72b7b2'
-        )
-    ],
-    md=2,
+        dbc.Row([
+            dbc.Col(html.P("Markets")),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Dropdown(
+                id="markets-dropdown",
+                multi=True,
+                placeholder="Select markets...",
+                style={'width': '100%'}
+            )),
+        ]),
+        html.Br()      
+    ], gap=1),
     style=SIDEBAR_STYLE
 )
 
