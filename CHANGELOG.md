@@ -2,6 +2,140 @@
 
 
 
+## v0.3.0 (2024-04-14)
+
+### Documentation
+
+* docs: create m3_reflection.md (#89)
+
+* docs: create m3_reflection.md
+
+* docs: Update the m3-reflection.md
+
+* Update m3-reflection.md
+
+* Update m3-reflection.md
+
+* Update m3-reflection.md
+
+* docs: updated reflection
+
+* Update m3-reflection.md
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`6774b6a`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/6774b6a7c8e2d0f2734b9576789b4d790902eeb0))
+
+### Feature
+
+* feat: trigger m3 release (#100)
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`18da174`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/18da174d0700a914009ddcbc7d769cb0fb48476a))
+
+* feat: Add filter_major_data function for data filtering (#88)
+
+* feat: Add filter_major_data function for data filtering
+
+* fix: remove debug mode for deployment
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt;
+Co-authored-by: JohnShiuMK &lt;asbjchk@yahoo.com.hk&gt; ([`e171647`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/e1716472706471c0a7851baa7781181a75cf56f4))
+
+### Fix
+
+* fix: added page title and distinguish the breakdown and the index (#90)
+
+* fix: added page title and distinguish the breakdown and the index
+
+* fix: the top and side navigation matching
+
+* fix: the alignment of the small charts
+
+* fix: the width of the small charts
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`cedbbfa`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/cedbbfade7300029fc2fc58c0f08512fe0436e39))
+
+### Unknown
+
+* 84 challenging milestone 3 geo chart (#99)
+
+* refactor: create callbacks.py
+
+* refactor: merge fetch_data.py, data_preprocess.py, and calc_index.py into data.py
+
+* refactor: finalize code layout update
+
+* feat: draft geo_area
+
+* feat: implemented toggle switching for new charts
+
+* bug: update sidebar, still wip
+
+* feat: update sidebar layout
+
+* fix: correct chart overflow &amp; scrolling
+
+* docs: update challenging section for geo-chart refactor
+
+* docs: corrected for consistency
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`f4cd07b`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/f4cd07bdc28298e273865c40c1b8bd7aaad56936))
+
+* 75 5 break code into multiple files (#98)
+
+* refactor: create callbacks.py
+
+* refactor: merge fetch_data.py, data_preprocess.py, and calc_index.py into data.py
+
+* refactor: finalize code layout update ([`827634c`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/827634cf91178d1d2ffa6d6546cc27a9433b3560))
+
+* Aesthetics change (#97)
+
+* Aesthetics change
+
+* Align the marker and x axis tickvalues in the line charts ([`aa59b97`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/aa59b97cacd92aef19e13d483549244ce992e7cd))
+
+* Update data preprocess (#96)
+
+* fix: update the deduplication logic in function &#39;filter_major_data&#39;
+
+* feat: Add function &#39;fill_missing_data&#39; to fillna ([`2645beb`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/2645bebe44e8d14899b10098d460fc2cba463b90))
+
+* Aesthetics improve (#94)
+
+* feat: add card
+
+* feat: improve the aesthetics of the line charts
+
+* feat: refine the aesthetics of sidebar
+
+* Change heights
+
+* Change layout
+
+* Change figure chart
+
+* Refine card
+
+* Refine details
+
+* Minor change on topbar ([`bd90a6f`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/bd90a6fee34e5420f878311f61046ebdd33d32e3))
+
+* 62 bugfix chart render sync delay (#87)
+
+* fix: sync chart plotting by merging callbacks
+
+* refactor: lint code
+
+* fix: remove variable ([`3fe3742`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/3fe3742cf96f294086181830ce98eeaa917f132b))
+
+
 ## v0.2.0 (2024-04-06)
 
 ### Documentation
