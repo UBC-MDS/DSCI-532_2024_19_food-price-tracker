@@ -35,14 +35,13 @@ def toggle_chart_view(toggle = False):
         dbc elements corresponding to geo or typical charts. 
     """
     if toggle: 
-        return [
-            dbc.Row(id="geo-area")
-        ]
+        return dbc.Col(id="geo-area")
+    
     else: 
         return [
-                dbc.Row(id="index-area", children=[]),
-                dbc.Row(id="commodities-area", children=[], align="center")
-            ]
+                dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
+                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
+        ]
 
 
 
@@ -227,11 +226,13 @@ def update_geo_area(
         ])
         ],
         style={
-            'width': 'calc(100vw - 350px)', 
+            'width': '100', 
             'height': 'auto',
             'border': 'none',
             'border-radius': '5px',
-            'margin': '10px',
+            "padding":"0px",
+
+            # 'margin': '10px',
             'padding-top': '10px'
         }
     )
@@ -309,8 +310,8 @@ def update_index_commodities_area(
     for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
         tmp.append(
             dbc.Col([
-                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "180px"}),
+                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%'}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%', "height": "180px"}),
             ],
                 md=6
             )
@@ -329,8 +330,8 @@ def update_index_commodities_area(
         dbc.CardHeader('Commodities', style={
             'fontWeight': 'bold',
             'background-color': 'rgba(221, 231, 193, 1)',
+            'border-bottom': '0',
             'border-radius': '5px',
-            'border-bottom': '0'
         }),
         dbc.CardBody(
             [
@@ -340,11 +341,12 @@ def update_index_commodities_area(
             ]
         )],
         style={
-            'width': 'calc(100vw - 350px)', 
+            'width': '100%', 
             'height': 'auto',
             'border': 'none',
+            'margin': '0px',
+            "padding":"0px",
             'border-radius': '5px',
-            'margin': '10px'
         }
     )
 
@@ -373,23 +375,23 @@ def update_index_commodities_area(
         dbc.CardHeader('Overview', style={
             'fontWeight': 'bold',
             'background-color': 'rgba(221, 231, 193, 1)',
+            'border-bottom': '0',
             'border-radius': '5px',
-            'border-bottom': '0'
         }),
         dbc.CardBody([
 #            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
 #            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
-            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
+            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%"}),
+            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%", "height": "220px"})
         ])
         ],
         style={
-            'width': 'calc(100vw - 350px)', 
+            'width':"100%",
             'height': 'auto',
             'border': 'none',
+            'margin': '0px',
+            "padding":"0px",
             'border-radius': '5px',
-            'margin': '10px',
-            'padding-top': '10px'
         }
     )
 
