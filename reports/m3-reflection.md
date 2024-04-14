@@ -18,7 +18,7 @@ Based on the [feedback from Joel](https://github.com/UBC-MDS/DSCI-532_2024_19_fo
 
 In our Milestone 1 Proposal, we planned to position a summary card to the right of every line chart. The primary goal of this card was to draw the audience's attention to key numbers before they read the chart. However, in this case, the audience would need to read from right to left across each row of the page. We realized that it is more intuitive for them to read purely from top to bottom of the entire page after making a selection in the sidebar. Therefore, we have adjusted our design for this reading pattern. Additionally, we added the captions "Overview" and "Commodities" to clearly distinguish between the role of the index and its detailed breakdown.
 
-On the other hand, we had envisioned a "Geo View," where users could view a map of the country showing the latest commodity prices by region, facilitating regional price comparisons. This feature has not yet been implemented due to time constraints.
+On the other hand, we had envisioned a "Geo View," where users could view a map of the country showing the latest commodity prices by region, facilitating regional price comparisons. This feature is not fully implemented yet due to time constraints.
 
 
 ## 3. Limitations and Potential Future Improvements and Additions
@@ -32,4 +32,6 @@ On the other hand, we had envisioned a "Geo View," where users could view a map 
 
 ## 4. Inspiration from Peers (Challenging)
 
-Inspired by other groups, we've enhanced the aesthetics of our dashboard. The dashboards of Groups 22, 20, and 16 are neat and user-friendly, and from them, we learned to make the header more prominent, organize components more neatly using cards, and make the overall color scheme more thematic.
+Inspired by other groups, we've enhanced the aesthetics of our dashboard. The dashboards of Groups 22, 20, and 16 are neat and user-friendly, and from them, we learned to make the header more prominent, organize components more neatly using cards, and make the overall color scheme more thematic.  
+
+Finally, we began to implement the "Geo View" as many of our peers had success in it's ease of use and accessibility. While the chart is not fully implemented yet, the app framework to switch views and a placeholder chart is present.

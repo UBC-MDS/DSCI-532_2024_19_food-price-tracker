@@ -16,6 +16,36 @@ from io import StringIO
 
 
 @callback(
+    Output("content-area", "children"), 
+    [
+        Input("geo-toggle", "on"), 
+    ]
+)
+def toggle_chart_view(toggle = False): 
+    """Toggle between geo and chart views 
+
+    Parameters
+    ----------
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    Returns
+    -------
+    dbc.Row
+        dbc elements corresponding to geo or typical charts. 
+    """
+    if toggle: 
+        return dbc.Col(id="geo-area")
+    
+    else: 
+        return [
+                dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
+                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
+        ]
+
+
+
+@callback(
     [
         Output("date-range", "min_date_allowed"),
         Output("date-range", "max_date_allowed"),
@@ -111,20 +141,21 @@ def update_country_data(country, country_index):
 
 
 @callback(
-    [Output("index-area", "children"), Output("commodities-area", "children")],
+    [Output("geo-area", "children")],
     [
         Input("country-data", "data"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
-    ],
+        Input("geo-toggle", "on")
+    ],    
 )
-def update_index_commodities_area(
-    country_json, start_date, end_date, commodities, markets
+def update_geo_area(
+    country_json, start_date, end_date, commodities, markets, toggle
 ):
     """
-    Generate and update the food price index figure and line charts for the selected parameters.
+    Generate and update the geo chart for the selected parameters.
 
     Parameters
     ----------
@@ -142,6 +173,9 @@ def update_index_commodities_area(
 
     markets : list
         A list of market names from which the data will be filtered to generate the charts.
+    
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
 
     Returns
     -------
@@ -149,61 +183,12 @@ def update_index_commodities_area(
         An object that combines the line and figure charts displaying the food price index
     list
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
-
     """
+    if toggle == False: 
+        return []
+    
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
-    ## Create commodities chart
-    commodities_line = generate_line_chart(
-        country_data, (start_date, end_date), markets, commodities
-    )
-    commodities_figure = generate_figure_chart(
-        country_data, (start_date, end_date), markets, commodities
-    )
-
-    chart_plots = []
-    tmp = []
-    for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
-        tmp.append(
-            dbc.Col([
-                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "180px"}),
-            ],
-                md=6
-            )
-        )
-        if i % 2 == 1:
-            chart_plots.append(dbc.Row(tmp))
-            chart_plots.append(dbc.Row(dbc.Col(html.Div(style={'height': '15px'}))))
-            tmp = []
-
-    if tmp:
-        chart_plots.append(dbc.Row(tmp))
-
-    # Use Card for Index Charts Layout
-    commodities_area = dbc.Card(
-        children=[
-        dbc.CardHeader('Commodities', style={
-            'fontWeight': 'bold',
-            'background-color': 'rgba(221, 231, 193, 1)',
-            'border-radius': '5px',
-            'border-bottom': '0'
-        }),
-        dbc.CardBody(
-            [
-#                html.H5("Commodities", style={'fontWeight': 'bold'}),
-#                html.P("This section displays the price of individual commodities.", className="card-text"),
-                *chart_plots
-            ]
-        )],
-        style={
-            'width': 'calc(100vw - 350px)', 
-            'height': 'auto',
-            'border': 'none',
-            'border-radius': '5px',
-            'margin': '10px'
-        }
-    )
 
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
@@ -241,12 +226,172 @@ def update_index_commodities_area(
         ])
         ],
         style={
-            'width': 'calc(100vw - 350px)', 
+            'width': '100', 
             'height': 'auto',
             'border': 'none',
             'border-radius': '5px',
-            'margin': '10px',
+            "padding":"0px",
+
+            # 'margin': '10px',
             'padding-top': '10px'
+        }
+    )
+
+    return [index_area]
+
+
+
+
+
+
+
+
+
+@callback(
+    [Output("index-area", "children"), Output("commodities-area", "children")],
+    [
+        Input("country-data", "data"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("commodities-dropdown", "value"),
+        Input("markets-dropdown", "value"),
+        Input("geo-toggle", "on")
+    ],
+)
+def update_index_commodities_area(
+    country_json, start_date, end_date, commodities, markets, toggle
+):
+    """
+    Generate and update the food price index figure and line charts for the selected parameters.
+
+    Parameters
+    ----------
+    country_json : str
+        JSON string representing the country data from which the food price index is generated.
+
+    start_date : str or datetime
+        The starting date for filtering the data used in the charts.
+
+    end_date : str or datetime
+        The ending date for filtering the data used in the charts.
+
+    commodities : list
+        A list of commodities to be included in the food price index calculation.
+
+    markets : list
+        A list of market names from which the data will be filtered to generate the charts.
+    
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    Returns
+    -------
+    dash_vega_components.Vega
+        An object that combines the line and figure charts displaying the food price index
+    list
+        A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
+
+    """
+    if toggle: 
+        return []
+    
+    country_data = pd.read_json(StringIO(country_json), orient="split")
+
+    ## Create commodities chart
+    commodities_line = generate_line_chart(
+        country_data, (start_date, end_date), markets, commodities
+    )
+    commodities_figure = generate_figure_chart(
+        country_data, (start_date, end_date), markets, commodities
+    )
+
+    chart_plots = []
+    tmp = []
+    for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
+        tmp.append(
+            dbc.Col([
+                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%'}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%', "height": "180px"}),
+            ],
+                md=6
+            )
+        )
+        if i % 2 == 1:
+            chart_plots.append(dbc.Row(tmp))
+            chart_plots.append(dbc.Row(dbc.Col(html.Div(style={'height': '15px'}))))
+            tmp = []
+
+    if tmp:
+        chart_plots.append(dbc.Row(tmp))
+
+    # Use Card for Index Charts Layout
+    commodities_area = dbc.Card(
+        children=[
+        dbc.CardHeader('Commodities', style={
+            'fontWeight': 'bold',
+            'background-color': 'rgba(221, 231, 193, 1)',
+            'border-bottom': '0',
+            'border-radius': '5px',
+        }),
+        dbc.CardBody(
+            [
+#                html.H5("Commodities", style={'fontWeight': 'bold'}),
+#                html.P("This section displays the price of individual commodities.", className="card-text"),
+                *chart_plots
+            ]
+        )],
+        style={
+            'width': '100%', 
+            'height': 'auto',
+            'border': 'none',
+            'margin': '0px',
+            "padding":"0px",
+            'border-radius': '5px',
+        }
+    )
+
+    ## Create Index Charts
+    country_data = generate_food_price_index_data(country_data, markets, commodities)
+
+    index_line = generate_line_chart(
+        country_data, (start_date, end_date), markets, ["Food Price Index"]
+    )[0]
+
+    index_figure = generate_figure_chart(
+        country_data, (start_date, end_date), markets, ["Food Price Index"]
+    )[0]
+
+    index_figure = index_figure.properties(
+        title=alt.TitleParams(
+            text="Food Price Index",
+            fontSize=15,
+            subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
+        )
+    )
+
+    # Use Card for Index Charts Layout
+    index_area = dbc.Card(
+        children=[
+        dbc.CardHeader('Overview', style={
+            'fontWeight': 'bold',
+            'background-color': 'rgba(221, 231, 193, 1)',
+            'border-bottom': '0',
+            'border-radius': '5px',
+        }),
+        dbc.CardBody([
+#            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
+#            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
+            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%"}),
+            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%", "height": "220px"})
+        ])
+        ],
+        style={
+            'width':"100%",
+            'height': 'auto',
+            'border': 'none',
+            'margin': '0px',
+            "padding":"0px",
+            'border-radius': '5px',
         }
     )
 
