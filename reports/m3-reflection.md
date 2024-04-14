@@ -32,4 +32,4 @@ On the other hand, we had envisioned a "Geo View," where users could view a map 
 
 ## 4. Inspiration from Peers (Challenging)
 
-Inspired by other groups, we've enhanced the aesthetics of our dashboard. The dashboards of Groups 22, 20, and 16 are neat and user-friendly, and from them, we learned to make the header more prominent, organize components more neatly using cards, and make the overall color scheme more thematic.
+Inspired by other groups, we've enhanced the aesthetics of our dashboard. The dashboards of Groups 22, 20, and 16 are neat and user-friendly, and from them, we learned to make the header more prominent, organize components more neatly using cards, and make the overall color scheme more thematic. Finally, we began to implement the geo-chart view as many of our peers had success in it's ease of use and accessibility. While the chart is not fully implemented yet, the app framework to switch views and a placeholder chart is present.
