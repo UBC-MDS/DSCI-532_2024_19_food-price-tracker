@@ -96,7 +96,7 @@ def update_widget_values(country_index_json, country_json):
     markets_options = country_data.market.value_counts().index.tolist()
     markets_selection = markets_options[:2]
 
-    country_options = country_index.index.to_list()
+    country_options = sorted(country_index.index.to_list())
 
     output = (
         min_date_allowed,
