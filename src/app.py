@@ -74,12 +74,14 @@ sidebar = dbc.Col(
             dbc.Col(html.Label("Date Range")),
         ]),
         dbc.Row([
-            dbc.Col(dcc.DatePickerRange(
+            dbc.Col(dcc.RangeSlider(
                 id="date-range",
-                start_date_placeholder_text="Start",
-                end_date_placeholder_text="End",
-                updatemode="singledate",
-                style={'width': '100%'}
+                updatemode='drag',
+                dots=False,
+                marks=None,
+                tooltip={"placement": "bottom", 
+                         "always_visible": True, 
+                         'transform': 'dateParser'},
             )),
         ])]),
         html.Div([dbc.Row([
