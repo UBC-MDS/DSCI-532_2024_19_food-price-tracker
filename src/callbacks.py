@@ -231,7 +231,7 @@ def update_geo_area(
         ])
         ],
         style={
-            'width': '100', 
+            'width': '100%', 
             'height': 'auto',
             'border': 'none',
             'border-radius': '5px',
@@ -317,8 +317,8 @@ def update_index_commodities_area(
     for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
         tmp.append(
             dbc.Col([
-                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%'}),
-                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '95%', "height": "180px"}),
+                dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
+                dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "180px"}),
             ],
                 md=6
             )
@@ -388,8 +388,8 @@ def update_index_commodities_area(
         dbc.CardBody([
 #            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
 #            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
-            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "95%", "height": "220px"})
+            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
+            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
         ])
         ],
         style={
