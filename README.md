@@ -49,28 +49,28 @@ If you want to report a problem or give an suggestion, we would love for you to 
 1. Clone this repository to your computer.
 
 ```bash
- git clone https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker.git
+git clone https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker.git
 ```
 ```bash
- cd DSCI-532_2024_19_food-price-tracker/
+cd DSCI-532_2024_19_food-price-tracker/
 ```
 
 2. Install the conda environment.
 
 ```bash
- conda env create -f environment.yml
+conda env create -f environment.yml
 ```
 
 3. Activate the installed environment.
 
 ```bash
- conda activate food_price_tracker
+conda activate food_price_tracker
 ```
 
 4. Start the dashboard.
 
 ```bash
- python -m src.app
+python -m src.app
 ```
 
 ### Contributing
