@@ -64,12 +64,12 @@ def fetch_country_data(country, country_index_json=fetch_country_index()):
 
     Returns
     -------
-    country_json : pd.DataFrame.to_json()
-        JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
+    country : pd.DataFrame
+        dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
 
     Examples
     --------
-    >>> country_json = fetch_country_data("Japan")
+    >>> country = fetch_country_data("Japan")
     """
 
     columns_to_keep = [
@@ -93,7 +93,7 @@ def fetch_country_data(country, country_index_json=fetch_country_index()):
         skiprows=[1],
     )[columns_to_keep]
 
-    return country_df.to_json(date_format='iso', orient='split')
+    return country_df
 
 
 
@@ -245,23 +245,21 @@ def fill_missing_data(data, method="forward"):
 
     return full_data_df
 
-def get_clean_data(data_json):
+def get_clean_data(data):
     """
     Returns JSON data containing cleaned data.
 
     Parameters
     ----------
-    data_json : str
-        JSON string containing raw data.
+    data : pd.DataFrame
+        minimally processed dataframe from fetch_country_data
 
     Returns
     -------
     str
         JSON string containing cleaned major data.
     """
-
-    data_df = pd.read_json(StringIO(data_json), orient='split')
-    data_df = filter_major_data(data_df)
+    data_df = filter_major_data(data)
     data_df = fill_missing_data(data_df)
 
     return data_df.to_json(date_format='iso', orient='split')
