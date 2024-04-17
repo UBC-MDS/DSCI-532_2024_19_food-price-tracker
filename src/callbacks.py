@@ -10,7 +10,7 @@ import dash_daq as daq
 
 from src.data import *
 from src.plotting import *
-
+from src.utils import convert_date
 
 from io import StringIO
 
@@ -47,10 +47,10 @@ def toggle_chart_view(toggle = False):
 
 @callback(
     [
-        Output("date-range", "min_date_allowed"),
-        Output("date-range", "max_date_allowed"),
-        Output("date-range", "start_date"),
-        Output("date-range", "end_date"),
+        Output("date-range", "min"),
+        Output("date-range", "max"),
+        Output("date-range", "step"),
+        Output("date-range", "value"),
         Output("commodities-dropdown", "options"),
         Output("commodities-dropdown", "value"),
         Output("markets-dropdown", "options"),
@@ -85,10 +85,12 @@ def update_widget_values(country_index_json, country_json):
 
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
-    min_date_allowed = country_data.date.min()
-    max_date_allowed = country_data.date.max()
-    start_date = max(country_data.date.max() + pd.tseries.offsets.DateOffset(years=-2), country_data.date.min())
-    end_date = country_data.date.max()
+    min_date_allowed = convert_date(country_data.date.min(), 'label')
+    max_date_allowed = convert_date(country_data.date.max(), 'label')
+    start_date = convert_date(max(country_data.date.max() + pd.tseries.offsets.DateOffset(years=-2), country_data.date.min()), 'label')
+    end_date = convert_date(country_data.date.max(), 'label')
+    date_step = 1/12
+    date_range = [start_date, end_date]
 
     commodities_options = country_data.commodity.value_counts().index.tolist()
     commodities_selection = commodities_options[:2]
@@ -96,13 +98,13 @@ def update_widget_values(country_index_json, country_json):
     markets_options = country_data.market.value_counts().index.tolist()
     markets_selection = markets_options[:2]
 
-    country_options = country_index.index.to_list()
+    country_options = sorted(country_index.index.to_list())
 
     output = (
         min_date_allowed,
         max_date_allowed,
-        start_date,
-        end_date,
+        date_step,
+        date_range,
         commodities_options,
         commodities_selection,
         markets_options,
@@ -144,15 +146,15 @@ def update_country_data(country, country_index):
     [Output("geo-area", "children")],
     [
         Input("country-data", "data"),
-        Input("date-range", "start_date"),
-        Input("date-range", "end_date"),
+        Input("date-range", "value"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
-        Input("geo-toggle", "on")
+        Input("geo-toggle", "on"),
+        Input("date-range", "value"),
     ],    
 )
 def update_geo_area(
-    country_json, start_date, end_date, commodities, markets, toggle
+    country_json, date_range, commodities, markets, toggle
 ):
     """
     Generate and update the geo chart for the selected parameters.
@@ -192,6 +194,9 @@ def update_geo_area(
 
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
+
+    start_date = convert_date(date_range[0], 'datetime')
+    end_date = convert_date(date_range[1], 'datetime')
 
     index_line = generate_line_chart(
         country_data, (start_date, end_date), markets, ["Food Price Index"]
@@ -251,15 +256,14 @@ def update_geo_area(
     [Output("index-area", "children"), Output("commodities-area", "children")],
     [
         Input("country-data", "data"),
-        Input("date-range", "start_date"),
-        Input("date-range", "end_date"),
+        Input("date-range", "value"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
-        Input("geo-toggle", "on")
+        Input("geo-toggle", "on"),
     ],
 )
 def update_index_commodities_area(
-    country_json, start_date, end_date, commodities, markets, toggle
+    country_json, date_range, commodities, markets, toggle
 ):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
@@ -296,6 +300,9 @@ def update_index_commodities_area(
         return []
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
+
+    start_date = convert_date(date_range[0], 'datetime')
+    end_date = convert_date(date_range[1], 'datetime')
 
     ## Create commodities chart
     commodities_line = generate_line_chart(
