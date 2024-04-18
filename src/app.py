@@ -76,7 +76,7 @@ sidebar = dbc.Col(
         dbc.Row([
             dbc.Col(dcc.RangeSlider(
                 id="date-range",
-                updatemode='drag',
+                updatemode='mouseup',
                 dots=False,
                 marks=None,
                 tooltip={"placement": "bottom", 
