@@ -1,7 +1,7 @@
 # Script containing all callbacks relevant to app.py
 # Includes plotting, widget values, data ingest and preprocessing
 
-from dash import html, Input, Output, callback
+from dash import html, Input, Output, State, callback
 
 import pandas as pd
 import dash_vega_components as dvc
@@ -43,6 +43,29 @@ def toggle_chart_view(toggle = False):
                 dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
         ]
 
+
+@callback(
+    Output("widget-state", "data"),
+    [
+        Input(),
+        State("geo-toggle", "on"),
+        State("country-dropdown", "value"),
+        State("date-range", "value"),
+        State("commodities-dropdown", "value"),
+        State("markets-dropdown", "value"),
+    ]
+)
+
+def record_widget_state():
+    """
+    Record the state of widget so dynamic charting can be achieved. 
+    - 
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
 
 
 @callback(

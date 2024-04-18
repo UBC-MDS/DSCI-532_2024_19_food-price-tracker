@@ -157,6 +157,10 @@ app.layout = dbc.Container([
         dcc.Store(
             id="country-data",
             storage_type="session"
+        ), 
+        dcc.Store(
+            id = "widget-state",
+            storage_type="session"
         )
 ], fluid=True)
 
