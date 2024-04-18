@@ -120,10 +120,7 @@ def update_widget_values(country_index_json, country_json, toggle, country):
         compile_widget_state(
             toggle, 
             country, 
-            (
-                convert_date(start_date, 'datetime'),
-                convert_date(end_date, 'datetime')
-            ), 
+            date_range,
             commodities_selection, 
             markets_selection
         )
@@ -160,18 +157,19 @@ def update_country_data(country, country_index):
 
 
 @callback(
-    [Output("geo-area", "children")],
+    [Output("geo-area", "children"), Output("widget-state", "data")],
     [
-        Input("country-data", "data"),
-        Input("date-range", "value"),
-        Input("commodities-dropdown", "value"),
-        Input("markets-dropdown", "value"),
+        State("country-data", "data"),
+        State("date-range", "value"),
+        State("commodities-dropdown", "value"),
+        State("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
-        Input("date-range", "value"),
+        State("date-range", "value"),
+        State("country-dropdown", "value")
     ],    
 )
 def update_geo_area(
-    country_json, date_range, commodities, markets, toggle
+    country_json, date_range, commodities, markets, toggle, country
 ):
     """
     Generate and update the geo chart for the selected parameters.
@@ -203,8 +201,16 @@ def update_geo_area(
     list
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
     """
+    widget_state = compile_widget_state(
+        toggle, 
+        country, 
+        date_range,
+        commodities,
+        markets
+    )
+
     if toggle == False: 
-        return []
+        return [], widget_state
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
@@ -259,7 +265,7 @@ def update_geo_area(
         }
     )
 
-    return [index_area]
+    return [index_area], widget_state
 
 
 
