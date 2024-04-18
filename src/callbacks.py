@@ -10,7 +10,7 @@ import dash_daq as daq
 
 from src.data import *
 from src.plotting import *
-from src.utils import convert_date
+from src.utils import convert_date, compile_widget_state
 
 from io import StringIO
 
@@ -45,30 +45,6 @@ def toggle_chart_view(toggle = False):
 
 
 @callback(
-    Output("widget-state", "data"),
-    [
-        Input(),
-        State("geo-toggle", "on"),
-        State("country-dropdown", "value"),
-        State("date-range", "value"),
-        State("commodities-dropdown", "value"),
-        State("markets-dropdown", "value"),
-    ]
-)
-
-def record_widget_state():
-    """
-    Record the state of widget so dynamic charting can be achieved. 
-    - 
-
-    Returns
-    -------
-    _type_
-        _description_
-    """
-
-
-@callback(
     [
         Output("date-range", "min"),
         Output("date-range", "max"),
@@ -79,10 +55,12 @@ def record_widget_state():
         Output("markets-dropdown", "options"),
         Output("markets-dropdown", "value"),
         Output("country-dropdown", "options"),
+        Output("widget-state", "data")
     ],
-    [Input("country-index", "data"), Input("country-data", "data")],
+    [State("country-index", "data"), Input("country-data", "data"), 
+     State("geo-toggle", "on"), State("country-dropdown", "value")],
 )
-def update_widget_values(country_index_json, country_json):
+def update_widget_values(country_index_json, country_json, toggle, country):
     """
     Update widget options when a new country is selected.
 
@@ -97,6 +75,12 @@ def update_widget_values(country_index_json, country_json):
     n_clicks : int
         The number of times the update button has been clicked (not used in the function, but required for callback).
 
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    country : str
+        string of selected country, e.g., "Japan"
+    
     Returns
     -------
     tuple
@@ -133,6 +117,16 @@ def update_widget_values(country_index_json, country_json):
         markets_options,
         markets_selection,
         country_options,
+        compile_widget_state(
+            toggle, 
+            country, 
+            (
+                convert_date(start_date, 'datetime'),
+                convert_date(end_date, 'datetime')
+            ), 
+            commodities_selection, 
+            markets_selection
+        )
     )
 
     return output
@@ -296,11 +290,8 @@ def update_index_commodities_area(
     country_json : str
         JSON string representing the country data from which the food price index is generated.
 
-    start_date : str or datetime
-        The starting date for filtering the data used in the charts.
-
-    end_date : str or datetime
-        The ending date for filtering the data used in the charts.
+    date_range : tuple of str or datetime
+        The starting and ending date in a tuple for filtering the data used in the charts.
 
     commodities : list
         A list of commodities to be included in the food price index calculation.
