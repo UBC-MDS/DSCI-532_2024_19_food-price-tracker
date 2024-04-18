@@ -10,7 +10,7 @@ import dash_daq as daq
 
 from src.data import *
 from src.plotting import *
-from src.utils import convert_date, compile_widget_state
+from src.utils import convert_date, compile_widget_state, compare_widget_state
 
 from io import StringIO
 
@@ -247,8 +247,6 @@ def update_geo_area(
             'border-bottom': '0'
         }),
         dbc.CardBody([
-#            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
-#            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
             dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
         ])
@@ -259,8 +257,6 @@ def update_geo_area(
             'border': 'none',
             'border-radius': '5px',
             "padding":"0px",
-
-            # 'margin': '10px',
             'padding-top': '10px'
         }
     )
@@ -277,11 +273,12 @@ def update_geo_area(
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
-        State("country-dropdown", "value")   
+        State("country-dropdown", "value"),
+        State("widget-state", "data")
     ],
 )
 def update_index_commodities_area(
-    country_json, date_range, commodities, markets, toggle, country
+    country_json, date_range, commodities, markets, toggle, country, prior_widget_state
 ):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
@@ -328,6 +325,13 @@ def update_index_commodities_area(
     end_date = convert_date(date_range[1], 'datetime')
 
     ## Create commodities chart
+    if (
+        current_widget_state["country"] == prior_widget_state["country"] & 
+        current_widget_state["date_range"] == prior_widget_state["date_range"] & 
+        current_widget_state["markets"] == prior_widget_state["markets"]
+    ): 
+        new_commodities, existing_commodities = compare_widget_state(current_widget_state, prior_widget_state, field="commodities")
+    
     commodities_line = generate_line_chart(
         country_data, (start_date, end_date), markets, commodities
     )
@@ -337,13 +341,14 @@ def update_index_commodities_area(
 
     chart_plots = []
     tmp = []
-    for i, (line, figure) in enumerate(zip(commodities_line, commodities_figure)):
+    for i, (line, figure, commodity_name) in enumerate(zip(commodities_line, commodities_figure, commodities)):
         tmp.append(
             dbc.Col([
                 dvc.Vega(spec=(figure).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%'}),
                 dvc.Vega(spec=(line).to_dict(format="vega"), opt={'actions': False}, style={'width': '100%', "height": "180px"}),
             ],
-                md=6
+                md=6, 
+                id = commodity_name
             )
         )
         if i % 2 == 1:
@@ -409,8 +414,6 @@ def update_index_commodities_area(
             'border-radius': '5px',
         }),
         dbc.CardBody([
-#            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
-#            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
             dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
             dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
         ])
