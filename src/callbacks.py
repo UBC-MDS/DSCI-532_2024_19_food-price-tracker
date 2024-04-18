@@ -201,7 +201,7 @@ def update_geo_area(
     list
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
     """
-    widget_state = compile_widget_state(
+    current_widget_state = compile_widget_state(
         toggle, 
         country, 
         date_range,
@@ -210,7 +210,7 @@ def update_geo_area(
     )
 
     if toggle == False: 
-        return [], widget_state
+        return [], current_widget_state
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
@@ -265,28 +265,23 @@ def update_geo_area(
         }
     )
 
-    return [index_area], widget_state
-
-
-
-
-
-
-
+    return [index_area], current_widget_state
 
 
 @callback(
-    [Output("index-area", "children"), Output("commodities-area", "children")],
+    [Output("index-area", "children"), Output("commodities-area", "children"),
+     Output("widget-state", "data")],
     [
         Input("country-data", "data"),
         Input("date-range", "value"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
+        State("country-dropdown", "value")   
     ],
 )
 def update_index_commodities_area(
-    country_json, date_range, commodities, markets, toggle
+    country_json, date_range, commodities, markets, toggle, country
 ):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
@@ -316,8 +311,16 @@ def update_index_commodities_area(
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
 
     """
+    current_widget_state = compile_widget_state(
+        toggle, 
+        country, 
+        date_range,
+        commodities,
+        markets
+    )
+
     if toggle: 
-        return []
+        return [], [], current_widget_state
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
@@ -422,4 +425,4 @@ def update_index_commodities_area(
         }
     )
 
-    return index_area, commodities_area
+    return index_area, commodities_area, current_widget_state
