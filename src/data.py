@@ -3,9 +3,12 @@ import itertools
 import pandas as pd
 import country_converter as coco
 
+
 from io import StringIO
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
+from src.cache_config import cache
+
 
 ## Data Loading
 
@@ -16,7 +19,7 @@ Configuration.create(
     hdx_read_only=True,
 )
 
-
+@cache.memoize()
 def fetch_country_index():
     """
     Fetch country index and preprocess into dataframe.
@@ -47,7 +50,6 @@ def fetch_country_index():
     ).set_index("country")
 
     return country_index_df.to_json(date_format='iso', orient='split')
-
 
 def fetch_country_data(country, country_index_json=fetch_country_index()):
     """

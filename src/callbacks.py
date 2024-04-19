@@ -10,6 +10,7 @@ import dash_bootstrap_components as dbc
 import dash_daq as daq
 
 from dash.exceptions import PreventUpdate
+from src.cache_config import cache
 from src.data import *
 from src.plotting import *
 from src.utils import convert_date, compile_widget_state, compare_widget_state
@@ -135,6 +136,7 @@ def update_widget_values(country_index_json, country_json, toggle, country):
     Output("country-data", "data"),
     [Input("country-dropdown", "value"), Input("country-index", "data")],
 )
+@cache.memoize()
 def update_country_data(country, country_index):
     """
     Update country data from country widget selection
@@ -166,7 +168,6 @@ def update_country_data(country, country_index):
         State("commodities-dropdown", "value"),
         State("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
-        State("date-range", "value"),
         State("country-dropdown", "value")
     ],
     prevent_initial_call=True

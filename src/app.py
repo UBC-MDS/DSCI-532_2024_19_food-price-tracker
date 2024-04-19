@@ -2,10 +2,7 @@ from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 
-import src.callbacks
-from src.data import *
-from src.plotting import *
-
+from src.cache_config import init_cache
 
 # Initialize the app (using bootstrap theme)
 app = Dash(
@@ -14,7 +11,12 @@ app = Dash(
     title="Food Price Tracker",
     suppress_callback_exceptions=True
 )
-server = app.server
+
+init_cache(app.server)
+import src.callbacks
+from src.plotting import *
+from src.data import *
+
 
 # Top navigation bar
 LOGO = "https://raw.githubusercontent.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/main/img/logo.png"
