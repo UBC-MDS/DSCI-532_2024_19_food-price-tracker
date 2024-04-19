@@ -30,6 +30,13 @@ topbar = dbc.Row(
                 }
             ),
             md=8, align="center"
+        ),
+        dbc.Col(
+            dbc.Button(
+                "Tutorial",
+                color="light",
+                href="https://www.youtube.com/watch?v=t90iISeWdw8"
+            )
         )
     ]
 )
