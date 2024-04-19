@@ -36,13 +36,17 @@ def toggle_chart_view(toggle = False):
     """
     if toggle: 
         return [
-                dbc.Row(id="geo-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"})
+                dbc.Row(id="geo-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
+                dbc.Row(id="index-area", children=[]),
+                dbc.Row(id="commodities-area", children=[])
+
         ]
     
     else: 
         return [
                 dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
-                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
+                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"}),
+                dbc.Row(id="geo-area", children=[])
         ]
 
 
@@ -177,7 +181,7 @@ def update_geo_area(
 
     markets : list
         A list of market names from which the data will be filtered to generate the charts.
-    
+
     toggle : bool
         True: enable geo-area chart. False: enable typical commodities chart.
 
@@ -188,9 +192,9 @@ def update_geo_area(
     list
         A list of dash_vega_components.Vega objects, each combining an area and a line chart for each commodity.
     """
-    if toggle == False: 
-        return []
-    
+    if toggle == False:
+        return [html.Label("")]
+
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
     ## Create Index Charts
@@ -209,7 +213,7 @@ def update_geo_area(
             subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
         )
     )
-    
+
     # Use Card for Index Charts Layout
     geo_area = dbc.Card(
         children=[
@@ -290,7 +294,8 @@ def update_index_commodities_area(
 
     """
     if toggle: 
-        return []
+        return [html.Label("")], [html.Label("")]
+
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
 

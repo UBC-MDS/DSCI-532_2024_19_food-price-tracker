@@ -114,7 +114,8 @@ content = dbc.Col(
     id = "content-area",
     children=[
                 dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
-                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
+                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"}),
+                dbc.Row(id='geo-area', children=[])
         ],
     style={"width":"100%", "padding":0, "margin":0}
 )
@@ -166,4 +167,4 @@ app.layout = dbc.Container([
 
   
 if __name__ == '__main__':
-    app.run() 
+    app.run()
