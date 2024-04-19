@@ -73,7 +73,6 @@ def compile_widget_state(
     return widget_state
 
 def compare_widget_state(current_widget_state, prior_widget_state, field="commodities"):
-    new = list(set(current_widget_state[field]) - set(prior_widget_state[field]))
-    intersection = list(set(current_widget_state[field]) & set(prior_widget_state[field]))
-
-    return new, intersection
+    new = list(set(current_widget_state[field]) - set(prior_widget_state[field]))   
+    value_state = {val: "new" if val in new else "exists" for val in current_widget_state[field]}
+    return value_state
