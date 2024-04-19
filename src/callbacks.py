@@ -38,12 +38,17 @@ def toggle_chart_view(toggle = False):
         dbc elements corresponding to geo or typical charts. 
     """
     if toggle: 
-        return dbc.Col(id="geo-area")
+        return [
+            dbc.Col(id="geo-area"), 
+            dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px", "display":"none"}),
+            dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px", "display":"none"})
+        ]
     
     else: 
         return [
-                dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
-                dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
+            dbc.Col(id="geo-area", style={"display":"none"}), 
+            dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
+            dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
         ]
 
 
@@ -167,13 +172,14 @@ def update_country_data(country, country_index):
         State("date-range", "value"),
         State("commodities-dropdown", "value"),
         State("markets-dropdown", "value"),
-        Input("geo-toggle", "on"),
-        State("country-dropdown", "value")
+        State("geo-toggle", "on"),
+        State("country-dropdown", "value"),
+        Input("content-area", "children")
     ],
     prevent_initial_call=True
 )
 def update_geo_area(
-    country_json, date_range, commodities, markets, toggle, country
+    country_json, date_range, commodities, markets, toggle, country, content_area
 ):
     """
     Generate and update the geo chart for the selected parameters.
@@ -276,15 +282,16 @@ def update_geo_area(
         Input("date-range", "value"),
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
-        Input("geo-toggle", "on"),
+        State("geo-toggle", "on"),
         State("country-dropdown", "value"),
         State("widget-state", "data"),
-        State("commodities-charts", "data")
+        State("commodities-charts", "data"), 
+        Input("content-area", "children")
     ],
     prevent_initial_call=True
 )
 def update_index_commodities_area(
-    country_json, date_range, commodities, markets, toggle, country, prior_widget_state, commodities_children
+    country_json, date_range, commodities, markets, toggle, country, prior_widget_state, commodities_children, content_area
 ):
     """
     Generate and update the food price index figure and line charts for the selected parameters.
