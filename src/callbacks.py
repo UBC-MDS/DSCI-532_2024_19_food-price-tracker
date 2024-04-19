@@ -204,7 +204,7 @@ def update_geo_area(
 
     geo_chart = geo_chart.properties(
         title=alt.TitleParams(
-            text="Geo View of Food Price Index",
+            text="Geo View of Latest Food Price Index",
             fontSize=15,
             subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
         )

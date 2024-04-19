@@ -307,24 +307,42 @@ def plot_country_cities(country_id, price_summary):
         stroke='white'
     )
 
-    # Plot market points
+    # Process data
+    price_summary['label'] = price_summary.apply(
+        lambda row: f"{row['market']} {row['usdprice']:.2f}", axis=1
+    )
+    max_usdprice = price_summary['usdprice'].max()
     price_summary = price_summary.to_dict(orient='records')
     
+    # Plot market points
     markets = alt.Chart(alt.Data(values=price_summary)).mark_point(
         filled=True,
-        size=100,
-        color='red'
+        size=200
     ).encode(
         latitude='latitude:Q',
         longitude='longitude:Q',
+        color=alt.Color('usdprice:Q', title='Index', scale=alt.Scale(domain=[0, max_usdprice], scheme='reds')),
         tooltip=[
             alt.Tooltip('market:N', title='Market'),
-#            alt.Tooltip('date:T', title='Time', format='%Y-%m'),
-#            alt.Tooltip('usdprice:Q', title='Latest average', format='.2f')
+            alt.Tooltip('date:T', title='Time', format='%Y-%m'),
+            alt.Tooltip('usdprice:Q', title='Index', format='.2f')
         ]
     )
 
-    return background + markets
+    text = markets.mark_text(
+        align='left',
+        baseline='middle',
+        dx=12,
+        fontSize=12
+    ).encode(
+        text='label:N',
+        longitude='longitude:Q',
+        latitude='latitude:Q'
+    )
+
+    markets_final = alt.layer(markets, text)
+
+    return background + markets_final
 
 def generate_geo_chart(data, widget_date_range, widget_market_values, widget_commodity_values, country):
     """
