@@ -127,7 +127,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         mom_title = chart.mark_text(
             dx=30, align="left", baseline='middle'
         ).encode(
-            text=alt.value("MoM:  "),
+            text=alt.value("*MoM:  "),
             color=alt.condition(
                 "datum.mom<0",
                 alt.ColorValue("red"),
@@ -149,7 +149,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         yoy_title = chart.mark_text(
             dx=140, align="left", baseline='middle'
         ).encode(
-            text=alt.value("YoY:  "),
+            text=alt.value("*YoY:  "),
             color=alt.condition(
                 "datum.yoy<0",
                 alt.ColorValue("red"),
@@ -208,7 +208,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
     commodities_data = data[
         data.date.between(widget_date_range[0], widget_date_range[1])
         & data.market.isin(widget_market_values)
-    ]
+    ].copy()
     commodities_data['date'] = commodities_data['date'].dt.to_period("M").dt.to_timestamp()
     
     charts = []
