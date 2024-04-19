@@ -208,7 +208,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
     commodities_data = data[
         data.date.between(widget_date_range[0], widget_date_range[1])
         & data.market.isin(widget_market_values)
-    ]
+    ].copy()
     commodities_data['date'] = commodities_data['date'].dt.to_period("M").dt.to_timestamp()
     
     charts = []
