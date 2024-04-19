@@ -298,7 +298,7 @@ def plot_country_cities(country_id, price_summary):
     # Plot country map as background
     world = alt.topo_feature(data.world_110m.url, 'countries')
 
-    country_map = alt.Chart(world, width='container').transform_filter(
+    country_map = alt.Chart(world, width='container', height=500).transform_filter(
         (alt.datum.id == country_id)
     )
 
