@@ -139,6 +139,10 @@ app.layout = dbc.Container([
                 html.Hr(),
                 html.Footer(
                     dcc.Markdown('''
+                    * Glossary:
+                      - MoM: Month-over-Month percentage change
+                      - YoY: Year-over-Year percentage change
+
                     Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
                     The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
                     [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
