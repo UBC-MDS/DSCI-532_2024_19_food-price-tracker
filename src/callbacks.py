@@ -187,7 +187,18 @@ def update_country_data(country, country_index):
 )
 def reset_widget_values(country):
     """
-    Update widget options when a new country is selected.
+    Reset widget options and display Loading notice when data is loading for the new selected country.
+
+    Parameters
+    ----------
+    country : str
+        string of selected country, e.g., "Japan"
+    
+    Returns
+    -------
+    tuple
+        A tuple containing the reset values for dates, market, commodity,
+        and loading notice for the main panel display
     """
 
     date_range_value = [0, 0]
