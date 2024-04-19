@@ -11,7 +11,8 @@ from src.plotting import *
 app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    title="Food Price Tracker"
+    title="Food Price Tracker",
+    suppress_callback_exceptions=True
 )
 server = app.server
 
@@ -161,9 +162,13 @@ app.layout = dbc.Container([
         dcc.Store(
             id = "widget-state",
             storage_type="session"
+        ),
+        dcc.Store(
+            id = "commodities-charts",
+            storage_type="session"
         )
 ], fluid=True)
 
   
 if __name__ == '__main__':
-    app.run() 
+    app.run(debug=True) 
