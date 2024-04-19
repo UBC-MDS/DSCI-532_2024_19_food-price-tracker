@@ -35,7 +35,9 @@ def toggle_chart_view(toggle = False):
         dbc elements corresponding to geo or typical charts. 
     """
     if toggle: 
-        return dbc.Col(id="geo-area")
+        return [
+                dbc.Row(id="geo-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"})
+        ]
     
     else: 
         return [
@@ -150,7 +152,7 @@ def update_country_data(country, country_index):
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
-        Input("date-range", "value"),
+#        Input("date-range", "value"),
     ],    
 )
 def update_geo_area(
@@ -190,7 +192,7 @@ def update_geo_area(
         return []
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
-
+    country = "Japan"
 
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
@@ -198,36 +200,28 @@ def update_geo_area(
     start_date = convert_date(date_range[0], 'datetime')
     end_date = convert_date(date_range[1], 'datetime')
 
-    index_line = generate_line_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
+    # Plot Geo Chart
+    geo_chart = generate_geo_chart(country_data, (start_date, end_date), markets, ["Food Price Index"], country)
 
-    index_figure = generate_figure_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
-
-    index_figure = index_figure.properties(
+    geo_chart = geo_chart.properties(
         title=alt.TitleParams(
-            text="Food Price Index",
+            text="Geo View of Food Price Index",
             fontSize=15,
             subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
         )
     )
-
+    
     # Use Card for Index Charts Layout
-    index_area = dbc.Card(
+    geo_area = dbc.Card(
         children=[
-        dbc.CardHeader('Overview', style={
+        dbc.CardHeader('Geo View', style={
             'fontWeight': 'bold',
             'background-color': 'rgba(221, 231, 193, 1)',
             'border-radius': '5px',
             'border-bottom': '0'
         }),
         dbc.CardBody([
-#            html.H5("Food Price Overview", style={'fontWeight': 'bold'}),
-#            html.P("This section displays the overall food price index based on selected parameters.", className="card-text"),
-            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
+            dvc.Vega(spec=(geo_chart).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "auto"}),
         ])
         ],
         style={
@@ -238,11 +232,11 @@ def update_geo_area(
             "padding":"0px",
 
             # 'margin': '10px',
-            'padding-top': '10px'
+            # 'padding-top': '10px'
         }
     )
 
-    return [index_area]
+    return [geo_area]
 
 
 

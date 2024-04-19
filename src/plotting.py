@@ -266,17 +266,19 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
 
     return charts
 
-def plot_country_cities(country_name, price_summary):
+def plot_country_cities(country_id, price_summary):
     world = alt.topo_feature(data.world_110m.url, 'countries')
 
-    country_map = alt.Chart(world, width='container', height='container').transform_filter(
-        (alt.datum.id == int(countries.get(country_name).numeric))
+    country_map = alt.Chart(world, width='container').transform_filter(
+        (alt.datum.id == country_id)
     )
 
     background = country_map.mark_geoshape(
         fill='lightgray',
         stroke='white'
     )
+
+    price_summary = price_summary.to_dict(orient='records')
     
     markets = alt.Chart(alt.Data(values=price_summary)).mark_point(
         filled=True,
@@ -331,8 +333,10 @@ def generate_geo_chart(data, widget_date_range, widget_market_values, widget_com
     )
 
     # Generate Geo chart
-    geo_chart = plot_country_cities(country, price_summary)
-    geo_chart.display()
+#    country_id = int(countries.get(country_name).numeric)
+    geo_chart = plot_country_cities(392, price_summary)
+    
+    return geo_chart
 
 
 if __name__ == '__main__':
