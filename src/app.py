@@ -37,18 +37,19 @@ topbar = dbc.Row(
 
 # Side navigation bar
 SIDEBAR_STYLE = {
-    'background-color': 'rgba(230, 230, 230, 0.5)',  # Color #e6e6e6 with 50% opacity
-    'padding': 15,  # Padding top,left,right,botoom
+    'background-color': 'rgba(230, 230, 230, 0.5)', 
+    'padding': 15, 
     'padding-top': 30,
-    'padding-bottom': 0,  # Remove bottom padding for footer
-    'height': 'calc(100vh - 88px)',  # vh = "viewport height" = 90% of the window height
+    'padding-bottom': 0,
+    'height': 'calc(100vh - 88px)',
     "width": "18%",
     "max-width": "18%",
-    'display': 'flex',  # Allow children to be aligned to bottom
-    'flex-direction': 'column',  # Allow for children to be aligned to bottom
+    'display': 'flex',
+    'flex-direction': 'column',
+    "justify-content": "space-between"
 }
 
-sidebar = dbc.Col(
+sidebar = dbc.Col([
     dbc.Stack([
         dbc.Row([
             dbc.Col(html.Label("Enable Geo-View:"), width=9),        
@@ -108,7 +109,20 @@ sidebar = dbc.Col(
             )),
         ])])
     ], gap=3),
-    style=SIDEBAR_STYLE,
+    html.Footer(
+                dcc.Markdown('''
+                Supporting decision makers with accessible global food-price visualizations.
+
+                Celeste Zhao, John Shiu, Simon Frew, Tony Shum
+                             
+                [![GitHub repo](https://img.shields.io/badge/-GitHub-grey?style=flat&logo=github)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
+                [![GitHub release](https://img.shields.io/github/release/UBC-MDS/DSCI-532_2024_19_food-price-tracker.svg)](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/releases)
+                ![GitHub release date](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
+                ''',
+                style={'fontSize': 14})
+            )
+        ],
+    style=SIDEBAR_STYLE
 )
 
 content = dbc.Col(
@@ -136,22 +150,17 @@ app.layout = dbc.Container([
         dbc.Col(
             html.Div([
                 content,
-                html.Hr(),
-                html.Footer(
-                    dcc.Markdown('''
-                    * Glossary:
-                      - MoM: Month-over-Month percentage change
-                      - YoY: Year-over-Year percentage change
-
-                    Food Price Tracker is developed by Celeste Zhao, John Shiu, Simon Frew, Tony Shum.  
-                    The application provides global food price visualization to enhance cross-sector collaboration on worldwide food-related challenges.  
-                    [`Link to the Github Repo`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/)  
-                    Dashboard latest update on ![release](https://img.shields.io/github/release-date/UBC-MDS/DSCI-532_2024_19_food-price-tracker)
-                    ''',
-                    style={'fontSize': 14})
-                )
+                html.Div([
+                    html.Hr(),
+                    html.Footer(
+                        html.Em(
+                            "Glossary:    MoM - month-over-month percentage change.    YoY - year-over-year percentage change.",
+                            style={'fontSize': 14, "margin-bottom":"0"}
+                            ), 
+                    )
+                ])
                 ],
-            style={'height': 'calc(100vh - 88px)', 'width': '100%', 'padding': '15px', 'margin': '0'}),
+            style={'height': 'calc(100vh - 88px)', 'width': '100%', 'padding': '15px', 'margin': '0', "justify-content": "space-between", 'display': 'flex', 'flex-direction': 'column',}),
             style={"overflow":"auto", "margin": 0, "padding": 0, "width": "100%"})
     ]),
         dcc.Store(
