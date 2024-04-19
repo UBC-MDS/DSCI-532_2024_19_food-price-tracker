@@ -30,13 +30,6 @@ topbar = dbc.Row(
                 }
             ),
             md=8, align="center"
-        ),
-        dbc.Col(
-            dbc.Button(
-                "Tutorial",
-                color="light",
-                href="https://www.youtube.com/watch?v=t90iISeWdw8"
-            )
         )
     ]
 )
@@ -112,7 +105,19 @@ sidebar = dbc.Col(
                 placeholder="Select markets...",
                 style={'width': '100%'}
             )),
-        ])])
+        ])]),
+        html.Br(),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Tutorial")),
+        ]),
+            dbc.Row([
+                dbc.Button(
+                    "Use Case for Business Owners",
+                    color="light",
+                    href="https://www.youtube.com/watch?v=t90iISeWdw8"
+                ),
+            ])
+        ])
     ], gap=3),
     style=SIDEBAR_STYLE,
 )
