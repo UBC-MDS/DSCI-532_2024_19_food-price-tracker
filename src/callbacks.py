@@ -140,6 +140,13 @@ def update_widget_values(country_index_json, country_json, toggle, country):
 @callback(
     Output("country-data", "data"),
     [Input("country-dropdown", "value"), Input("country-index", "data")],
+    running=[
+            (Output("date-range", "disabled"), True, False),
+            (Output("commodities-dropdown", "disabled"), True, False),
+            (Output("markets-dropdown", "disabled"), True, False),
+            (Output("country-dropdown", "disabled"), True, False),
+            (Output("geo-toggle", "disabled"), True, False),
+            ]
 )
 @cache.memoize()
 def update_country_data(country, country_index):
