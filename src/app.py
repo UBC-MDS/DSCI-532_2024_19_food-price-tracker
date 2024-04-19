@@ -70,6 +70,7 @@ sidebar = dbc.Col([
                 id="country-dropdown",
                 value="Japan",
                 multi=False,
+                clearable=False,
                 placeholder="Select a country...",
                 style={'width': '100%'}
             )),
