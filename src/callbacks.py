@@ -152,11 +152,11 @@ def update_country_data(country, country_index):
         Input("commodities-dropdown", "value"),
         Input("markets-dropdown", "value"),
         Input("geo-toggle", "on"),
-#        Input("date-range", "value"),
+        Input("country-dropdown", "value")
     ],    
 )
 def update_geo_area(
-    country_json, date_range, commodities, markets, toggle
+    country_json, date_range, commodities, markets, toggle, country
 ):
     """
     Generate and update the geo chart for the selected parameters.
@@ -192,7 +192,6 @@ def update_geo_area(
         return []
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
-    country = "Japan"
 
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
