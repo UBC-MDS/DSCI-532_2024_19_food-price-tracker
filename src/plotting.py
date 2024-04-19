@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import altair as alt
+import geopandas as gpd
+from vega_datasets import data
+from iso3166 import countries
 alt.data_transformers.enable('vegafusion')
 
 def generate_figure_chart(data, widget_date_range, widget_market_values, widget_commodity_values):
@@ -262,6 +265,75 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         charts.append(chart)
 
     return charts
+
+def plot_country_cities(country_name, price_summary):
+    world = alt.topo_feature(data.world_110m.url, 'countries')
+
+    country_map = alt.Chart(world, width='container', height='container').transform_filter(
+        (alt.datum.id == int(countries.get(country_name).numeric))
+    )
+
+    background = country_map.mark_geoshape(
+        fill='lightgray',
+        stroke='white'
+    )
+    
+    markets = alt.Chart(alt.Data(values=price_summary)).mark_point(
+        filled=True,
+        size=100,
+        color='red'
+    ).encode(
+        latitude='latitude:Q',
+        longitude='longitude:Q',
+        tooltip='market:N'
+    )
+
+    return background + markets
+
+def generate_geo_chart(data, widget_date_range, widget_market_values, widget_commodity_values, country):
+    
+    
+    # Default Info
+    columns_to_keep = [
+        "date",
+        "market",
+        "latitude",
+        "longitude",
+        "commodity",
+        "unit",
+        "usdprice",
+    ]
+
+    # Generate latest average price
+    price_data = data[columns_to_keep]
+    price_data = price_data[
+        price_data.date.between(
+            widget_date_range[0], widget_date_range[1]
+        )
+        & (price_data.commodity.isin(widget_commodity_values))
+        & (price_data.market.isin(widget_market_values))
+    ]
+    price_data = (
+        price_data.groupby(["date", "market", "latitude", "longitude"])
+        .agg({"usdprice": "mean"})
+        .reset_index()
+    )
+    price_data = price_data.set_index("date").groupby(
+        ["market", "latitude", "longitude"]
+    )
+    price_summary = (
+        price_data["usdprice"].apply(lambda x: x).reset_index()
+    )
+    price_summary = (
+        price_summary.groupby(["market", "latitude", "longitude"])
+        .last()
+        .reset_index()
+    )
+
+    # Generate Geo chart
+    geo_chart = plot_country_cities(country, price_summary)
+    geo_chart.display()
+
 
 if __name__ == '__main__':
     pass
