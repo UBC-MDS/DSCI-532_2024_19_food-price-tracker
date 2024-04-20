@@ -39,14 +39,14 @@ def toggle_chart_view(toggle = False):
     """
     if toggle: 
         return [
-            dbc.Col(id="geo-area"), 
+            dbc.Col(id="geo-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}), 
             dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px", "display":"none"}),
             dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px", "display":"none"})
         ]
     
     else: 
         return [
-            dbc.Col(id="geo-area", style={"display":"none"}), 
+            dbc.Col(id="geo-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px", "display":"none"}), 
             dbc.Row(id="index-area", children=[], style={"width":"100%", "padding":"0px", "margin":"0px"}),
             dbc.Row(id="commodities-area", children=[], align="center", style={"width":"100%", "padding":"0px", "margin":"0px"})
         ]
@@ -179,6 +179,7 @@ def update_country_data(country, country_index):
         Output("commodities-dropdown", "value", allow_duplicate=True),
         Output("markets-dropdown", "options", allow_duplicate=True),
         Output("markets-dropdown", "value", allow_duplicate=True),
+        Output("geo-area", "children", allow_duplicate=True),
         Output("index-area", "children", allow_duplicate=True),
         Output("commodities-area", "children", allow_duplicate=True),
     ],
@@ -202,14 +203,23 @@ def reset_widget_values(country):
     """
 
     date_range_value = [0, 0]
-    commodities_dropdown_options = ['Loading Data ......']
-    commodities_dropdown_value = 'Loading Data ......'
-    markets_dropdown_options = ['Loading Data ......']
-    markets_dropdown_value = 'Loading Data ......'
+    commodities_dropdown_options = ['Loading Data...']
+    commodities_dropdown_value = 'Loading Data...'
+    markets_dropdown_options = ['Loading Data...']
+    markets_dropdown_value = 'Loading Data...'
+    geo_area = dbc.Alert(
+        dbc.Row(
+            [
+                dbc.Col(html.P("Loading Data...", className="ml-3", style={"margin-bottom":"0"}), width=True) 
+            ], align="center", justify="center", className="g-3",
+            
+        ),
+        color="warning"
+    )
     index_area = dbc.Alert(
         dbc.Row(
             [
-                dbc.Col(html.P("Loading Data ......", className="ml-3", style={"margin-bottom":"0"}), width=True) 
+                dbc.Col(html.P("Loading Data...", className="ml-3", style={"margin-bottom":"0"}), width=True) 
             ], align="center", justify="center", className="g-3",
             
         ),
@@ -223,6 +233,7 @@ def reset_widget_values(country):
         commodities_dropdown_value,
         markets_dropdown_options,
         markets_dropdown_value,
+        geo_area,
         index_area,
         commodities_area,
         )
@@ -231,18 +242,77 @@ def reset_widget_values(country):
 
 
 @callback(
-    [Output("geo-area", "children"), Output("widget-state", "data", allow_duplicate=True)],
+    Output("date-range-label", "children"),
+    Input("geo-toggle", "on")
+)
+def update_date_range_label(toggle):
+    """
+    Update the label of a date range component based on the state of a toggle.
+
+    Parameters
+    ----------
+    toggle : bool
+        The state of the toggle. If `True`, the label indicates that only the end date
+        matters. If `False`, the label simply shows "Date Range".
+
+    Returns
+    -------
+    list
+        A list containing a single dbc.Col element with the updated html.Label as its child.
+    """
+
+    if toggle:
+        return [
+            dbc.Col(html.Label("Date Range (only end date plotted)")),
+        ]
+    else:
+        return [
+            dbc.Col(html.Label("Date Range")),
+        ]
+
+@callback(
+    [Output("geo-area", "children"), Output("index-area", "children"), Output("commodities-area", "children"),
+     Output("widget-state", "data", allow_duplicate=True), Output("commodities-charts", "data")],
     [
-        State("country-data", "data"),
-        State("date-range", "value"),
-        State("commodities-dropdown", "value"),
-        State("markets-dropdown", "value"),
+        Input("country-data", "data"),
+        Input("date-range", "value"),
+        Input("commodities-dropdown", "value"),
+        Input("markets-dropdown", "value"),
         State("geo-toggle", "on"),
         State("country-dropdown", "value"),
+        State("widget-state", "data"),
+        State("commodities-charts", "data"), 
         Input("content-area", "children")
     ],
     prevent_initial_call=True
 )
+def draw_charts(
+    country_json, date_range, commodities, markets, toggle, country, prior_widget_state, commodities_children, content_area
+): 
+    """Draw chart depending on toggle state. 
+    """
+    geo_area = []
+    index_area = [], 
+    commodities_area = []
+    commodities_area_pickle = jsonpickle.encode(commodities_area)
+    current_widget_state = []
+
+    if toggle: # draw geo chart
+        geo_area, current_widget_state = update_geo_area(
+                country_json, date_range, commodities, markets, toggle, country, content_area
+            )
+
+    elif not toggle: # draw commodities chart
+        index_area, commodities_area, current_widget_state, commodities_area_pickle = update_index_commodities_area(
+                country_json, date_range, commodities, markets, toggle, country, prior_widget_state, commodities_children, content_area
+            )
+        
+    else: 
+        raise PreventUpdate
+    
+    return geo_area, index_area, commodities_area, current_widget_state, commodities_area_pickle
+
+
 def update_geo_area(
     country_json, date_range, commodities, markets, toggle, country, content_area
 ):
@@ -265,7 +335,7 @@ def update_geo_area(
 
     markets : list
         A list of market names from which the data will be filtered to generate the charts.
-    
+
     toggle : bool
         True: enable geo-area chart. False: enable typical commodities chart.
 
@@ -289,41 +359,34 @@ def update_geo_area(
     
     country_data = pd.read_json(StringIO(country_json), orient="split")
 
-
     ## Create Index Charts
     country_data = generate_food_price_index_data(country_data, markets, commodities)
 
     start_date = convert_date(date_range[0], 'datetime')
     end_date = convert_date(date_range[1], 'datetime')
 
-    index_line = generate_line_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
+    # Plot Geo Chart
+    geo_chart = generate_geo_chart(country_data, (start_date, end_date), markets, ["Food Price Index"], country)
 
-    index_figure = generate_figure_chart(
-        country_data, (start_date, end_date), markets, ["Food Price Index"]
-    )[0]
-
-    index_figure = index_figure.properties(
+    geo_chart = geo_chart.properties(
         title=alt.TitleParams(
-            text="Food Price Index",
+            text="Geo View of Latest Food Price Index",
             fontSize=15,
             subtitle=[f"(Arithmetic mean of {', '.join(commodities)})"],
         )
     )
 
     # Use Card for Index Charts Layout
-    index_area = dbc.Card(
+    geo_area = dbc.Card(
         children=[
-        dbc.CardHeader('Overview', style={
+        dbc.CardHeader('Geo View', style={
             'fontWeight': 'bold',
             'background-color': 'rgba(221, 231, 193, 1)',
             'border-radius': '5px',
             'border-bottom': '0'
         }),
         dbc.CardBody([
-            dvc.Vega(spec=(index_figure).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%"}),
-            dvc.Vega(spec=(index_line).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "220px"})
+            dvc.Vega(spec=(geo_chart).to_dict(format="vega"), opt={'actions': False}, style={"width": "100%", "height": "auto"}),
         ])
         ],
         style={
@@ -332,29 +395,13 @@ def update_geo_area(
             'border': 'none',
             'border-radius': '5px',
             "padding":"0px",
-            'padding-top': '10px'
+            # 'padding-top': '10px'
         }
     )
 
-    return [index_area], current_widget_state
+    return [geo_area], current_widget_state
 
 
-@callback(
-    [Output("index-area", "children"), Output("commodities-area", "children"),
-     Output("widget-state", "data", allow_duplicate=True), Output("commodities-charts", "data")],
-    [
-        Input("country-data", "data"),
-        Input("date-range", "value"),
-        Input("commodities-dropdown", "value"),
-        Input("markets-dropdown", "value"),
-        State("geo-toggle", "on"),
-        State("country-dropdown", "value"),
-        State("widget-state", "data"),
-        State("commodities-charts", "data"), 
-        Input("content-area", "children")
-    ],
-    prevent_initial_call=True
-)
 def update_index_commodities_area(
     country_json, date_range, commodities, markets, toggle, country, prior_widget_state, commodities_children, content_area
 ):
@@ -424,7 +471,8 @@ def update_index_commodities_area(
     if (
         current_widget_state["country"] == prior_widget_state["country"] and
         current_widget_state["date_range"] == prior_widget_state["date_range"] and 
-        set(current_widget_state["markets"]) == set(prior_widget_state["markets"])
+        set(current_widget_state["markets"]) == set(prior_widget_state["markets"]) and 
+        current_widget_state["toggle"] == prior_widget_state["toggle"] 
     ): 
         value_state = compare_widget_state(current_widget_state, prior_widget_state, field="commodities")
 

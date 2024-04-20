@@ -1,7 +1,19 @@
 import numpy as np
 import pandas as pd
 import altair as alt
+import geopandas as gpd
+from vega_datasets import data
+import country_converter as coco
+from src.cache_config import cache
 alt.data_transformers.enable('vegafusion')
+
+import json
+
+with open('data/raw/ne_50m_admin_0_countries.json', 'r') as file:
+    COUNTRY_DATA = json.load(file)
+    WORLD = alt.Data(values=COUNTRY_DATA, format=alt.TopoDataFormat(type='topojson', feature='ne_50m_admin_0_countries'))
+
+
 
 def generate_figure_chart(data, widget_date_range, widget_market_values, widget_commodity_values):
     """
@@ -127,7 +139,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         mom_title = chart.mark_text(
             dx=30, align="left", baseline='middle'
         ).encode(
-            text=alt.value("*MoM:  "),
+            text=alt.value("MoM:  "),
             color=alt.condition(
                 "datum.mom<0",
                 alt.ColorValue("red"),
@@ -149,7 +161,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         yoy_title = chart.mark_text(
             dx=140, align="left", baseline='middle'
         ).encode(
-            text=alt.value("*YoY:  "),
+            text=alt.value("YoY:  "),
             color=alt.condition(
                 "datum.yoy<0",
                 alt.ColorValue("red"),
@@ -251,6 +263,166 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         charts.append(chart)
 
     return charts
+
+
+@cache.memoize()
+def get_country_background(country_id):
+    country_map = alt.Chart(WORLD, width='container', height=500).transform_calculate(
+        ISO_N3='datum.properties.ISO_N3' 
+    ).transform_filter(
+        (alt.datum.ISO_N3 == f"{country_id:03}")
+    )
+    background = country_map.mark_geoshape(
+        fill='lightgray',
+        stroke='white'
+    ).project(
+        type='mercator'
+    )
+
+    return background
+
+
+def plot_country_cities(country_id, price_summary):
+    """
+    Generates a geographic visualization combining a country map and market points.
+
+    This function uses Altair to plot a map of a specified country identified by its ID.
+    Overlaid on the map are points representing market locations, which are provided
+    in a DataFrame. Each point is marked in red and sized to stand out, with tooltips
+    displaying the market name.
+
+    Parameters:
+    -----------
+    country_id : int
+        The unique identifier for the country which corresponds to the 'id' in the
+        TopoJSON used by the function. This ID is used to filter the map to the 
+        specific country.
+        
+    price_summary : pandas.DataFrame
+        A DataFrame containing the necessary data to plot the market points on the map.
+        This DataFrame must include 'latitude' and 'longitude' columns for positioning
+        the points, and a 'market' column for tooltips.
+
+    Returns:
+    --------
+    altair.vegalite.v4.api.LayerChart
+        An Altair LayerChart object that combines a geographical map of the specified
+        country and the market points. The map is shaded in light gray with white
+        borders, and the market points are highlighted in red.
+    """
+
+    # Plot country map as background
+    background = get_country_background(country_id)
+
+    # Process data
+    price_summary['label'] = price_summary['market'] + ' ' + price_summary['usdprice'].round(2).astype(str)
+    max_usdprice = price_summary['usdprice'].max()
+    price_summary = price_summary.to_dict(orient='records')
+    
+    # Plot market points
+    markets = alt.Chart(alt.Data(values=price_summary)).mark_point(
+        filled=True,
+        size=200
+    ).encode(
+        latitude='latitude:Q',
+        longitude='longitude:Q',
+        color=alt.Color('usdprice:Q', title='Index', scale=alt.Scale(domain=[0, max_usdprice], scheme='reds')),
+        tooltip=[
+            alt.Tooltip('market:N', title='Market'),
+            alt.Tooltip('date:T', title='Time', format='%Y-%m'),
+            alt.Tooltip('usdprice:Q', title='Index', format='.2f')
+        ]
+    ).project(
+        type='mercator'
+    )
+
+    text = markets.mark_text(
+        align='left',
+        baseline='middle',
+        dx=12,
+        fontSize=12
+    ).encode(
+        text='label:N',
+        longitude='longitude:Q',
+        latitude='latitude:Q'
+    )
+
+    markets_final = alt.layer(markets, text)
+
+    return background + markets_final
+
+def generate_geo_chart(data, widget_date_range, widget_market_values, widget_commodity_values, country):
+    """
+    Generates a geographical visualization of market data within a specified country
+    for a given date range, market, and commodity filters.
+
+    This function processes input data to compute the average price of commodities
+    at different markets within a country and plots these as points on a geographic map
+    of the country. Each point's size and color can indicate different attributes or
+    summaries of the data.
+
+    Parameters:
+    -----------
+    data : pandas.DataFrame
+        A DataFrame containing detailed market data including dates, market locations,
+        commodity information, pricing, etc.
+        
+    widget_date_range : tuple
+        A tuple containing start and end dates (inclusive) to filter the data. Expected
+        format is (start_date, end_date) where both are either string formats that
+        pandas can recognize as dates or pandas.Timestamp objects.
+        
+    widget_market_values : list
+        A list of market names to filter the data. Only data corresponding to these
+        markets will be considered.
+        
+    widget_commodity_values : list
+        A list of commodities to filter the data. The function will calculate average
+        prices only for the commodities specified in this list.
+        
+    country : str
+        The name of the country for which the geographical chart is to be generated.
+        This should be a valid country name as recognized by the `iso3166` library.
+
+    Returns:
+    --------
+    altair.vegalite.v4.api.LayerChart
+        An Altair LayerChart object that plots the average prices of commodities as
+        points on the geographic map of the specified country. The points are placed
+        according to the latitude and longitude of the markets.
+    """
+    
+    # Default Info
+    columns_to_keep = [
+        "date",
+        "market",
+        "latitude",
+        "longitude",
+        "commodity",
+        "unit",
+        "usdprice",
+    ]
+
+    # Generate latest average price
+    price_data = data[columns_to_keep]
+    price_data = price_data[
+        price_data.date.between(
+            widget_date_range[0], widget_date_range[1]
+        )
+        & (price_data.commodity.isin(widget_commodity_values))
+        & (price_data.market.isin(widget_market_values))
+    ]
+
+    price_data = price_data.groupby(["date", "market", "latitude", "longitude"]).agg({'usdprice': 'mean'}).reset_index()
+
+    price_summary = price_data.sort_values(by='date').groupby(["market", "latitude", "longitude"]).last().reset_index()
+
+    # Generate Geo chart
+    country_id = coco.convert(names=country, to='ISOnumeric')
+    geo_chart = plot_country_cities(country_id, price_summary)
+    
+    return geo_chart
+
 
 if __name__ == '__main__':
     pass
