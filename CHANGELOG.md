@@ -2,6 +2,15 @@
 
 
 
+## v0.5.0 (2024-04-20)
+
+### Feature
+
+* feat: trigger milestone 4 release (#142)
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`277c082`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/277c082b1015f84b1bd857f170a68caa89bdf6dd))
+
+
 ## v0.4.0 (2024-04-20)
 
 ### Documentation
