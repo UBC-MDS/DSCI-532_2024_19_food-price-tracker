@@ -139,7 +139,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         mom_title = chart.mark_text(
             dx=30, align="left", baseline='middle'
         ).encode(
-            text=alt.value("*MoM:  "),
+            text=alt.value("MoM:  "),
             color=alt.condition(
                 "datum.mom<0",
                 alt.ColorValue("red"),
@@ -161,7 +161,7 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         yoy_title = chart.mark_text(
             dx=140, align="left", baseline='middle'
         ).encode(
-            text=alt.value("*YoY:  "),
+            text=alt.value("YoY:  "),
             color=alt.condition(
                 "datum.yoy<0",
                 alt.ColorValue("red"),
