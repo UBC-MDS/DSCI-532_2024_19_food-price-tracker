@@ -32,7 +32,7 @@ Celeste Zhao, John Shiu, Simon Frew, Tony Shum
 
 Food Price Tracker can be accessed through the following link: https://dsci-532-2024-19-food-price-tracker.onrender.com/
 
-The dashboard is composed of a sidebar for user input and a data display section. In the sidebar, you can select the country, time range, specific commodities, and markets you wish to view. In the data display section, you can see the actual and average value, Month-over-Month and Year-over-Year change rates of the overall Food Price Index as well as of each commodity.
+The dashboard is composed of a sidebar for user input and a data display section. In the sidebar, you can select the country, time range, specific commodities, and markets you wish to view. In the data display section, you can see the actual and average value, Month-over-Month and Year-over-Year change rates of the overall Food Price Index as well as of each commodity. Further, toggling the Geo-View provides a price comparison for a single date across selected regions in a map of the country. This allows the user to compare pricing differences in space for their selected time.
 
 ### Usage Demonstration
 
