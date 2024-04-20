@@ -53,7 +53,6 @@ def fetch_country_index():
     prototype_countries = [
         'Afghanistan',
         'Bolivia',
-        'Fiji',
         'Japan',
         'Mexico',
         'Laos',
