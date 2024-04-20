@@ -72,7 +72,7 @@ sidebar = dbc.Col(
         ])]),
         html.Div([dbc.Row([
             dbc.Col(html.Label("Date Range")),
-        ]),
+        ], id="date-range-label"),
         dbc.Row([
             dbc.Col(dcc.RangeSlider(
                 id="date-range",

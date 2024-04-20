@@ -149,6 +149,20 @@ def update_country_data(country, country_index):
 
 
 @callback(
+    Output("date-range-label", "children"),
+    Input("geo-toggle", "on")
+)
+def update_date_range_label(toggle):
+    if toggle:
+        return [
+            dbc.Col(html.Label("Date Range (only end date matters)")),
+        ]
+    else:
+        return [
+            dbc.Col(html.Label("Date Range")),
+        ]
+
+@callback(
     [Output("geo-area", "children")],
     [
         Input("country-data", "data"),
