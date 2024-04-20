@@ -17,6 +17,7 @@ Based on the peer reviews and the Milestone 3 reflection, we've implemented seve
 4. [Performance Improvement](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/issues/105)
 - The country data is cached once pulled through API, which is later used when the previous visited country is visited again. This saves the API call and the processing time for fetching the data via the API and increase the efficiency.
 - The computation time is further reduced during the data transformation by removing redundant filtering or slow of the data, e.g. replacing `numpy.apply` with similar functions.
+- Dynamic charting of commodities was implemented by storing and retrieving the current charts shown, checking for differences, and if applicable, reusing existing charts. This significantly reduced processing time in the basic view.
 - As the data is fetched in real-time and cached instead of long-term storage, binary format might not be applicable for the improvement as [commented by Joel](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/issues/105) 
 
 5. [Other fixes and touch-ups](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/issues/106)
@@ -31,9 +32,11 @@ Based on the peer reviews and the Milestone 3 reflection, we've implemented seve
 ## 2. Limitations and Potential Future Improvements
 
 - Currently, we would request the country's API to fetch real-time data every time the user selects a new country the first time. We are aware that there is still room for improvement to reduce computational overhead for higher efficiency, for example, regularly fetching data using a cron job at regular intervals and storing the data locally instead of fetching  data in real-time. However, due to the time constraint of the project, it would not be implemented in Milestone 4.
-- Due to the variation of data among countries, different data quality issues were found which requires significant amount of time for data wrangling. 10 countries with best data quality were selected as the pilot countries in our prototype to demostrate the functionality of our dashboard without error casued by data quality issue.
+- Due to the variation of data among countries, different data quality issues were found which requires significant amount of time for data wrangling. 9 countries with best data quality were selected as the pilot countries in our prototype to demostrate the functionality of our dashboard without error casued by data quality issue.
+- Further, some of our charting functions are still slow. Data processing could be more centralized and generalized, but this will be challenging to implement given the dynamic nature of our data.
+- The geo-chart is still somewhat limited, and interactivity was constrained by Altair and time constraints. We would seek to improve its performance and visual aesthetic in subsequent revisions. 
 - Moreover, more test cases can be added to ensure the accuracy of the functions used.
 
 ## 3. Useful Insights, Material, or Feedback for Our Dashboard Development
 
-It's very important to consider the problem from the users' perspective and listen to the users' feedback. We received many useful feedback from peer reviews, such as annotating the meaning of glossaries, making widgets easier to use, adding a tutorial, etc. The feedback makes our dashboard more user friendly.
+It's very important to consider the problem from the users' perspective and listen to the users' feedback. We received many useful feedback from peer reviews, such as annotating the meaning of glossaries, making widgets easier to use, adding a tutorial, etc. The feedback makes our dashboard more user friendly. Overall, we find our dashboard to describe data well and generalize very well to many countries. The dynamic nature of this dashboard was difficult to implement but provides a unique value proposition. 
