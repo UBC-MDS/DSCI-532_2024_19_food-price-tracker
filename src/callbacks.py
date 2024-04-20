@@ -179,6 +179,7 @@ def update_country_data(country, country_index):
         Output("commodities-dropdown", "value", allow_duplicate=True),
         Output("markets-dropdown", "options", allow_duplicate=True),
         Output("markets-dropdown", "value", allow_duplicate=True),
+        Output("geo-area", "children", allow_duplicate=True),
         Output("index-area", "children", allow_duplicate=True),
         Output("commodities-area", "children", allow_duplicate=True),
     ],
@@ -205,11 +206,20 @@ def reset_widget_values(country):
     commodities_dropdown_options = ['Loading Data...']
     commodities_dropdown_value = 'Loading Data...'
     markets_dropdown_options = ['Loading Data...']
-    markets_dropdown_value = 'Loading Data ...'
+    markets_dropdown_value = 'Loading Data...'
+    geo_area = dbc.Alert(
+        dbc.Row(
+            [
+                dbc.Col(html.P("Loading Data...", className="ml-3", style={"margin-bottom":"0"}), width=True) 
+            ], align="center", justify="center", className="g-3",
+            
+        ),
+        color="warning"
+    )
     index_area = dbc.Alert(
         dbc.Row(
             [
-                dbc.Col(html.P("Loading Data ......", className="ml-3", style={"margin-bottom":"0"}), width=True) 
+                dbc.Col(html.P("Loading Data...", className="ml-3", style={"margin-bottom":"0"}), width=True) 
             ], align="center", justify="center", className="g-3",
             
         ),
@@ -223,6 +233,7 @@ def reset_widget_values(country):
         commodities_dropdown_value,
         markets_dropdown_options,
         markets_dropdown_value,
+        geo_area,
         index_area,
         commodities_area,
         )

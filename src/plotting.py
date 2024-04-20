@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import geopandas as gpd
 from vega_datasets import data
-from iso3166 import countries
+import country_converter as coco
 from src.cache_config import cache
 alt.data_transformers.enable('vegafusion')
 
@@ -270,7 +270,7 @@ def get_country_background(country_id):
     country_map = alt.Chart(WORLD, width='container', height=500).transform_calculate(
         ISO_N3='datum.properties.ISO_N3' 
     ).transform_filter(
-        (alt.datum.ISO_N3 == str(country_id))
+        (alt.datum.ISO_N3 == f"{country_id:03}")
     )
     background = country_map.mark_geoshape(
         fill='lightgray',
@@ -418,7 +418,7 @@ def generate_geo_chart(data, widget_date_range, widget_market_values, widget_com
     price_summary = price_data.sort_values(by='date').groupby(["market", "latitude", "longitude"]).last().reset_index()
 
     # Generate Geo chart
-    country_id = int(countries.get(country).numeric)
+    country_id = coco.convert(names=country, to='ISOnumeric')
     geo_chart = plot_country_cities(country_id, price_summary)
     
     return geo_chart
