@@ -263,7 +263,7 @@ def update_date_range_label(toggle):
 
     if toggle:
         return [
-            dbc.Col(html.Label("Date Range (only end date matters)")),
+            dbc.Col(html.Label("Date Range (only end date plotted)")),
         ]
     else:
         return [
