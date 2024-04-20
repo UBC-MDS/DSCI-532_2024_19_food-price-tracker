@@ -29,7 +29,7 @@ Based on the peer reviews and the Milestone 3 reflection, we've implemented seve
 ## 2. Limitations and Potential Future Improvements
 
 - Country data is fetched in real-time and is still slow even with caching and memoization. It is recommended that a server-side cron-job is implemented to fetch data and store locally for efficient retrieval during dashboard use. Not implemented due to time constraints and technical limitations of render.com. 
-- Data quality suffered from country to country, and more nuanced filtering is required. 9 countries with best data quality were selected as the pilot countries in our prototype. 
+- Data quality suffered from country to country, and more nuanced filtering is required. 10 countries with best data quality were selected as the pilot countries in our prototype. 
 - Data processing could be more centralized and generalized to improve charting time, but this will be challenging to implement given the dynamic nature of our data.
 - The geo-chart is still somewhat limited, and interactivity was constrained by Altair and time. We would seek to improve its performance and visual aesthetic in subsequent revisions. 
 - Moreover, more test cases can be added to ensure the accuracy of the functions used.
