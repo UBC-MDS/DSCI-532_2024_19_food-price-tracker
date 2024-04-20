@@ -49,6 +49,22 @@ def fetch_country_index():
         hdx_identifier=country_index_df.url.str.rsplit("/", n=1).str[1],
     ).set_index("country")
 
+    # For prototype
+    prototype_countries = [
+        'Afghanistan',
+        'Bolivia',
+        'Fiji',
+        'Japan',
+        'Mexico',
+        'Laos',
+        'Pakistan',
+        'Syria',
+        'Tanzania',
+        'Ukraine',
+    ]
+
+    country_index_df = country_index_df.loc[prototype_countries]
+
     return country_index_df.to_json(date_format='iso', orient='split')
 
 def fetch_country_data(country, country_index_json=fetch_country_index()):
