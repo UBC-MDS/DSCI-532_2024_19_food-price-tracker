@@ -11,6 +11,7 @@ app = Dash(
     title="Food Price Tracker",
     suppress_callback_exceptions=True
 )
+server = app.server
 
 init_cache(app.server)
 import src.callbacks
