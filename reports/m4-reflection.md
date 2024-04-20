@@ -15,9 +15,13 @@ Based on the peer reviews and the Milestone 3 reflection, we've implemented seve
 - Made the country names in the dropdown menu sorted alphabetically.
 - Added the notes on the dashboard and refined the docs (e.g. README) for better user understanding and usage.
 
+5. Application transparency:
+- Docstrings are included for every functions, with a description of the function and parameters, and the expected output.
+- Clear comments are included for large code blocks to explain their functionality within the functions.
+
 ## 2. Limitations and Potential Future Improvements
 
-Currently, every time we select a new country, we request the country's API in real time. A potential improvement in the future is to store data locally and automatically update the latest data from the web request API at regular intervals, to further reduce computational overhead and accelerate data loading speed.
+Currently, every time we select a new country, we request the country's API in real time. A potential improvement in the future is to store data locally and automatically update the latest data from the web request API at regular intervals, to further reduce computational overhead and accelerate data loading speed. Moreover, more test cases can be added to ensure the accuracy of the functions used.
 
 ## 3. Useful Insights, Material, or Feedback for Our Dashboard Development
 
