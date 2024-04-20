@@ -111,7 +111,28 @@ sidebar = dbc.Col([
                 placeholder="Select markets...",
                 style={'width': '100%'}
             )),
-        ])])
+        ])]),
+        html.Hr(),
+        html.Div([dbc.Row([
+            dbc.Col(html.Label("Tutorial")),
+        ]),
+            dbc.Row([
+                dbc.Col(
+                dbc.Button(
+                    "Use Case for Business Owners",
+                    color="#fff",
+                    href="https://www.youtube.com/watch?v=t90iISeWdw8",
+                    style={
+                        'font-size': '14px',
+                        'font-family': 'Verdana',
+                        'color': '#fff',
+                        'background-color': '#BEBEBE',
+                        'border-radius': '5px',
+                        'width': '100%'
+                    },
+                )),
+            ])
+        ])
     ], gap=3),
     html.Footer(
                 dcc.Markdown('''
