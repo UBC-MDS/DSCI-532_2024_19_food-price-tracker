@@ -38,6 +38,8 @@ The dashboard is composed of a sidebar for user input and a data display section
 
 ![demo gif](img/demo.gif)
 
+Here is a brief [tutorial](https://www.youtube.com/watch?v=t90iISeWdw8) that highlights one of the use case examples for business owners.
+
 ### Need Support?
 
 If you want to report a problem or give an suggestion, we would love for you to [open an issue](../../issues) at this github repository and we will get on to it in a timely manner.

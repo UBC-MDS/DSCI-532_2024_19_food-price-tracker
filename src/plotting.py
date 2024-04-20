@@ -69,27 +69,16 @@ def generate_figure_chart(data, widget_date_range, widget_market_values, widget_
         .agg({"usdprice": "mean"})
         .reset_index()
     )
-    price_data = price_data.set_index("date").groupby(
-        ["commodity", "unit"]
+    price_pivot = price_data.pivot_table(
+        index="date", 
+        columns=["commodity", "unit"], 
+        values="usdprice"
     )
-    price_summary = (
-        price_data["usdprice"].apply(lambda x: x).reset_index()
-    )
-    price_summary["mom"] = (
-        price_data["usdprice"]
-        .apply(lambda x: x.pct_change(1))
-        .reset_index()["usdprice"]
-    )
-    price_summary["yoy"] = (
-        price_data["usdprice"]
-        .apply(lambda x: x.pct_change(12))
-        .reset_index()["usdprice"]
-    )
-    price_summary = (
-        price_summary.groupby(["commodity", "unit"])
-        .last()
-        .reset_index()
-    )
+
+    price_summary = price_pivot.pct_change(1).iloc[-1].rename("mom").to_frame().reset_index()
+    price_summary["yoy"] = price_pivot.pct_change(12).iloc[-1].values 
+    price_summary["usdprice"] = price_pivot.iloc[-1].values
+    price_summary["date"] = price_pivot.index[-1]
 
     # Generate Figure charts
     charts = []
@@ -223,7 +212,7 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
         data.date.between(widget_date_range[0], widget_date_range[1])
         & data.market.isin(widget_market_values)
     ].copy()
-    commodities_data['date'] = commodities_data['date'].apply(lambda d: d.replace(day=1))
+    commodities_data['date'] = commodities_data['date'].dt.to_period("M").dt.to_timestamp()
     
     charts = []
 

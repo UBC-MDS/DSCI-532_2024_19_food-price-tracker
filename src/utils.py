@@ -28,3 +28,51 @@ def convert_date(input, target='label'):
         output = pd.to_datetime(f'{year}/{month}/{day}')
 
     return output
+    
+def compile_widget_state(
+        toggle=None,
+        country=None, 
+        date_range=None, 
+        commodities=None, 
+        markets=None
+):
+    """
+    Record the state of widget so dynamic charting can be achieved. 
+    
+    Parameters
+    ----------
+    toggle : bool
+        True: enable geo-area chart. False: enable typical commodities chart.
+
+    country : str
+        string of selected country, e.g., "Japan"
+
+    date_range : tuple of str or datetime
+        The starting and ending date in a tuple for filtering the data used in the charts.
+
+    commodities : list
+        A list of commodities to be included in the food price index calculation.
+
+    markets : list
+        A list of market names from which the data will be filtered to generate the charts.
+    
+
+    Returns
+    -------
+    dict
+        dict of widget-state compiled from input variables
+    """
+    widget_state = {
+        "toggle": toggle, 
+        "country": country, 
+        "date_range": date_range, 
+        "commodities": commodities,
+        "markets": markets
+    }
+    
+    return widget_state
+
+def compare_widget_state(current_widget_state, prior_widget_state, field="commodities"):
+    new = list(set(current_widget_state[field]) - set(prior_widget_state[field]))   
+    value_state = {val: "new" if val in new else "exists" for val in current_widget_state[field]}
+    return value_state

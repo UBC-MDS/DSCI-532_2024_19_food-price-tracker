@@ -3,9 +3,12 @@ import itertools
 import pandas as pd
 import country_converter as coco
 
+
 from io import StringIO
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
+from src.cache_config import cache
+
 
 ## Data Loading
 
@@ -16,7 +19,7 @@ Configuration.create(
     hdx_read_only=True,
 )
 
-
+@cache.memoize()
 def fetch_country_index():
     """
     Fetch country index and preprocess into dataframe.
@@ -46,8 +49,23 @@ def fetch_country_index():
         hdx_identifier=country_index_df.url.str.rsplit("/", n=1).str[1],
     ).set_index("country")
 
-    return country_index_df.to_json(date_format='iso', orient='split')
+    # For prototype
+    prototype_countries = [
+        'Afghanistan',
+        'Bolivia',
+        'Fiji',
+        'Japan',
+        'Mexico',
+        'Laos',
+        'Pakistan',
+        'Syria',
+        'Tanzania',
+        'Ukraine',
+    ]
 
+    country_index_df = country_index_df.loc[prototype_countries]
+
+    return country_index_df.to_json(date_format='iso', orient='split')
 
 def fetch_country_data(country, country_index_json=fetch_country_index()):
     """
@@ -64,12 +82,12 @@ def fetch_country_data(country, country_index_json=fetch_country_index()):
 
     Returns
     -------
-    country_json : pd.DataFrame.to_json()
-        JSON version of dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
+    country : pd.DataFrame
+        dataframe of WFP data from the given country, retrieved from the HDX and minimially preprocessed.
 
     Examples
     --------
-    >>> country_json = fetch_country_data("Japan")
+    >>> country = fetch_country_data("Japan")
     """
 
     columns_to_keep = [
@@ -93,7 +111,7 @@ def fetch_country_data(country, country_index_json=fetch_country_index()):
         skiprows=[1],
     )[columns_to_keep]
 
-    return country_df.to_json(date_format='iso', orient='split')
+    return country_df
 
 
 
@@ -139,7 +157,7 @@ def filter_major_data(data, date_abundance_threshold=0.5, market_abundance_thres
         .groupby(["commodity"])
         .idxmax()
     )
-    map_df["unit"] = map_df["unit"].apply(lambda x: x[1])
+    map_df["unit"] = map_df["unit"].str[1]
     map_df = map_df.reset_index()
     clean_data_df = clean_data_df.merge(
         map_df, how="inner", on=["commodity", "unit"]
@@ -245,23 +263,21 @@ def fill_missing_data(data, method="forward"):
 
     return full_data_df
 
-def get_clean_data(data_json):
+def get_clean_data(data):
     """
     Returns JSON data containing cleaned data.
 
     Parameters
     ----------
-    data_json : str
-        JSON string containing raw data.
+    data : pd.DataFrame
+        minimally processed dataframe from fetch_country_data
 
     Returns
     -------
     str
         JSON string containing cleaned major data.
     """
-
-    data_df = pd.read_json(StringIO(data_json), orient='split')
-    data_df = filter_major_data(data_df)
+    data_df = filter_major_data(data)
     data_df = fill_missing_data(data_df)
 
     return data_df.to_json(date_format='iso', orient='split')
