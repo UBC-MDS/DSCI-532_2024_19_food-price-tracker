@@ -153,6 +153,21 @@ def update_country_data(country, country_index):
     Input("geo-toggle", "on")
 )
 def update_date_range_label(toggle):
+    """
+    Update the label of a date range component based on the state of a toggle.
+
+    Parameters
+    ----------
+    toggle : bool
+        The state of the toggle. If `True`, the label indicates that only the end date
+        matters. If `False`, the label simply shows "Date Range".
+
+    Returns
+    -------
+    list
+        A list containing a single dbc.Col element with the updated html.Label as its child.
+    """
+
     if toggle:
         return [
             dbc.Col(html.Label("Date Range (only end date matters)")),
