@@ -11,6 +11,7 @@ app = Dash(
     title="Food Price Tracker",
     suppress_callback_exceptions=True
 )
+server = app.server
 
 init_cache(app.server)
 import src.callbacks
@@ -70,6 +71,7 @@ sidebar = dbc.Col([
                 id="country-dropdown",
                 value="Japan",
                 multi=False,
+                clearable=False,
                 placeholder="Select a country...",
                 style={'width': '100%'}
             )),

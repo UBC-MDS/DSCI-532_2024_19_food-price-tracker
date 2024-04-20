@@ -140,6 +140,14 @@ def update_widget_values(country_index_json, country_json, toggle, country):
 @callback(
     Output("country-data", "data"),
     [Input("country-dropdown", "value"), Input("country-index", "data")],
+    running=[
+            (Output("date-range", "disabled"), True, False),
+            (Output("date-range", "tooltip"), None, {"placement": "bottom", "always_visible": True, 'transform': 'dateParser'}),
+            (Output("commodities-dropdown", "disabled"), True, False),
+            (Output("markets-dropdown", "disabled"), True, False),
+            (Output("country-dropdown", "disabled"), True, False),
+            (Output("geo-toggle", "disabled"), True, False),
+            ]
 )
 @cache.memoize()
 def update_country_data(country, country_index):
@@ -163,6 +171,63 @@ def update_country_data(country, country_index):
     data = get_clean_data(data)
 
     return data
+
+@callback(
+    [
+        Output("date-range", "value", allow_duplicate=True),
+        Output("commodities-dropdown", "options", allow_duplicate=True),
+        Output("commodities-dropdown", "value", allow_duplicate=True),
+        Output("markets-dropdown", "options", allow_duplicate=True),
+        Output("markets-dropdown", "value", allow_duplicate=True),
+        Output("index-area", "children", allow_duplicate=True),
+        Output("commodities-area", "children", allow_duplicate=True),
+    ],
+    Input("country-dropdown", "value"),
+    prevent_initial_call=True
+)
+def reset_widget_values(country):
+    """
+    Reset widget options and display Loading notice when data is loading for the new selected country.
+
+    Parameters
+    ----------
+    country : str
+        string of selected country, e.g., "Japan"
+    
+    Returns
+    -------
+    tuple
+        A tuple containing the reset values for dates, market, commodity,
+        and loading notice for the main panel display
+    """
+
+    date_range_value = [0, 0]
+    commodities_dropdown_options = ['Loading Data ......']
+    commodities_dropdown_value = 'Loading Data ......'
+    markets_dropdown_options = ['Loading Data ......']
+    markets_dropdown_value = 'Loading Data ......'
+    index_area = dbc.Alert(
+        dbc.Row(
+            [
+                dbc.Col(html.P("Loading Data ......", className="ml-3", style={"margin-bottom":"0"}), width=True) 
+            ], align="center", justify="center", className="g-3",
+            
+        ),
+        color="warning"
+    )
+    commodities_area = []
+
+    output = (
+        date_range_value,
+        commodities_dropdown_options,
+        commodities_dropdown_value,
+        markets_dropdown_options,
+        markets_dropdown_value,
+        index_area,
+        commodities_area,
+        )
+
+    return output
 
 
 @callback(
