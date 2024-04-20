@@ -4,7 +4,16 @@ import altair as alt
 import geopandas as gpd
 from vega_datasets import data
 from iso3166 import countries
+from src.cache_config import cache
 alt.data_transformers.enable('vegafusion')
+
+import json
+
+with open('data/raw/ne_50m_admin_0_countries.json', 'r') as file:
+    COUNTRY_DATA = json.load(file)
+    WORLD = alt.Data(values=COUNTRY_DATA, format=alt.TopoDataFormat(type='topojson', feature='ne_50m_admin_0_countries'))
+
+
 
 def generate_figure_chart(data, widget_date_range, widget_market_values, widget_commodity_values):
     """
@@ -255,6 +264,24 @@ def generate_line_chart(data, widget_date_range, widget_market_values, widget_co
 
     return charts
 
+
+@cache.memoize()
+def get_country_background(country_id):
+    country_map = alt.Chart(WORLD, width='container', height=500).transform_calculate(
+        ISO_N3='datum.properties.ISO_N3' 
+    ).transform_filter(
+        (alt.datum.ISO_N3 == str(country_id))
+    )
+    background = country_map.mark_geoshape(
+        fill='lightgray',
+        stroke='white'
+    ).project(
+        type='mercator'
+    )
+
+    return background
+
+
 def plot_country_cities(country_id, price_summary):
     """
     Generates a geographic visualization combining a country map and market points.
@@ -285,21 +312,10 @@ def plot_country_cities(country_id, price_summary):
     """
 
     # Plot country map as background
-    world = alt.topo_feature(data.world_110m.url, 'countries')
-
-    country_map = alt.Chart(world, width='container', height=500).transform_filter(
-        (alt.datum.id == country_id)
-    )
-
-    background = country_map.mark_geoshape(
-        fill='lightgray',
-        stroke='white'
-    )
+    background = get_country_background(country_id)
 
     # Process data
-    price_summary['label'] = price_summary.apply(
-        lambda row: f"{row['market']} {row['usdprice']:.2f}", axis=1
-    )
+    price_summary['label'] = price_summary['market'] + ' ' + price_summary['usdprice'].round(2).astype(str)
     max_usdprice = price_summary['usdprice'].max()
     price_summary = price_summary.to_dict(orient='records')
     
@@ -316,6 +332,8 @@ def plot_country_cities(country_id, price_summary):
             alt.Tooltip('date:T', title='Time', format='%Y-%m'),
             alt.Tooltip('usdprice:Q', title='Index', format='.2f')
         ]
+    ).project(
+        type='mercator'
     )
 
     text = markets.mark_text(
@@ -394,22 +412,10 @@ def generate_geo_chart(data, widget_date_range, widget_market_values, widget_com
         & (price_data.commodity.isin(widget_commodity_values))
         & (price_data.market.isin(widget_market_values))
     ]
-    price_data = (
-        price_data.groupby(["date", "market", "latitude", "longitude"])
-        .agg({"usdprice": "mean"})
-        .reset_index()
-    )
-    price_data = price_data.set_index("date").groupby(
-        ["market", "latitude", "longitude"]
-    )
-    price_summary = (
-        price_data["usdprice"].apply(lambda x: x).reset_index()
-    )
-    price_summary = (
-        price_summary.groupby(["market", "latitude", "longitude"])
-        .last()
-        .reset_index()
-    )
+
+    price_data = price_data.groupby(["date", "market", "latitude", "longitude"]).agg({'usdprice': 'mean'}).reset_index()
+
+    price_summary = price_data.sort_values(by='date').groupby(["market", "latitude", "longitude"]).last().reset_index()
 
     # Generate Geo chart
     country_id = int(countries.get(country).numeric)
