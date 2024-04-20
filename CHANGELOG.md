@@ -2,6 +2,260 @@
 
 
 
+## v0.4.0 (2024-04-20)
+
+### Documentation
+
+* docs: add geo-view description sentence (#140) ([`7b91e06`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/7b91e0644c81351169126521a54256dcbdf318d7))
+
+* docs: update gif in README (#139)
+
+* docs: update gif in README
+
+* docs: improve the resolution of gif
+
+* docs: improve the resolution
+
+* docs: improve gif
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`9cedfff`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/9cedfffbf6f31671b56c52b5c4645356437a4f5f))
+
+* docs: Create m4-reflection.md (#134)
+
+* docs: Create m4-reflection.md
+
+* docs: Add challenging part in the reflection
+
+* Update the improvment points in Reflection
+
+* docs: Update reflection
+
+* docs: short notes for reflection
+
+* docs: 500 wd count
+
+* docs: minor fix of reflection
+
+---------
+
+Co-authored-by: shumlh &lt;tonyuglobe@gmail.com&gt;
+Co-authored-by: Simon &lt;37085057+srfrew@users.noreply.github.com&gt;
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`da8322e`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/da8322e402c2565258d59f90289c1a854a024aeb))
+
+### Feature
+
+* feat: Geo view (#135)
+
+* feat: add geo plot
+
+* feat: incorporate geo chart
+
+python -m src.app
+
+* feat: geo chart detail refine
+
+* feat: geo chart refine
+
+* feat: geo chart height change
+
+* fix: conda env update
+
+* fix: quick fix on the warnings with the toggle switch
+
+* docs: added note of date range to clarify
+
+* docs: added docstring to the new function
+
+* docs: added missing packages in environment.yml
+
+* build: add country geojson
+
+* feat: geo-chart memoize, vectorize
+
+* fix: country code parsing and geo-area loading notice
+
+* fix: ui removed asterix, fixing location error
+
+* fix: remove Fiji due to geo-dataset charting
+
+* refactor: update geo date language
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt;
+Co-authored-by: Simon Frew &lt;simon.r.frew@gmail.com&gt; ([`81ff472`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/81ff472a7e33b3a17452c88d2ee933dd3408208b))
+
+* feat: Added tutorial (#136)
+
+* feat: add tutorial for the dashboard
+
+* feat: change the button position to sidebar
+
+* feat: change button style
+
+* docs: added the tutorial in the README as well
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt;
+Co-authored-by: Celeste Zhao &lt;emilyxxzhao@outlook.com&gt; ([`3651ec4`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/3651ec4f73950ab9eb8163524514cc9202ac7600))
+
+* feat: implement memoization for country data preprocessing, minor bugfixes (#133)
+
+* fix: vectorize .apply in data.py
+
+* refactor: remove unnecesary jsonify
+
+* refactor: vectorize part of plotting.py
+
+* feat: implement past-widget state
+
+* feat: write widget state on app load
+
+* fix: add widget_state to update_geo_area
+
+* feat: update current widget state in charting functions
+
+* feat: create compare_widget_states for commodities
+
+* build: add jsonpickle
+
+* feat: store prior commodity charts for reuse
+
+* feat: reuse prior commodity charts, null selection warning
+
+* fix: remove setting with copy warning
+
+* build: add jsonpickle to pip
+
+* refactor: change output to state in prior chart
+
+* fix: remove accidentally commited improvements.ipynb
+
+* refactor: disable debug mode
+
+* refactor: update footers
+
+* build: add flask_caching
+
+* feat: performance:  flask_caching memoization for data loading / preprocessing
+
+* fix: remove callback error in toggle switch ([`c473431`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/c473431412235f8c7bb891d87a8da4e6188e2b4f))
+
+### Fix
+
+* fix: revert erroneous commit to m1_EDA.ipynb (#141) ([`bd98313`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/bd983131b7539db5bd8d2ba24d659986a2959003))
+
+* fix: performance: remove pd.apply in codebase (#126)
+
+* fix: vectorize .apply in data.py
+
+* refactor: remove unnecesary jsonify
+
+* refactor: vectorize part of plotting.py ([`59ec8c0`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/59ec8c009f11516ae7a5dc44ad4031fbdb0538b4))
+
+* fix: date-range &amp; country dropdowns
+
+* fix: Sort country dropdown
+
+* feat: change date selection from calendar to slicer
+
+* fix: Update the update mode for date range slider ([`085574f`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/085574f7bdcaef21561e2b65268188d003e43f87))
+
+* fix: match index / commodity chart width (#109) ([`6dc0d65`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/6dc0d65c9cb4cfb04022991c1120a381df93ff16))
+
+### Unknown
+
+* Update layout during country update (#137)
+
+* fix: vectorize .apply in data.py
+
+* refactor: remove unnecesary jsonify
+
+* refactor: vectorize part of plotting.py
+
+* feat: implement past-widget state
+
+* feat: write widget state on app load
+
+* fix: add widget_state to update_geo_area
+
+* feat: update current widget state in charting functions
+
+* feat: create compare_widget_states for commodities
+
+* build: add jsonpickle
+
+* feat: store prior commodity charts for reuse
+
+* feat: reuse prior commodity charts, null selection warning
+
+* fix: remove setting with copy warning
+
+* build: add jsonpickle to pip
+
+* refactor: change output to state in prior chart
+
+* fix: remove accidentally commited improvements.ipynb
+
+* refactor: disable debug mode
+
+* refactor: update footers
+
+* build: add flask_caching
+
+* feat: performance:  flask_caching memoization for data loading / preprocessing
+
+* fix: remove callback error in toggle switch
+
+* fix: disable country selection removal
+
+* fix: Freeze widgets when loading the data
+
+* feat: Add Loading Data notice when loading the data
+
+* fix: update docstring for function &#39;
+reset_widget_values&#39;
+
+* fix: Limit the prototype countries to 10
+
+* fix: re-introduce the server = app.server to resolve the render.com error
+
+---------
+
+Co-authored-by: Simon Frew &lt;simon.r.frew@gmail.com&gt;
+Co-authored-by: JohnShiuMK &lt;asbjchk@yahoo.com.hk&gt;
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`89f4bbb`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/89f4bbbabcb0282f09d28691bdc3ec9119363b9f))
+
+* Update docs (#123)
+
+* docs: updated the installation guide, changed the ssh clone to http
+
+* docs: removed the whitespace in front of the commends in the README
+
+* fix: addressed the warning of plotting
+
+* fix: resolved package mismatch issue
+
+* fix: added glossary in footer to explain MoM and YoY
+
+* feat: add favicon
+
+* fix: correct the position of favicon
+
+---------
+
+Co-authored-by: John Shiu &lt;asbjchk.academic@gmail.com&gt; ([`a4fed2f`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/a4fed2fca52ca6a791c00b1392a4ae8d8026224b))
+
+* Update basic view (#118)
+
+* fix: Sort country dropdown
+
+* feat: change date selection from calendar to slicer ([`5aca900`](https://github.com/UBC-MDS/DSCI-532_2024_19_food-price-tracker/commit/5aca9003745e5f29bd6bf709f82c2a74a9d4885b))
+
+
 ## v0.3.0 (2024-04-14)
 
 ### Documentation
